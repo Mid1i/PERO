@@ -1,0 +1,140 @@
+.goods {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+    padding: 0px 60px;
+
+    max-width: 1600px;
+    width: 100%;
+
+    &__title {
+        align-items: flex-end;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        
+        margin-bottom: 50px;
+
+        width: 100%;
+
+        &-left {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        &-right {
+            color: #E47F46;
+            font-size: 24px;
+            font-weight: 500;
+
+            cursor: pointer;
+
+            text-decoration: underline;
+        }
+    }
+
+    &__content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        max-width: 1600px;
+        width: 100%;
+    }
+}
+
+@media(max-width: 1600px) {
+    .goods__content {
+        max-width: 1200px;
+    }
+}
+
+@media(max-width: 1270px) {
+    .goods__content {
+        max-width: 1000px;
+    }
+}
+
+@media(max-width: 1100px) {
+    .goods {
+        padding: 0px 20px;
+    }
+}
+
+@media(max-width: 900px) {
+    .goods__content {
+        max-width: 650px;
+    }
+}
+
+@media(max-width: 767px) {
+    .goods__title {
+        margin-bottom: 20px;
+        margin-top: 10px;
+
+        &-left {
+            font-size: 26px; 
+        }
+
+        &-right {
+            font-size: 16px;
+        }
+    }
+
+    .goods__content {
+        max-width: 600px;
+    }
+}
+
+@media(max-width: 610px) {
+    .goods__content {
+        max-width: 480px;
+    }
+}
+
+@media(max-width: 500px) {
+    .goods__title-left {
+        font-size: 18px;
+    }
+
+    .goods__title-right {
+        font-size: 16px;
+    }
+
+    .goods__content {
+        max-width: 330px;
+    }
+}
+
+@media(max-width: 400px) {
+    .goods {
+        padding: 0px 10px;
+
+        &__title-left {
+            font-size: 14px;
+        }
+    
+        &__title-right {
+            font-size: 12px;
+        }
+    
+        &__content {
+            max-width: 310px;
+        }
+    }
+}
+
+@media(max-width: 320px) {
+    .goods__title {
+        justify-content: center;
+
+        &-left {
+            margin-bottom: 5px;
+        }
+    }
+
+    .goods__content {
+        max-width: 145px;
+    }
+}
