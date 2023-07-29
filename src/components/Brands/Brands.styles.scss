@@ -25,6 +25,11 @@
 
             height: 80px;
             width: 80px;
+
+            &:hover {
+                box-shadow: 0px 0px 10px #cacaca;
+                transform: scale(1.05);
+        }
         }
 
         &-name {
@@ -67,12 +72,12 @@
 
 @media(max-width: 630px) {
     .brands {
-        flex: 0 0 86px;
+        flex: 0 0 96px;
 
         overflow-y: hidden; 
         overflow-x: scroll;
 
-        padding-bottom: 10px;
+        padding: 10px 0px;
 
         height: 86px;   
         width: 100%;

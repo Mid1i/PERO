@@ -51,9 +51,67 @@
             display: flex;
         }
     }
+
+    &__blackout {
+        background: rgba(0, 0, 0, 0.5);
+
+        position: absolute;
+        top: 0px;
+        left: 0px;
+
+        transition: opacity 0.3s ease-in-out, visibility 0.3s ease-out;
+        overflow: hidden;
+
+        height: 100%;
+        width: 100%;
+        z-index: 3;
+    }
+
+    &__mobile {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        background: #E47F46;
+        border-left: 5px solid #FFF;
+
+        color: #FFFFFF;
+
+        position: absolute;
+        top: 0px;
+        right: 0px;
+
+        transition: right 0.3s ease-in-out;
+
+        height: 100%;
+        width: 384px;
+        z-index: 4;
+
+        &-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+    }
+}
+
+.mobile-nav {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+    &__el {
+        cursor: pointer;
+
+        font-size: 20px;
+        line-height: 50px;
+    }
 }
 
 .nav-list__el {
+    align-items: center;
+    display: flex;
+
     cursor: pointer;
 
     font-size: 20px;
@@ -100,6 +158,39 @@
 }
 
 @media(max-width: 965px) {
+    .header__left img {
+        height: 50px;
+        width: 110px;
+    }
+
+    .header__left-gender {
+        margin-left: 20px;
+
+        span {
+            font-size: 16px;
+
+            &:nth-child(2) {
+                margin: 0px 5px;
+            }
+        }
+    }
+
+    .nav-list__el {
+        font-size: 16px;
+
+        margin-left: 15px;
+    }
+}
+
+@media(max-width: 767px) {
+    .header__left-gender span {
+        font-size: 18px;
+
+        &:nth-child(2) {
+            margin: 0px 10px;
+        }
+    }
+
     .header__navigation {
         display: none;
     }
@@ -108,7 +199,7 @@
         display: block;
         position: relative;
         pointer-events: auto;
-        height: 20px;
+        height: 21px;
         width: 30px;
         z-index: 5;
 
@@ -116,7 +207,7 @@
         &::before,
         & span {
             background: #212121;
-            height: 2px;
+            height: 3px;
             left: 0px;
             position: absolute;
             transition: all 0.3s ease 0s;
@@ -142,11 +233,15 @@
 
         &.active {
             &::before {
+                background: #FFFFFF;
+
                 top: 9px;
                 transform: rotate(45deg); 
             }
 
             &::after {
+                background: #FFFFFF;
+
                 bottom: 9px;
                 transform: rotate(-45deg); 
             }
@@ -179,6 +274,10 @@
 
         &__left-gender {
             display: none;
+        }
+
+        &__mobile {
+            width: 100%;
         }
     }
 }

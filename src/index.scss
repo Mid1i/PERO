@@ -50,7 +50,7 @@ body {
     display: flex;
     flex-direction: column;
 
-    padding: 30px 0px;
+    padding: 30px 0px 0px;
 
     height: 100%;
     width: 100%;
@@ -69,12 +69,6 @@ body {
     width: 100%;
 }
 
-@media(max-width: 1100px) {
-    .wrapper {
-        padding: 30px 0px;
-    }
-}
-
 @media(max-width: 767px) {
     .content {
         margin-top: 25px;
@@ -83,7 +77,7 @@ body {
 
 @media(max-width: 400px) {
     .wrapper {
-        padding: 20px 0px;
+        padding: 20px 0px 0px;
     }
 
     .content {

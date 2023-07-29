@@ -8,22 +8,44 @@ import { Home } from "@pages";
 
 function App() {
     const [items, setItems] = React.useState([]);
+    const [isBurgerOpen, setBurgerOpen] = React.useState(false);
+    const [likedItems, setLikedItems] = React.useState([]);
+    const [isLoading, setIsLoading] = React.useState(true);
 
     React.useEffect(() => {
         async function fetchData() {
             try {
-                const itemsResponse = await axios.get("https://2dc7-5-3-213-245.ngrok-free.app/api/public/get_sneakers?page=0&size=12");
+                const itemsResponse = await axios.get("https://java.pero-nn.ru/api/public/get_sneakers?page=0&size=15");
                 setItems(itemsResponse.data.content);
-            
+
             } catch(error) {
                 console.error(error);
+
+            } finally {
+                setIsLoading(false);
             }
         }
         fetchData();
     }, []);
 
+    const addToFavourites = (item) => {
+        if (likedItems.find(obj => Number(obj.id) === Number(item.id))) {
+            setLikedItems(prev => prev.filter(obj => Number(obj.id) !== Number(item.id)));
+        } else {
+            setLikedItems(prev => [...prev, item]);
+        }
+    }
+
+    const isInFavourites = (item) => likedItems.find(obj => Number(obj.id) === Number(item.id));
+
+    if (isBurgerOpen) {
+        document.body.style.overflow = "hidden";
+    } else {
+        document.body.style.overflow = "auto";
+    }
+
     return (
-        <appContext.Provider value={{ items }}>
+        <appContext.Provider value={{ items, isLoading, isBurgerOpen, addToFavourites, isInFavourites, setBurgerOpen }}>
             <Routes>
                 <Route path="/" element={ <Home /> } >
 

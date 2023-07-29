@@ -28,7 +28,7 @@
     }
 }
 
-.slider {
+.slider { 
     margin-top: -15px;
     padding: 0px 10px;
 
@@ -105,6 +105,16 @@
 
         height: 70px;
         width: 310px;
+
+        z-index: 1;
+
+        &:hover {
+            background: lighten(#E47F46, 5%);
+        }
+
+        &:active {
+            background: darken(#E47F46, 5%);
+        }
     }
 
     &__sign {
