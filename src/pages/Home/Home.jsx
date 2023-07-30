@@ -1,9 +1,9 @@
 import React from "react";
 import ContentLoader from "react-content-loader";
 
-import { Header, SearchBar, Brands, GoodsSlider, Product, Footer } from "@components";
+import { Header, SearchBar, Brands, GoodsSlider, Card, Footer } from "@components";
 
-import appContext from "@services/context";
+import appContext from "@services/Context";
 
 import "./Home.styles.scss";
 
@@ -54,7 +54,7 @@ function Home() {
                     <h5 className="goods__title-right">Больше кроссовок</h5>
                 </div>
                 <div className="goods__content">
-                    { isLoading ? loadingProducts() : (items.length === 0 ? emptyBlock() : items.map((item, i) => <Product 
+                    { isLoading ? loadingProducts() : (items.length === 0 ? emptyBlock() : items.map((item, i) => <Card 
                                         key = { i }
                                         item = { item }
                     />))}

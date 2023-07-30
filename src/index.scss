@@ -41,8 +41,6 @@ body {
     font-family: "Guminert", sans-serif;
     font-size: 14px;
     font-weight: 400;
-
-    overflow-x: hidden;
 }
 
 .wrapper {
@@ -64,14 +62,36 @@ body {
     
     background: #F3F3F3;
     
-    margin-top: 40px;
+    margin-top: 20px;
 
     width: 100%;
+}
+
+.btn {
+    background: #E47F46;
+    border-radius: 50px;
+
+    color: #FFFFFF;
+    font-weight: 700;
+
+    transition: background 0.2s ease-in-out;
+
+    &:hover {
+        background: lighten(#E47F46, 5%);
+    }
+
+    &:active {
+        background: darken(#E47F46, 5%);
+    }
 }
 
 @media(max-width: 767px) {
     .content {
         margin-top: 25px;
+    }
+
+    .mobile-off {
+        display: none;
     }
 }
 

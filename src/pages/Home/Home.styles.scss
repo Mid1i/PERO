@@ -15,6 +15,7 @@
         flex-wrap: wrap;
         
         margin-bottom: 50px;
+        padding-right: 40px;
 
         width: 100%;
 
@@ -37,7 +38,6 @@
     &__content {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
 
         max-width: 1600px;
         width: 100%;
@@ -74,14 +74,21 @@
 }
 
 @media(max-width: 1600px) {
+    .goods__title {
+        max-width: 1280px;
+    }
     .goods__content {
-        max-width: 1200px;
+        max-width: 1280px;
     }
 }
 
-@media(max-width: 1270px) {
+@media(max-width: 1320px) {
+    .goods__title {
+        max-width: 930px;
+        padding-right: 30px;
+    }
     .goods__content {
-        max-width: 1000px;
+        max-width: 930px;
     }
 }
 
@@ -91,11 +98,27 @@
     }
 }
 
-@media(max-width: 900px) {
-    .goods__content {
-        max-width: 650px;
+@media(max-width: 970px) {
+    .goods__title {
+        max-width: 870px;
+        padding-right: 10px;
     }
+    .goods__content {
+        max-width: 870px;
+    }
+}
 
+@media(max-width: 910px) {
+    .goods__title {
+        max-width: 660px;
+        padding-right: 25px;
+    }
+    .goods__content {
+        max-width: 660px;
+    }
+}
+
+@media(max-width: 900px) {
     .goods__empty-title {
         font-size: 38px;
         
@@ -122,7 +145,6 @@
     }
 
     .goods__content {
-        max-width: 600px;
         margin-bottom: 100px;
     }
 
@@ -142,25 +164,41 @@
     }
 }
 
-@media(max-width: 610px) {
+@media(max-width: 700px) {
+    .goods__title {
+        max-width: 580px;
+        padding-right: 5px;
+    }
     .goods__content {
-        max-width: 480px;
+        max-width: 580px;
+    }
+}
+
+@media(max-width: 620px) {
+    .goods__title {
+        max-width: 465px;
+
+        &-left {
+            font-size: 18px;
+        }
+    
+        &-right {
+            font-size: 16px;
+        }
+    }
+
+    .goods__content {
+        max-width: 465px;
+    }
+}
+
+@media(max-width: 505px) {
+    .goods__content {
+        max-width: 330px;
     }
 }
 
 @media(max-width: 500px) {
-    .goods__title-left {
-        font-size: 18px;
-    }
-
-    .goods__title-right {
-        font-size: 16px;
-    }
-
-    .goods__content {
-        max-width: 330px;
-    }
-
     .goods__empty {
         padding: 200px 10px;
 
@@ -191,14 +229,16 @@
         &__title-right {
             font-size: 12px;
         }
-    
-        &__content {
-            max-width: 310px;
-        }
     }
 }
 
-@media(max-width: 320px) {
+@media(max-width: 350px) {
+    .goods__content {
+        max-width: 310px;
+    }
+}
+
+@media(max-width: 330px) {
     .goods__title {
         align-items: center;
         flex-direction: column;

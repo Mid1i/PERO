@@ -29,7 +29,7 @@
 }
 
 .slider { 
-    margin-top: -15px;
+    margin-top: -10px;
     padding: 0px 10px;
 
     position: relative;
@@ -39,7 +39,6 @@
     width: 100%;
 
     &__section {
-
         position: relative;
 
         max-width: 100%;
@@ -94,12 +93,7 @@
     }
 
     &__btn {
-        background: #E47F46;
-        border-radius: 50px;
-
-        color: #FFFFFF;
         font-size: 32px;
-        font-weight: 700;
 
         text-align: center;
 
@@ -107,23 +101,10 @@
         width: 310px;
 
         z-index: 1;
-
-        &:hover {
-            background: lighten(#E47F46, 5%);
-        }
-
-        &:active {
-            background: darken(#E47F46, 5%);
-        }
     }
 
     &__sign {
-        background: #E47F46;
-        border-radius: 50px;
-
-        color: #FFFFFF;
         font-size: 14px;
-        font-weight: 700;
         text-transform: uppercase;
 
         position: absolute;

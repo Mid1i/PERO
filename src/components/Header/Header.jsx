@@ -1,19 +1,22 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-import appcontext from "@services/context";
+import appcontext from "@services/Context";
 
 import mainLogo  from "@assets/images/logo/shop-logo.png";
 
 import "./Header.styles.scss";
 
-function Header() {
+function Header({ className="header" }) {
     const { isBurgerOpen, setBurgerOpen } = React.useContext(appcontext);
 
+    const importAll = image => image.keys().map(image);
+    
     const brands = ["nike", "adidas", "puma", "new-balance", "vans", "reebok", "jordan", "converse"];
+    const images = importAll(require.context('@assets/images/brands/', false, /\.svg$/));
 
     return (
-        <header className="header">
+        <header className={ className }>
             <div className="header__left">
                 <Link to="/">
                     <img src={ mainLogo } width={ 140 } height={ 65 } alt="logo" />
@@ -48,7 +51,13 @@ function Header() {
                 <div className="header__mobile" style={ isBurgerOpen ? { right: "0%" } : { right: "-100%" } }>
                     <h4 className="header__mobile-title">Бренды</h4>
                     <ul className="header__mobile-list mobile-nav">
-                        { brands.map((item, i) => <li className="mobile-nav__el" key={ i }>{ item }</li>) }
+                        { brands.map((item, i) => { 
+                            return (
+                                <li className="mobile-nav__el" key={ i }>
+                                    <img src={ images.filter(obj => obj.includes(item)) } alt={ item } width={ 65 } height={ 65 } />
+                                </li>
+                            )}
+                        )}
                     </ul>
                 </div>
             </div>

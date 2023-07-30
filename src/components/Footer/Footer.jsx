@@ -5,7 +5,7 @@ import vkLogo from "@assets/images/social-media/vk.svg";
 import youtubeLogo from "@assets/images/social-media/youtube.svg";
 import telegramLogo from "@assets/images/social-media/telegram.svg";
 
-function Footer() {
+function Footer({ className="footer" }) {
     const titles = ["О магазине", "Бренды", "Помощь"];
     const brands = [
         ["контакты", "магазины", "о нас"], 
@@ -14,7 +14,7 @@ function Footer() {
     ];
 
     return (
-        <footer className="footer">
+        <footer className={ className }>
             <div className="footer__wrapper">
                 <div className="footer__top">
                     { titles.map((item, i) => (
@@ -31,7 +31,7 @@ function Footer() {
                     <div className="footer__top-block footer-block footer-block--last">
                         <h5 className="footer-block__title">Остались вопросы ?</h5>
                         <p className="footer-block__text">Мы с радостью на них ответим</p>
-                        <button className="footer-block__btn">Задать вопрос</button>
+                        <button className="footer-block__btn btn">Задать вопрос</button>
                     </div>
                 </div>
 

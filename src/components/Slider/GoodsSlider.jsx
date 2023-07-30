@@ -25,8 +25,8 @@ function GoodsSlider() {
                 <div className={`slider__section-item slider-item slider-item--${i+1}`}>
                     <h6 className="slider-item__subtitle">Новинка</h6>
                     <h2 className="slider-item__title">{ item }</h2>
-                    <button className="slider-item__btn">Купить</button>
-                    <button className="slider-item__sign">Pero</button>
+                    <button className="slider-item__btn btn">Купить</button>
+                    <button className="slider-item__sign btn">Pero</button>
                 </div>
             </div>) }
         </Slider>

@@ -1,8 +1,8 @@
 import "./SearchBar.styles.scss";
 
-function SearchBar() {
+function SearchBar({ className="search-bar" }) {
     return (
-        <div className="search-bar">
+        <div className={ className } >
             <input className="search-bar__input" type="text" placeholder="Что Вы ищете?" />
             <div className="search-bar__icons">
                 <svg width="20" height="20" fill="none">

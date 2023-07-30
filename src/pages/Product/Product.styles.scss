@@ -1,0 +1,18 @@
+.extra-goods {
+    flex: 0 0 420px;
+    padding: 0px 30px;
+
+    max-width: 1280px;
+    overflow: hidden;
+    height: 420px;
+}
+
+.scroll {
+    display: flex;
+
+    overflow-y: hidden;
+    overflow-x: overlay;
+
+    max-height: 100%;
+    max-width: 100%;
+}

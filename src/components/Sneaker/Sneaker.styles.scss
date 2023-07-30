@@ -1,0 +1,167 @@
+.product {
+    display: flex;
+    flex-direction: column;
+
+    padding: 30px 30px 0px;
+
+    max-width: 1280px;
+    height: 100%;
+    width: 100%;
+
+    &__top {
+        display: flex;
+
+        margin-bottom: 30px;
+
+        width: 100%;
+
+        &-left {
+            margin-right: 100px;
+        }
+    }
+
+    &__title {
+        font-size: 24px;
+        font-weight: 700;
+
+        margin-bottom: 20px;
+    }
+
+    &__description {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 22px;
+        letter-spacing: 0.8px;
+
+        margin-bottom: 15px;
+    }
+}
+
+.product-left {
+    position: relative;
+
+    &__image {
+        border-radius: 5px;
+    }
+
+    &__icon {
+        cursor: pointer;
+
+        position: absolute;
+        right: 25px;
+        top: 25px;
+    }
+}
+
+.product-right {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+
+    &__title {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+
+        margin-bottom: 15px;
+    }
+
+    &__subtitle {
+        align-items: center;
+        display: flex;
+
+        margin-bottom: 80px;
+
+        & span {
+            font-size: 20px;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        & img {
+            margin: 0px 15px;
+        }
+    }
+
+    &__article {
+        color: #7A7B7E;
+        font-size: 16px;
+
+        margin-bottom: 15px;
+    }
+
+    &__color {
+        font-size: 16px;
+        font-weight: 500;
+
+        margin-bottom: 70px;
+    }
+
+    &__text {
+        font-size: 20px;
+        font-weight: 500;
+
+        margin-bottom: 15px;
+    }
+
+    &__sizes {
+        display: flex;
+        justify-content: space-between;
+
+        margin-bottom: 80px;
+
+        width: 100%;
+
+        & button {
+            background: #E5E3E0;
+            border-radius: 10px;
+
+            font-size: 20px;
+            font-weight: 500;
+            
+            transition: all 0.2s ease-in-out;
+            
+            height: 40px;
+            width: 50px;
+
+            &:hover {
+                background: #E47F46;
+
+                color: #FFFFFF;
+            }
+        }
+    }
+
+    &__price {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+
+        background: #212121;
+        border-radius: 30px;
+
+        padding-left: 30px;
+        padding-right: 4px;
+
+        height: 60px;
+        width: 100%;
+
+        &-text {
+            color: #FFFFFF;
+            font-size: 20px;
+        }
+    
+        &-btn {
+            font-size: 20px;
+    
+            height: 52px;
+            width: 210px;
+        }
+    }
+}
+
+@media(max-width: 1230px) {
+    .product__left {
+        margin-right: 50px;
+    }
+}
