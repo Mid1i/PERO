@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from "react-router-dom";
 
 import appcontext from "@services/Context";
+import { brands } from "@utils/constants/brands.constants";
+import { imageImport } from '@utils/helpers/imageImport.helper';
 
 import mainLogo  from "@assets/images/logo/shop-logo.png";
 
@@ -9,11 +11,7 @@ import "./Header.styles.scss";
 
 function Header({ className="header" }) {
     const { isBurgerOpen, setBurgerOpen } = React.useContext(appcontext);
-
-    const importAll = image => image.keys().map(image);
-    
-    const brands = ["nike", "adidas", "puma", "new-balance", "vans", "reebok", "jordan", "converse"];
-    const images = importAll(require.context('@assets/images/brands/', false, /\.svg$/));
+    const images = imageImport();
 
     return (
         <header className={ className }>

@@ -1,19 +1,35 @@
 import React from "react";
+import axios from "axios";
 import ContentLoader from "react-content-loader";
 
 import { Header, SearchBar, Brands, GoodsSlider, Card, Footer } from "@components";
 
-import appContext from "@services/Context";
-
 import "./Home.styles.scss";
 
 function Home() {
-    const { items, isLoading } = React.useContext(appContext);
+    const [items, setItems] = React.useState([]);
+    const [isLoading, setIsLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        async function fetchData() {
+            try {
+                const itemsResponse = await axios.get("https://java.pero-nn.ru/api/public/get_sneakers?page=0&size=15");
+                setItems(itemsResponse.data.content);
+
+            } catch(error) {
+                console.error(error);
+
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        fetchData();
+    }, []);
 
     const emptyBlock = () => (
-        <div className="goods__empty">
-            <h2 className="goods__empty-title">Пока что все распродано</h2>
-            <p className="goods__empty-text">Но в ближайшее время ожидаются крупные поставки!</p>
+        <div className="empty">
+            <h2 className="empty__title">Пока что все распродано</h2>
+            <p className="empty__text">Но в ближайшее время ожидаются крупные поставки!</p>
         </div>
     )
 
@@ -46,7 +62,8 @@ function Home() {
         <Header />
         <SearchBar />
         <Brands />
-        <div className="content">
+
+        <div className="content content--home">
             <GoodsSlider />
             <div className="goods">
                 <div className="goods__title">
@@ -61,6 +78,7 @@ function Home() {
                 </div>
             </div>
         </div>
+        
         <Footer />
     </>);
 }

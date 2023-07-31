@@ -1,18 +1,11 @@
+import { titles, elements } from "@utils/constants/footer.constants";
+
 import "./Footer.styles.scss";
 
 import peroLogo from "@assets/images/logo/pero-logo.svg";
-import vkLogo from "@assets/images/social-media/vk.svg";
-import youtubeLogo from "@assets/images/social-media/youtube.svg";
 import telegramLogo from "@assets/images/social-media/telegram.svg";
 
 function Footer({ className="footer" }) {
-    const titles = ["О магазине", "Бренды", "Помощь"];
-    const brands = [
-        ["контакты", "магазины", "о нас"], 
-        ["nike", "adidas", "puma", "new-balance", "vans", "reebok", "jordan", "converse"],
-        ["доставка и оплата", "обмен и возврат", "уход за обувью"]
-    ];
-
     return (
         <footer className={ className }>
             <div className="footer__wrapper">
@@ -21,7 +14,7 @@ function Footer({ className="footer" }) {
                         <div className="footer__top-block footer-block" key={ i } >
                             <h5 className="footer-block__title">{ item }</h5>
                             <ul className="footer-block__list">
-                                { brands[i].map((obj, j) => (
+                                { elements[i].map((obj, j) => (
                                     <li className="footer-block__list-el" key={ j } >{ obj }</li>
                                 ))}
                             </ul>
@@ -39,8 +32,6 @@ function Footer({ className="footer" }) {
                     <p className="footer__bottom-left">© Pero, 2023</p>
                     <div className="footer__bottom-right">
                         <img src={ peroLogo } alt="pero" width={ 30 } height={ 30 } />
-                        <img src={ vkLogo } alt="pero" width={ 30 } height={ 30 } />
-                        <img src={ youtubeLogo } alt="pero" width={ 30 } height={ 30 } />
                         <img src={ telegramLogo } alt="pero" width={ 30 } height={ 30 } />
                     </div>
                 </div>

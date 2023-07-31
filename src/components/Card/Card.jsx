@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import appContext from "@services/Context";
+import { toFormat } from "@utils/helpers/formatter.helper";
 
 import "./Card.styles.scss";
 
@@ -9,7 +10,7 @@ import heartDefault from "@assets/images/icons/heart-default.svg";
 import heartLiked from "@assets/images/icons/heart-liked.svg";
 
 function Card({ item }) {
-    const { addToFavourites, isInFavourites, toFormat } = React.useContext(appContext);
+    const { addToFavourites, isInFavourites } = React.useContext(appContext);
     
     return (
         <div className="goods__content-item goods-item">

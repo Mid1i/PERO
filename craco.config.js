@@ -9,7 +9,8 @@ module.exports = {
             '@components': resolvePath('./src/components'),
             '@hooks': resolvePath('./src/hooks'),
             '@pages': resolvePath('./src/pages'),
-            '@services': resolvePath('./src/services')
+            '@services': resolvePath('./src/services'),
+            '@utils': resolvePath('./src/utils')
         }
     },
 }

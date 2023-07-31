@@ -1,22 +1,37 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import appContext from "@services/Context";
+import { toFormat } from "@utils/helpers/formatter.helper";
+import { imageImport } from "@utils/helpers/imageImport.helper";
 
 import "./Sneaker.styles.scss";
 
 import heartDefault from "@assets/images/icons/product-heart-default.svg";
 import heartLiked from "@assets/images/icons/product-heart-liked.svg";
+import arrowBack from "@assets/images/icons/back-arrow.svg";
 
 function Sneaker({ item }) {
-    const { toFormat, isInFavourites, addToFavourites } = React.useContext(appContext);
+    const { isInFavourites, addToFavourites } = React.useContext(appContext);
+    const [size, setSize] = React.useState(0);
     
-    const importAll = image => image.keys().map(image);
-    const images = importAll(require.context('@assets/images/brands/', false, /\.svg$/));
+    const images = imageImport();
+
+    const navigate = useNavigate();
 
     return (
         <div className="product">
             <div className="product__top">
                 <div className="product__top-left product-left">
+                    <img 
+                        onClick={ () => navigate("/") }
+                        src={ arrowBack } 
+                        alt="back" 
+                        width={ 50 } 
+                        height={ 50 } 
+                        className="product-left__back-icon" 
+                    />
+                    <h4 className="product-left__title">Описание товара</h4>
                     <img 
                         onClick={ () => addToFavourites(item) }
                         src={ isInFavourites(item) ? heartLiked : heartDefault } 
@@ -25,7 +40,7 @@ function Sneaker({ item }) {
                         height={ 50 } 
                         className="product-left__icon" 
                     />
-                    <img src={ item.img } alt="Nike Air Force" width={ 600 } height={ 650 } className="product-left__image" />
+                    <img src={ item.img } alt={ item.name } width={ 600 } height={ 650 } className="product-left__image" />
                 </div>
                 <div className="product__top-right product-right">
                     <h1 className="product-right__title">{ item.name }</h1>
@@ -45,7 +60,7 @@ function Sneaker({ item }) {
                     <div className="product-right__sizes">
                         { item.sizes.map((obj, i) => { 
                             return (
-                                <button key={ i } >{ obj }</button>
+                                <button onClick={ () => setSize(obj) } key={ i } className={ Number(obj) === Number(size) ? "active" : "" }>{ obj }</button>
                             )}
                         )}
                     </div>
@@ -57,7 +72,6 @@ function Sneaker({ item }) {
             </div>
             <h4 className="product__title">О товаре:</h4>
             <div className="product__description">{ item.description }</div>
-            <h4 className="product__title">Смотрите также:</h4>
         </div>
     )
 }

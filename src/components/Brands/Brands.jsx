@@ -1,10 +1,10 @@
+import { imageImport } from "@utils/helpers/imageImport.helper";
+import { brands } from "@utils/constants/brands.constants";
+
 import "./Brands.styles.scss";
 
 function Brands({ className="brands" }) {
-    const importAll = image => image.keys().map(image);
-
-    const brands = ["nike", "adidas", "puma", "new-balance", "vans", "reebok", "jordan", "converse"];
-    const images = importAll(require.context('@assets/images/brands/', false, /\.svg$/));
+    const images = imageImport();
 
     return (
         <div className={ className }>
