@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-import appcontext from "@services/Context";
+import { appContext } from "@services/Context";
 import { brands } from "@utils/constants/brands.constants";
 import { imageImport } from '@utils/helpers/imageImport.helper';
 
@@ -9,8 +9,8 @@ import mainLogo  from "@assets/images/logo/shop-logo.png";
 
 import "./Header.styles.scss";
 
-function Header({ className="header" }) {
-    const { isBurgerOpen, setBurgerOpen } = React.useContext(appcontext);
+function Header({ className="header", pageToLink="/catalog/", pageToLinkName="Каталог" }) {
+    const { isBurgerOpen, setBurgerOpen } = React.useContext(appContext);
     const images = imageImport();
 
     return (
@@ -33,7 +33,9 @@ function Header({ className="header" }) {
 
             <nav className="header__navigation">
                 <ul className="header__navigation-list nav-list">
-                    <li className="nav-list__el">Уведомления</li>
+                    <li className="nav-list__el">
+                        <Link to={ pageToLink }>{ pageToLinkName }</Link>
+                    </li>
                     <li className="nav-list__el">Избранное</li>
                     <li className="nav-list__el">Профиль</li>
                     <li className="nav-list__el">

@@ -1,5 +1,6 @@
 import React from "react";
 
 const appContext = React.createContext({});
+const catalogContext = React.createContext({});
 
-export default appContext;
+export { appContext, catalogContext };

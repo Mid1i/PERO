@@ -85,60 +85,6 @@ body {
     }
 }
 
-.empty {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-
-    padding: 400px 0px;
-
-    height: 100%;
-    width: 100%;
-
-    &__title {
-        font-size: 48px;
-        font-weight: 700;
-
-        margin-bottom: 20px;
-
-        text-align: center;
-    }
-
-    &__text {
-        color: #828282;
-        font-size: 24px;
-        font-weight: 500;
-        letter-spacing: 1px;
-
-        text-align: center;
-    }
-
-    &__btn {
-        margin-top: 30px;
-
-        position: relative;
-
-        height: 50px;
-        width: 240px;
-        
-        & span {
-            font-size: 16px;
-        }
-
-        & svg {
-            position: absolute;
-            left: 30px;
-            top: 17px;
-
-            transition: transform 0.2s ease-in-out;
-        }
-
-        &:hover svg {
-            transform: translate(-5px);
-        }
-    }
-}
-
 .loader {
     align-items: center;
     display: flex;
@@ -147,18 +93,6 @@ body {
     min-height: 700px; 
     height: 100%;
     width: 100%;
-}
-
-@media(max-width: 900px) {
-    .empty__title {
-        font-size: 38px;
-        
-        margin-bottom: 15px;
-    }
-
-    .empty__text {
-        font-size: 22px;
-    }
 }
 
 @media(max-width: 767px) {
@@ -170,68 +104,13 @@ body {
         }
     }
 
-    .empty {
-        padding: 200px 0px;
-
-        &__title {
-            font-size: 28px;
-
-            margin-bottom: 10px;
-        }
-
-        &__text {
-            font-size: 18px;
-            letter-spacing: normal;
-        }
-
-        &__btn {
-            margin-top: 10px;
-
-            height: 40px;
-
-            & svg {
-                top: 12px;
-            }
-        }
-    }
-
     .mobile-off {
         display: none;
-    }
-}
-
-@media(max-width: 500px) {
-    .empty {
-        padding: 200px 10px;
-
-        &__title {
-            font-size: 22px;
-        }
-
-        &__text {
-            font-size: 14px;
-        }
-
-        &__btn {
-            font-size: 14px;
-
-            width: 170px;
-
-            & svg {
-                left: 15px;
-            }
-        }
     }
 }
 
 @media(max-width: 400px) {
     .content-home {
         margin-top: 20px;
-    }
-}
-
-@media(max-width: 330px) {
-    .empty__title {
-        font-size: 18px;
     }
 }

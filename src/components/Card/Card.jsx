@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import appContext from "@services/Context";
+import { appContext } from "@services/Context";
 import { toFormat } from "@utils/helpers/formatter.helper";
 
 import "./Card.styles.scss";
