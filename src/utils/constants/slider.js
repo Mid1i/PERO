@@ -1,4 +1,4 @@
-export const itemsTitles = ["Adidas - EQT Bask ADV 'Grey Two'", "Air Jordan - 1 Retro High Vachetta", "Air Jordan - 1 Retro High OG"];
+export const sliderTitles = ["Adidas - EQT Bask ADV 'Grey Two'", "Air Jordan - 1 Retro High Vachetta", "Air Jordan - 1 Retro High OG"];
 
 export const settings = {
     arrows: false,

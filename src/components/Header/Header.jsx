@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from "react-router-dom";
 
 import { appContext } from "@services/Context";
-import { brands } from "@utils/constants/brands.constants";
-import { imageImport } from '@utils/helpers/imageImport.helper';
+import { imageImport } from '@utils/helpers';
+import { brands } from "@utils/constants";
 
 import mainLogo  from "@assets/images/logo/shop-logo.png";
 

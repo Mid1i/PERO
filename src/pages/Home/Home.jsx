@@ -1,33 +1,21 @@
-import React from "react";
 import axios from "axios";
 
 import { Header, SearchBar, Brands, GoodsSlider, Card, LoadingCard, EmptyContent, Footer } from "@components";
-import ScrollToTop from "@utils/helpers/scroll.helper";
+import { useRequest, useScroll } from "@hooks";
 
 import "./Home.styles.scss";
 
+
 function Home() {
-    const [items, setItems] = React.useState([]);
-    const [isLoading, setIsLoading] = React.useState(true);
+    const [ items, loading ] = useRequest(fetchItems, "popular-items");
+    useScroll();
 
-    React.useEffect(() => {
-        async function fetchData() {
-            try {
-                const itemsResponse = await axios.get("https://java.pero-nn.ru/api/public/get_sneakers?page=0&size=15");
-                setItems(itemsResponse.data.content);
+    function fetchItems() {
+        return axios.get("https://java.pero-nn.ru/api/public/get_popular_sneakers?page=0&size=15");
+    }
 
-            } catch(error) {
-                console.error(error);
-
-            } finally {
-                setIsLoading(false);
-            }
-        }
-        fetchData();
-    }, []);
     
     return (<>
-        <ScrollToTop />
         <Header />
         <SearchBar />
         <Brands />
@@ -40,10 +28,10 @@ function Home() {
                     <h5 className="goods__title-right">Больше кроссовок</h5>
                 </div>
                 <div className="goods__content">
-                    { isLoading ? <LoadingCard /> 
-                        : (items.length === 0 ? <EmptyContent 
-                                                    title = "Пока что все распродано"
-                                                    text = "Но в ближайшее время ожидаются крупные поставки!"
+                    { loading ? <LoadingCard /> 
+                        : (!items ? <EmptyContent 
+                                        title = "Пока что все распродано"
+                                        text = "Но в ближайшее время ожидаются крупные поставки!"
                         /> 
                             : items.map((item, i) => <Card 
                                         key = { i }

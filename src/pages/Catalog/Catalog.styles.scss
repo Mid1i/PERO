@@ -19,12 +19,21 @@
     }
 
     &__filters {
-        align-items: center;
         display: flex;
+        flex-wrap: wrap;
 
         padding-top: 30px;
 
         width: 100%;
+
+        &-btn {
+            border-radius: 50px;
+
+            font-size: 16px;
+
+            height: 40px;
+            width: 200px;
+        }
     }
 }
 

@@ -2,6 +2,7 @@
     cursor: pointer;
 
     margin-right: 20px;
+    margin-bottom: 10px;
     position: relative;
 
     height: 40px;
@@ -19,6 +20,7 @@
 
     &__title {
         font-size: 16px;
+        font-weight: 600;
 
         margin-right: 20px;
 
@@ -29,6 +31,11 @@
 
             margin-left: 5px;
         }
+    }
+
+    &__icon {
+        align-items: center;
+        display: flex;
     }
 
     &__list {
@@ -67,6 +74,8 @@
             border-radius: 5px;
 
             margin-bottom: 5px;
+            
+            text-transform: capitalize;
         }
 
         &-el:hover {
@@ -102,6 +111,13 @@
 
                 margin: 0px 5px;
             }
+        }
+
+        &-btn {
+            border-radius: 5px !important;
+
+            height: 30px;
+            width: 98%;
         }
     }
 }

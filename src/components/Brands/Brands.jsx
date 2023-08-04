@@ -1,10 +1,12 @@
-import { imageImport } from "@utils/helpers/imageImport.helper";
-import { brands } from "@utils/constants/brands.constants";
+import { imageImport } from "@utils/helpers";
+import { brands } from "@utils/constants";
 
 import "./Brands.styles.scss";
 
 function Brands({ className="brands" }) {
     const images = imageImport();
+
+    //TODO: исправить бренд New Balance и скролл (padding)
 
     return (
         <div className={ className }>

@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import "./EmptyContent.styles.scss";
+
 function EmptyContent({ title, text=false, btn=false }) {
     return (
         <div className="empty">

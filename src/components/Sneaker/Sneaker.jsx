@@ -1,9 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
+import { toFormatPrice, toFormatBrand, imageImport } from "@utils/helpers";
 import { appContext } from "@services/Context";
-import { toFormat } from "@utils/helpers/formatter.helper";
-import { imageImport } from "@utils/helpers/imageImport.helper";
 
 import "./Sneaker.styles.scss";
 
@@ -17,20 +16,22 @@ function Sneaker({ item }) {
     
     const images = imageImport();
 
-    const navigate = useNavigate();
+    // TODO: исправить бренд New Balance, исправить баг со скролом (смотрите также) или заменить на слайдер, исправить размеры, возможность открывать в отдельном окне
 
+    //TODO: исправить кнопку назад при пустой истории
     return (
         <div className="product">
             <div className="product__top">
                 <div className="product__top-left product-left">
-                    <img 
-                        onClick={ () => navigate("/") }
-                        src={ arrowBack } 
-                        alt="back" 
-                        width={ 50 } 
-                        height={ 50 } 
-                        className="product-left__back-icon" 
-                    />
+                    <Link to={ -1 }>
+                        <img
+                            src={ arrowBack } 
+                            alt="back" 
+                            width={ 50 } 
+                            height={ 50 } 
+                            className="product-left__back-icon" 
+                        />
+                    </Link>
                     <h4 className="product-left__title">Описание товара</h4>
                     <img 
                         onClick={ () => addToFavourites(item) }
@@ -47,12 +48,12 @@ function Sneaker({ item }) {
                     <h4 className="product-right__subtitle">
                         <span>By</span>
                         <img 
-                            src={ images.filter(obj => obj.includes(item.brand.toLowerCase())) } 
+                            src={ images.filter(obj => obj.includes(toFormatBrand(item.brand).replace(' ', '-'))) } 
                             alt={ item.brand } 
                             width={ 40 } 
                             height={ 40 } 
                         />
-                        <span>{ item.brand.toLowerCase() }</span>
+                        <span>{ toFormatBrand(item.brand) }</span>
                     </h4>
                     <p className="product-right__article">{ `Арт. ${item.id}` }</p>
                     <p className="product-right__color">{ `Цвет: ${item.color}` }</p>
@@ -65,7 +66,7 @@ function Sneaker({ item }) {
                         )}
                     </div>
                     <div className="product-right__price">
-                        <p className="product-right__price-text">{ `${toFormat(item.price)} ₽` }</p>
+                        <p className="product-right__price-text">{ `${toFormatPrice(item.price)} ₽` }</p>
                         <button className="product-right__price-btn btn">Купить</button>
                     </div>
                 </div>

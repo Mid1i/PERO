@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import { titles, elements } from "@utils/constants/footer.constants";
+import { footerTitles as titles, footerElements as elements} from "@utils/constants";
 
 import "./Footer.styles.scss";
 
