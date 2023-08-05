@@ -1,13 +1,13 @@
 import axios from "axios";
 
-import { Header, SearchBar, Brands, GoodsSlider, Card, LoadingCard, EmptyContent, Footer } from "@components";
+import { HeaderTop, SearchBar, Brands, GoodsSlider, Card, LoadingCard, EmptyContent, Footer } from "@components";
 import { useRequest, useScroll } from "@hooks";
 
 import "./Home.styles.scss";
 
 
 function Home() {
-    const [ items, loading ] = useRequest(fetchItems, "popular-items");
+    const [ items, loading, error ] = useRequest(fetchItems, "popular-items");
     useScroll();
 
     function fetchItems() {
@@ -16,7 +16,7 @@ function Home() {
 
     
     return (<>
-        <Header />
+        <HeaderTop />
         <SearchBar />
         <Brands />
 
@@ -29,7 +29,7 @@ function Home() {
                 </div>
                 <div className="goods__content">
                     { loading ? <LoadingCard /> 
-                        : (!items ? <EmptyContent 
+                        : ((!items || error) ? <EmptyContent 
                                         title = "Пока что все распродано"
                                         text = "Но в ближайшее время ожидаются крупные поставки!"
                         /> 

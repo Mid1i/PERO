@@ -73,14 +73,14 @@
 
 @media(max-width: 630px) {
     .brands {
-        flex: 0 0 96px;
+        flex: 0 0 110px;
 
         overflow-y: hidden; 
         overflow-x: scroll;
 
-        padding: 10px 0px;
+        padding: 0px 0px 15px;
 
-        height: 86px;   
+        height: 110px;   
         width: 100%;
 
         &__item {

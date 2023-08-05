@@ -1,17 +1,19 @@
-import React from 'react';
 import { Link } from "react-router-dom";
+import { useContext } from 'react';
 
+import { imageImport, toFormatBrandForRequest } from '@utils/helpers';
 import { appContext } from "@services/Context";
-import { imageImport } from '@utils/helpers';
 import { brands } from "@utils/constants";
 
 import mainLogo  from "@assets/images/logo/shop-logo.png";
 
-import "./Header.styles.scss";
+import "./HeaderTop.styles.scss";
 
-function Header({ className="header", pageToLink="/catalog/", pageToLinkName="Каталог" }) {
-    const { isBurgerOpen, setBurgerOpen } = React.useContext(appContext);
+
+function HeaderTop({ className="header", pageToLink="/catalog/", pageToLinkName="Каталог" }) {
+    const { isMale, setIsMale, isBurgerOpen, setBurgerOpen } = useContext(appContext);
     const images = imageImport();
+
 
     return (
         <header className={ className }>
@@ -21,9 +23,9 @@ function Header({ className="header", pageToLink="/catalog/", pageToLinkName="К
                 </Link>
 
                 <p className="header__left-gender">
-                    <span className="js-gender">Мужчинам</span>
+                    <span className={ isMale ? "active" : "" } onClick={ () => setIsMale(true) } >Мужчинам</span>
                     <span>/</span>
-                    <span>Женщинам</span>
+                    <span className={ !isMale ? "active" : "" } onClick={ () => setIsMale(false) } >Женщинам</span>
                 </p>
             </div>
 
@@ -53,9 +55,11 @@ function Header({ className="header", pageToLink="/catalog/", pageToLinkName="К
                     <ul className="header__mobile-list mobile-nav">
                         { brands.map((item, i) => { 
                             return (
-                                <li className="mobile-nav__el" key={ i }>
-                                    <img src={ images.filter(obj => obj.includes(item)) } alt={ item } width={ 65 } height={ 65 } />
-                                </li>
+                                <Link to={ `/catalog/?brands=${toFormatBrandForRequest(item)}` } onClick={ () => setBurgerOpen(!isBurgerOpen) } key={ i } >
+                                    <li className="mobile-nav__el">
+                                        <img src={ images.filter(obj => obj.includes(item)) } alt={ item } width={ 65 } height={ 65 } />
+                                    </li>
+                                </Link>
                             )}
                         )}
                     </ul>
@@ -65,4 +69,4 @@ function Header({ className="header", pageToLink="/catalog/", pageToLinkName="К
     )
 }
 
-export default Header;
+export default HeaderTop;

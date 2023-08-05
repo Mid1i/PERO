@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+
 export default function useRequest(request, requestParams) {
     const [data, setData] = useState(null);
+    const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     
+
     const params = useParams();
 
     function responseHandler(response) {
@@ -27,10 +30,11 @@ export default function useRequest(request, requestParams) {
         setLoading(true);
 
         request().then(response => responseHandler(response))
+                 .catch(error => setError(error))
                  .finally(() => setLoading(false))
 
     }, [params]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
-    return [ data, loading ];
+    return [ data, loading, error ];
 }

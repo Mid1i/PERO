@@ -1,11 +1,5 @@
 export const filters = [
     {
-        "id": "sort",
-        "title": "Сортировка",
-        "elements": ['По популярности', 'По возрастанию цены', 'По убыванию цены'],
-        "values": ['popular', 'price,asc', 'price,desc']
-    },
-    {
         "id": "brands",
         "title": "Бренд",
         "elements": ['Nike', 'Adidas', 'Puma', 'New Balance', 'Vans', 'Reebok', 'Jordan', 'Converse'],
@@ -19,11 +13,19 @@ export const filters = [
     {
         "id": "colors",
         "title": "Цвет"
-    },
-    {
-        "id": "toPrice",
-        "title": "Цена",
-        "elements": ['До 5 000 ₽', 'До 8 000 ₽', 'До 10 000 ₽', 'До 20 000 ₽'],
-        'values': ['5000', '8000', '10000', '20000']
     }
-]
+];
+
+export const priceFilters = {
+    "id": "toPrice",
+    "title": "Цена",
+    "elements": ['До 5 000 ₽', 'До 8 000 ₽', 'До 10 000 ₽', 'До 20 000 ₽'],
+    'values': ['5000', '8000', '10000', '20000']
+}
+
+export const sorting = {
+    "id": "sort",
+    "title": "Сортировка",
+    "elements": ['По популярности', 'По возрастанию цены', 'По убыванию цены'],
+    "values": ['', 'price,asc', 'price,desc']
+};

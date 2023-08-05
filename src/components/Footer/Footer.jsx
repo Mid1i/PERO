@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import { footerTitles as titles, footerElements as elements} from "@utils/constants";
+import { toFormatBrandForRequest } from "@utils/helpers";
 
 import "./Footer.styles.scss";
 
@@ -16,9 +17,12 @@ function Footer({ className="footer" }) {
                         <div className="footer__top-block footer-block" key={ i } >
                             <h5 className="footer-block__title">{ item }</h5>
                             <ul className="footer-block__list">
-                                { elements[i].map((obj, j) => (
-                                    <li className="footer-block__list-el" key={ j } >{ obj }</li>
-                                ))}
+                                { elements[i].map((obj, j) => 
+                                    (i === 1) ? <Link to={ `/catalog/?brands=${toFormatBrandForRequest(obj)}` } key={ j }>
+                                                    <li className="footer-block__list-el">{ obj }</li>
+                                                </Link>
+                                     : <li className="footer-block__list-el" key={ j } >{ obj }</li>)
+                                }
                             </ul>
                         </div>
                     ))}

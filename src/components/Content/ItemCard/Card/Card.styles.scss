@@ -28,6 +28,8 @@
     &__image {
         border-radius: 50px;
 
+        pointer-events: none;
+
         cursor: pointer;
     }
 

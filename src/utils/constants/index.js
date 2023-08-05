@@ -1,7 +1,7 @@
 import { brands } from "./brands";
-import { filters } from "./filters";
+import { filters, priceFilters, sorting } from "./filters";
 import { footerTitles , footerElements } from "./footer";
-import { sliderTitles, settings } from "./slider";
+import { sliderTitles, settings, similarItemsSliderSettings } from "./slider";
 
 
-export { brands, filters, footerTitles, footerElements, sliderTitles, settings };
+export { brands, filters, priceFilters, sorting, footerTitles, footerElements, sliderTitles, settings, similarItemsSliderSettings };
