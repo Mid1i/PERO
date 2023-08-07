@@ -1,54 +1,32 @@
 import { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { catalogContext } from "@services/Context";
 import { sorting } from "@utils/constants";
 
 import "./Sorting.styles.scss";
 
-import listArrow from "@assets/images/icons/list-arrow.svg";
-import crossIcon from "@assets/images/icons/cross.svg";
+import listArrow from "@assets/images/icons/sorting-list-arrow.svg";
+import sortingIcon from "@assets/images/icons/sorting-icon.svg";
+import checkIcon from "@assets/images/icons/check-icon.svg";
 
 
 function Sorting() {
     const { params, openedFilters, setOpenedFilters, formLink, onChangeLink } = useContext(catalogContext); 
     
     const [sort, setSort] = useState("По популярности");
+
+    const navigate = useNavigate();
    
 
-    function onChangeSort(element, value) {
-        if (sort === element && element !== "По популярности") {
-            setSort("По популярности");
-            onChangeLink("sort", "");
-            console.log("sort empty")
-            return;
-        }
-        if (sort !== element && element !== "По популярности") {
-            setSort(element);
-            onChangeLink("sort", value);
-            return;
-        }
-        if (element === "По популярности") {
-            setSort(element);
-            onChangeLink("sort", "");
-            return;
-        }
-    }
-
-    function onCancelSort() {
-        setSort("По популярности");
-        onChangeLink("sort", "");
-    }
-
-    function cancelLink() {
+    function onChangeSort(element) {
         const link = formLink();
 
-        return link.split('&').filter(obj => !obj.includes("sort")).join('&');
-    }
-
-    function onCloseFilters() {
-        setOpenedFilters("");
-        formLink(); 
+        if (link) {
+            return element ? `/catalog/?${link}&sort=${element}` : `/catalog/?${link}`;
+        } else {
+            return element ? `/catalog/?sort=${element}` : `/catalog/`;
+        }
     }
 
     useEffect(() => {
@@ -56,37 +34,26 @@ function Sorting() {
             setSort(sorting.elements[sorting.values.indexOf(params["sort"])]);
             onChangeLink(sorting.values[sorting.elements.indexOf(params["sort"])]);
         }
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [params]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     return (
-        <div className="filter">
-            <div onClick={ () => openedFilters === "sort" ? setOpenedFilters("") : setOpenedFilters("sort") } className="filter__wrapper btn">
-                <h6 className="filter__title">{ sort }</h6>
-                { sort !== "По популярности" ? 
-                    <Link to={ `/catalog/?${cancelLink()}` } className="filter__icon">
-                        <img src={ crossIcon } alt={ 'cancel'} onClick={ () => onCancelSort() } />
-                    </Link>
-                :   
-                    <img src={ listArrow } alt={ 'more'} />
+        <div className="sorting" onClick={ () => openedFilters === "sort" ? setOpenedFilters("") : setOpenedFilters("sort") }>
+            <img src={ sortingIcon } alt="more" className="sorting__icon--mobile" />
+            <h6 className="sorting__title">{ sort }</h6>
+            <img src={ listArrow } alt="more" className="sorting__icon--computers" />
+            <ul className={ openedFilters === "sort" ? "sorting__list active" : "sorting__list" } >
+                { sorting.elements.map((item, i) => <li key = { i } className="sorting__list-el" onClick={ () => navigate(onChangeSort(sorting.values[i])) }>
+                                                        <p className="sorting__list-text">{ item }</p>
+                                                        { sort === item ? <img 
+                                                                            src={ checkIcon } 
+                                                                            alt="" 
+                                                                            width={ 18 } 
+                                                                            height={ 13 } 
+                                                                            /> 
+                                                            : null }  
+                                                    </li>)
                 }
-            </div>
-
-            <ul className={ openedFilters === "sort" ? "filter__list active" : "filter__list" } style={{width: "100%"}}>
-                { sorting.elements.map((item, i) => {
-                    return (
-                        
-                            <li 
-                                className={ sort === item ? "filter__list-el active" : "filter__list-el"} 
-                                onClick={ () => onChangeSort(item, sorting.values[i]) }
-                                key = { i }
-                            >{ item }</li>   
-                    )
-                })}
-
-                <Link to={ `/catalog/?${formLink()}` } >
-                    <button className="filter__list-btn btn" onClick={ () => onCloseFilters() }>Применить</button>
-                </Link>
             </ul>
         </div>
     )

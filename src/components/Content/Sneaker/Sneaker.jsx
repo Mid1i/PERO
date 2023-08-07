@@ -1,6 +1,6 @@
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { toFormatPrice, toFormatBrand, imageImport } from "@utils/helpers";
 import { appContext } from "@services/Context";
@@ -20,6 +20,7 @@ function Sneaker({ item }) {
     const [size, setSize] = useState(0);
     
     const images = imageImport();
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -32,15 +33,14 @@ function Sneaker({ item }) {
             <div className="product">
                 <div className="product__top">
                     <div className="product__top-left product-left">
-                        <Link to={ window.history.length !== 1 ? -1 : '/' }>
-                            <img
-                                src={ arrowBack } 
-                                alt="back" 
-                                width={ 50 } 
-                                height={ 50 } 
-                                className="product-left__back-icon" 
-                            />
-                        </Link>
+                        <img
+                            src={ arrowBack } 
+                            alt="back" 
+                            width={ 50 } 
+                            height={ 50 } 
+                            className="product-left__back-icon" 
+                            onClick = { () => window.history.length !== 1 ? navigate(-1) : navigate('/') } 
+                        />
                         <h4 className="product-left__title">Описание товара</h4>
                         <img 
                             onClick={ () => addToFavourites(item) }
@@ -55,6 +55,7 @@ function Sneaker({ item }) {
                             alt = { item.name } 
                             width = { 600 } 
                             height = { 650 } 
+                            loading="lazy"
                             className = "product-left__image" 
                             onClick = { () => setOpenedImage(true) }
                         />
@@ -68,6 +69,7 @@ function Sneaker({ item }) {
                                 alt={ item.brand } 
                                 width={ 40 } 
                                 height={ 40 } 
+                                loading="lazy"
                             />
                             <span>{ toFormatBrand(item.brand) }</span>
                         </h4>
@@ -77,7 +79,7 @@ function Sneaker({ item }) {
                         <div className="product-right__sizes">
                             { item.sizes.map((obj, i) => { 
                                 return (
-                                    <button onClick={ () => setSize(obj) } key={ i } className={ Number(obj) === Number(size) ? "active" : "" }>{ obj }</button>
+                                    <button onClick={ () => setSize(obj.size) } key={ i } className={ Number(obj.size) === Number(size) ? "active" : "" }>{ obj.size }</button>
                                 )}
                             )}
                         </div>
@@ -106,12 +108,14 @@ function Sneaker({ item }) {
                                                         <img 
                                                             src={ item.img } 
                                                             alt={ item.name } 
+                                                            loading="lazy"
                                                             className="modal__img"
                                                         />
                                                     </TransformComponent>
                                                 </TransformWrapper>
                                             </div>
                 : <img 
+                    loading="lazy"
                     src={ item.img } 
                     alt={ item.name } 
                     className={ zoomImage ? "modal__img zoom" : "modal__img" }

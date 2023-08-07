@@ -19,7 +19,7 @@ export default function useRequest(request, requestParams) {
                 setData(response.data);
                 break;
             case "popular-items":
-                setData(response.data.content);
+                setData(response.data.page.content);
                 break;
             default:
                 break;

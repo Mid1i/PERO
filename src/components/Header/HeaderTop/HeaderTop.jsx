@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useContext } from 'react';
 
 import { imageImport, toFormatBrandForRequest } from '@utils/helpers';
@@ -14,18 +14,23 @@ function HeaderTop({ className="header", pageToLink="/catalog/", pageToLinkName=
     const { isMale, setIsMale, isBurgerOpen, setBurgerOpen } = useContext(appContext);
     const images = imageImport();
 
+    const navigate = useNavigate();
+
+    function onClickBrand(brand) {
+        setBurgerOpen(!isBurgerOpen);
+        navigate(`/catalog/?brands=${toFormatBrandForRequest(brand)}`)
+    }
+
 
     return (
         <header className={ className }>
             <div className="header__left">
-                <Link to="/">
-                    <img src={ mainLogo } width={ 140 } height={ 65 } alt="logo" />
-                </Link>
+                <img src={ mainLogo } width={ 140 } height={ 65 } alt="logo" onClick={ () => navigate("/") } className="header__left-icon" />
 
                 <p className="header__left-gender">
-                    <span className={ isMale ? "active" : "" } onClick={ () => setIsMale(true) } >Мужчинам</span>
+                    <span className={ isMale ? "active" : "" } onClick={ () => setIsMale(true) }>Мужчинам</span>
                     <span>/</span>
-                    <span className={ !isMale ? "active" : "" } onClick={ () => setIsMale(false) } >Женщинам</span>
+                    <span className={ !isMale ? "active" : "" } onClick={ () => setIsMale(false) }>Женщинам</span>
                 </p>
             </div>
 
@@ -35,9 +40,7 @@ function HeaderTop({ className="header", pageToLink="/catalog/", pageToLinkName=
 
             <nav className="header__navigation">
                 <ul className="header__navigation-list nav-list">
-                    <li className="nav-list__el">
-                        <Link to={ pageToLink }>{ pageToLinkName }</Link>
-                    </li>
+                    <li className="nav-list__el" onClick={ () => navigate(pageToLink) }>{ pageToLinkName }</li>
                     <li className="nav-list__el">Избранное</li>
                     <li className="nav-list__el">Профиль</li>
                     <li className="nav-list__el">
@@ -53,15 +56,10 @@ function HeaderTop({ className="header", pageToLink="/catalog/", pageToLinkName=
                 <div className="header__mobile" style={ isBurgerOpen ? { right: "0%" } : { right: "-100%" } }>
                     <h4 className="header__mobile-title">Бренды</h4>
                     <ul className="header__mobile-list mobile-nav">
-                        { brands.map((item, i) => { 
-                            return (
-                                <Link to={ `/catalog/?brands=${toFormatBrandForRequest(item)}` } onClick={ () => setBurgerOpen(!isBurgerOpen) } key={ i } >
-                                    <li className="mobile-nav__el">
-                                        <img src={ images.filter(obj => obj.includes(item)) } alt={ item } width={ 65 } height={ 65 } />
-                                    </li>
-                                </Link>
-                            )}
-                        )}
+                        { brands.map((item, i) => <li className="mobile-nav__el" onClick={ () => onClickBrand(item) } key={ i }>
+                                                      <img src={ images.filter(obj => obj.includes(item)) } alt={ item } width={ 65 } height={ 65 } />
+                                                  </li>)
+                        }
                     </ul>
                 </div>
             </div>

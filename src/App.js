@@ -24,7 +24,11 @@ function App() {
     }, [search])
 
     React.useEffect(() => {
-        document.body.classList.toggle("no-scroll");
+        if (isBurgerOpen) {
+            document.body.classList.add("no-scroll");
+        } else {
+            document.body.classList.remove("no-scroll");
+        }
     }, [isBurgerOpen])
 
     const addToFavourites = (item) => {

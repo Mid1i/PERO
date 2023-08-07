@@ -13,6 +13,10 @@
         align-items: center;
         display: flex;
 
+        &-icon {
+            cursor: pointer;
+        }
+
         &-gender {
             margin-left: 60px;
 
@@ -270,13 +274,15 @@
     .header {
         padding: 20px 10px 0px;
 
-        &__left-gender {
-            display: none;
-        }
-
         &__mobile {
             width: 100%;
         }
+    }
+}
+
+@media(max-width: 330px) {
+    .header__left-gender {
+        margin-left: 10px;
     }
 }
 
