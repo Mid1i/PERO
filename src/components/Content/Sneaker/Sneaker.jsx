@@ -1,6 +1,7 @@
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { RWebShare } from "react-web-share";
 
 import { toFormatPrice, toFormatBrand, imageImport } from "@utils/helpers";
 import { appContext } from "@services/Context";
@@ -9,23 +10,54 @@ import "./Sneaker.styles.scss";
 
 import heartDefault from "@assets/images/icons/product-heart-default.svg";
 import heartLiked from "@assets/images/icons/product-heart-liked.svg";
+import sizesCross from "@assets/images/icons/sizes-cross.svg";
 import arrowBack from "@assets/images/icons/back-arrow.svg";
+import shareIcon from "@assets/images/icons/share.svg";
 import crossIcon from "@assets/images/icons/cross.svg";
 
 
 function Sneaker({ item }) {
-    const { isInFavourites, addToFavourites } = useContext(appContext);
+    const { isInFavourites, onAddToFavourites, onAddToCart } = useContext(appContext);
+
     const [openedImage, setOpenedImage] = useState(false);
     const [zoomImage, setZoomImage] = useState(false);
-    const [size, setSize] = useState(0);
+    const [size, setSize] = useState("");
     
     const images = imageImport();
     const navigate = useNavigate();
 
 
     useEffect(() => {
-        document.body.classList.toggle("no-scroll");
+        if (openedImage) {
+            document.body.classList.add("no-scroll");
+        } else {
+            document.body.classList.remove("no-scroll");
+        }
     }, [openedImage])
+
+    function onBuyItem() {
+        if (size !== "") {
+            onAddToCart(size);
+        } else {
+            chooseSize();
+        }
+    }
+
+    function chooseSize() {
+        return (
+            <div className="sizes-block">
+                <img src={ sizesCross } alt="close" width={ 20 } height={ 20 } className="sizes-block__icon" />
+                <h4 className="sizes-block__title">Выберите размер</h4>
+                <div className="sizes-block__items">
+                    { item.sizes.map((obj, i) => { 
+                        return (
+                            <button onClick={ () => setSize(obj.sizeId) } key={ i } className={ obj.sizeId === size ? "active" : "" }>{ obj.size }</button>
+                        )}
+                    )}
+                </div>
+            </div>
+        )
+    }
 
     
     return (
@@ -43,9 +75,9 @@ function Sneaker({ item }) {
                         />
                         <h4 className="product-left__title">Описание товара</h4>
                         <img 
-                            onClick={ () => addToFavourites(item) }
-                            src={ isInFavourites(item) ? heartLiked : heartDefault } 
-                            alt={ isInFavourites(item) ? "dislike" : "like" }  
+                            onClick={ () => onAddToFavourites(item.id) }
+                            src={ isInFavourites(item.id) ? heartLiked : heartDefault } 
+                            alt={ isInFavourites(item.id) ? "dislike" : "like" }  
                             width={ 50 } 
                             height={ 50 } 
                             className="product-left__icon" 
@@ -61,7 +93,14 @@ function Sneaker({ item }) {
                         />
                     </div>
                     <div className="product__top-right product-right">
-                        <h1 className="product-right__title">{ item.name }</h1>
+                        <div className="product-right__title">
+                            <h1 className="product-right__title-left">{ item.name }</h1>
+                            <RWebShare data = {{ url: window.location.href }}>
+                                <button className="product-right__title-right">
+                                    <img src={ shareIcon } alt="share" />
+                                </button>
+                            </RWebShare>
+                        </div>
                         <h4 className="product-right__subtitle">
                             <span>By</span>
                             <img 
@@ -79,13 +118,13 @@ function Sneaker({ item }) {
                         <div className="product-right__sizes">
                             { item.sizes.map((obj, i) => { 
                                 return (
-                                    <button onClick={ () => setSize(obj.size) } key={ i } className={ Number(obj.size) === Number(size) ? "active" : "" }>{ obj.size }</button>
+                                    <button onClick={ () => setSize(obj.sizeId) } key={ i } className={ obj.sizeId === size ? "active" : "" }>{ obj.size }</button>
                                 )}
                             )}
                         </div>
                         <div className="product-right__price">
                             <p className="product-right__price-text">{ `${toFormatPrice(item.price)} ₽` }</p>
-                            <button className="product-right__price-btn btn">Купить</button>
+                            <button className="product-right__price-btn btn" onClick={ () => onBuyItem() }>Купить</button>
                         </div>
                     </div>
                 </div>

@@ -30,6 +30,8 @@ function PriceFilters() {
     }
 
     function cancelFilters() {
+        setOpenedFilters("");
+        
         setEndValue("");
         setStartValue("");
         onChangeLink("fromPrice", "");

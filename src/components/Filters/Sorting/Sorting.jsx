@@ -33,6 +33,8 @@ function Sorting() {
         if (Object.keys(params) !== [] && sorting.values.includes(params["sort"])) {
             setSort(sorting.elements[sorting.values.indexOf(params["sort"])]);
             onChangeLink(sorting.values[sorting.elements.indexOf(params["sort"])]);
+        } else {
+            setSort("По популярности");
         }
     }, [params]) // eslint-disable-line react-hooks/exhaustive-deps
 

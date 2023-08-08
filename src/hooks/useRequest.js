@@ -11,18 +11,10 @@ export default function useRequest(request, requestParams) {
     const params = useParams();
 
     function responseHandler(response) {
-        switch (requestParams) {
-            case "items":
-                setData(response.data.page.content);
-                break;
-            case "item":
-                setData(response.data);
-                break;
-            case "popular-items":
-                setData(response.data.page.content);
-                break;
-            default:
-                break;
+        if (requestParams === "items") {
+            setData(response.data.page.content);
+        } else {
+            setData(response.data);
         }
     }
 
@@ -33,7 +25,7 @@ export default function useRequest(request, requestParams) {
                  .catch(error => setError(error))
                  .finally(() => setLoading(false))
 
-    }, [params]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [params.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     return [ data, loading, error ];

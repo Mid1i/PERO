@@ -1,9 +1,13 @@
 .slick-list {
     overflow: hidden; 
+
+    height: 100%;
 }
     
 .slick-track {
     display: flex;
+    
+    height: 100%;
 }
 
 .slick-dots {

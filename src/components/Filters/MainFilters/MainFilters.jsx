@@ -29,6 +29,8 @@ function MainFilters({ id, title, elements, values = elements }) {
     }
 
     function cancelFilters() {
+        setOpenedFilters("");
+
         setFilters([]);
         onChangeLink(id, "");
 

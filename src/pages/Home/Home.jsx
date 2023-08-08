@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import { HeaderTop, SearchBar, Brands, GoodsSlider, Card, LoadingCard, EmptyContent, Footer } from "@components";
 import { useRequest, useScroll } from "@hooks";
@@ -7,7 +8,8 @@ import "./Home.styles.scss";
 
 
 function Home() {
-    const [ items, loading, error ] = useRequest(fetchItems, "popular-items");
+    const [ items, loading, error ] = useRequest(fetchItems, "items");
+    const navigate = useNavigate();
     useScroll();
 
     function fetchItems() {
@@ -25,7 +27,7 @@ function Home() {
             <div className="goods">
                 <div className="goods__title">
                     <h4 className="goods__title-left">Наиболее популярные</h4>
-                    <h5 className="goods__title-right">Больше кроссовок</h5>
+                    <h5 className="goods__title-right" onClick={ () => navigate("/catalog/") }>Больше кроссовок</h5>
                 </div>
                 <div className="goods__content">
                     { loading ? <LoadingCard /> 

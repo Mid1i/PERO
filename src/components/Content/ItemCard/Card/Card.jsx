@@ -9,16 +9,18 @@ import "./Card.styles.scss";
 import heartDefault from "@assets/images/icons/heart-default.svg";
 import heartLiked from "@assets/images/icons/heart-liked.svg";
 
+
 function Card({ item }) {
-    const { addToFavourites, isInFavourites } = useContext(appContext);
+    const { onAddToFavourites, isInFavourites } = useContext(appContext);
     const navigate = useNavigate();
+    
     
     return (
         <div className="goods__content-item goods-item">
             <img 
-                onClick={ () => addToFavourites(item) } 
-                src={ isInFavourites(item) ? heartLiked : heartDefault } 
-                alt={ isInFavourites(item) ? "dislike" : "like" } 
+                src={ isInFavourites(item.id) ? heartLiked : heartDefault } 
+                alt={ isInFavourites(item.id) ? "dislike" : "like" } 
+                onClick={ () => onAddToFavourites(item.id) } 
                 width={ 40 } 
                 height={ 40 }
                 className="goods-item__icon" 

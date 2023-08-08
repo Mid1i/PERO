@@ -12,10 +12,9 @@ import "./Catalog.styles.scss";
 
 import filtersIcon from "@assets/images/icons/filters-icon.svg";
 
-//TODO: Верстка фильтров
 
 function Catalog() {
-    const { isMale } = useContext(appContext);
+    const { isMale, searchValue } = useContext(appContext);
 
     const [link, setLink] = useState([]);
     const [emptyLink, setEmptyLink] = useState(false);
@@ -37,6 +36,12 @@ function Catalog() {
             document.body.classList.remove("no-scroll");
         }
     }, [isOpen])
+
+    useEffect(() => {
+        if (searchValue === "") {
+            onChangeLink("search", "");
+        }
+    }, [searchValue])
 
     useEffect(() => {
         setParams(queryString.parse(search));
@@ -103,7 +108,7 @@ function Catalog() {
                         </div>
                         <div className="catalog__filters-mobile">
                             <div className="filters-mobile" onClick={ () => setIsOpen(!isOpen) } >
-                                { checkFiltersAmount() === 0 ? <img src={ filtersIcon } alt="more" height={ 16 } width={ 16 } />       
+                                { checkFiltersAmount() <= 0 ? <img src={ filtersIcon } alt="more" height={ 16 } width={ 16 } />       
                                     : <span className="filters-mobile__amount">{ checkFiltersAmount() }</span> 
                                 }
                                 <h6 className="filters-mobile__title">Фильтры</h6>
