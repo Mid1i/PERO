@@ -30,7 +30,12 @@
             &:hover {
                 box-shadow: 0px 0px 10px #cacaca;
                 transform: scale(1.05);
-        }
+            }
+
+            & img {
+                height: 65px;
+                width: 65px;
+            }
         }
 
         &-name {

@@ -1,7 +1,32 @@
-export const footerTitles = ["О магазине", "Бренды", "Помощь"];
+import {brands} from "./brands";
+
+
+export const footerTitles = [
+    {
+        id: 1,
+        title: 'О магазине', 
+    },
+    {
+        id: 2,
+        title: 'Бренды', 
+    },
+    {
+        id: 3,
+        title: 'Помощь'
+    },
+];
 
 export const footerElements = [
-    ["контакты", "магазины", "о нас"], 
-    ["nike", "adidas", "puma", "new-balance", "vans", "reebok", "jordan", "converse"],
-    ["доставка и оплата", "обмен и возврат", "уход за обувью"]
+    {
+        id: 1,
+        elements: ['контакты', 'магазины', 'о нас'],
+    },
+    {
+        id: 2,
+        elements: [...brands.map(({brand}) => brand)],
+    },
+    {
+        id: 3,
+        elements: ['доставка и оплата', 'обмен и возврат', 'уход за обувью'],
+    },
 ];

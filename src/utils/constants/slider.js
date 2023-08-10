@@ -1,6 +1,27 @@
-export const sliderTitles = ["Adidas - EQT Bask ADV 'Grey Two'", "Air Jordan - 1 Retro High Vachetta", "Air Jordan - 1 Retro High OG"];
+import image1 from "@assets/images/slider-images/1.jpg";
+import image2 from "@assets/images/slider-images/2.jpg";
+import image3 from "@assets/images/slider-images/3.jpg";
 
-export const settings = {
+
+export const goodsSliderData = [
+    {
+        id: 1,
+        title: 'Adidas - EQT Bask ADV "Grey Two"', 
+        image: image1,
+    },
+    {
+        id: 2,
+        title: 'Air Jordan - 1 Retro High Vachetta', 
+        image: image2,
+    },
+    {
+        id: 3,
+        title: 'Air Jordan - 1 Retro High OG',
+        image: image3,
+    }
+];
+
+export const goodsSliderSettings = {
     arrows: false,
     autoplay: true,
     autoplaySpeed: 10000,

@@ -1,13 +1,14 @@
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
-import "./EmptyContent.styles.scss";
+import "./EmptyContent.style.scss";
 
-function EmptyContent({ title, text=false, btn=false }) {
+
+export default function EmptyContent({title, text=false, btn=false}) {
     return (
         <div className="empty">
-            <h2 className="empty__title">{ title }</h2>
-            { text ? <p className="empty__text">{ text }</p> : null }
-            { btn ?
+            <h2 className="empty__title">{title}</h2>
+            {!!text && <p className="empty__text">{text}</p>}
+            {!!btn && (
                 <Link to="/">
                     <button className="empty__btn btn">
                         <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
@@ -17,9 +18,7 @@ function EmptyContent({ title, text=false, btn=false }) {
                         <span>На главную</span>
                     </button>
                 </Link>
-            : null }
+            )}
         </div>
-    )
+    );
 }
-
-export default EmptyContent;

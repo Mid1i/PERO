@@ -52,14 +52,16 @@
             cursor: pointer;
 
             transition: transform 0.1s ease-in-out;
+        }
+    }
+}
 
-            &:hover {
-                transform: scale(1.2);
+@media(hover: hover) {
+    .search-bar__icons svg:hover {
+        transform: scale(1.1);
 
-                & path {
-                    fill: #212121;
-                }
-            }
+        & path {
+            fill: #212121;
         }
     }
 }

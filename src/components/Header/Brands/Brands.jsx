@@ -1,26 +1,31 @@
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
-import { imageImport, toFormatBrandForRequest } from "@utils/helpers";
-import { brands } from "@utils/constants";
+import {imageImport, toFormatBrandForRequest} from "@utils/helpers";
+import {brands} from "@utils/constants";
 
-import "./Brands.styles.scss";
+import "./Brands.style.scss";
 
-function Brands({ className="brands" }) {
+
+export default function Brands({className='brands'}) {
     const images = imageImport();
     const navigate = useNavigate();
-
+ 
 
     return (
-        <div className={ className }>
-            { brands.map((item, i) => <div className="brands__item" onClick={ () => navigate(`/catalog/?brands=${toFormatBrandForRequest(item)}`) } key={ i }>
-                                            <div className="brands__item-image">
-                                                <img src={ images.filter(obj => obj.includes(item)) } alt={ item } width={ 65 } height={ 65 } />
-                                            </div>
-                                            <p className="brands__item-name">{ item }</p>
-                                      </div>) 
-            }
+        <div className={className}>
+            {brands.map(({id, brand}) => (
+                    <div 
+                        className="brands__item" 
+                        onClick={() => navigate(`/catalog/?brands=${toFormatBrandForRequest(brand)}`)} 
+                        key={id}
+                    >
+                        <div className="brands__item-image">
+                            <img src={images.filter(obj => obj.includes(brand))} alt={brand}/>
+                        </div>
+                        <p className="brands__item-name">{brand}</p>
+                    </div>
+                )
+            )}
         </div>
-    )
+    );
 }
-
-export default Brands;

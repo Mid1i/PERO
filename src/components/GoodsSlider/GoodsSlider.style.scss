@@ -1,13 +1,9 @@
 .slick-list {
     overflow: hidden; 
-
-    height: 100%;
 }
     
 .slick-track {
     display: flex;
-    
-    height: 100%;
 }
 
 .slick-dots {
@@ -32,7 +28,7 @@
     }
 }
 
-.slider { 
+.slider {
     margin-top: -10px;
     padding: 0px 10px;
 
@@ -40,6 +36,7 @@
     overflow: hidden;
     
     max-width: 1920px;
+    height: auto;
     width: 100%;
 
     &__section {
@@ -52,73 +49,59 @@
             width: 100%;
         }
     }
-}
 
-.slider-item {
-    border: 5px solid #F3F3F3;
-    border-radius: 20px;
-
-    display: flex;
-    flex-direction: column;
-
-    padding: 40px 50px 50px;
-
-    position: relative;
-
-    &--1 {
-        background: url("../../../assets/images/slider-images/1.jpg") 0 0;
+    &-item {
         background-size: cover;
-    }
-
-    &--2 {
-        background: url("../../../assets/images/slider-images/2.jpg") 0 0;
-        background-size: cover;
-    }
-
-    &--3 {
-        background: url("../../../assets/images/slider-images/3.jpg") 0 0;
-        background-size: cover;
-    }
-
-    &__subtitle {
-        color: #7A7B7E;
-        font-size: 24px;
-    }
-
-    &__title {
-        color: #FFFFFF;
-        font-size: 48px;
-        font-weight: 700;
-        text-shadow: -1px 0 #000000, 0 1px #000000, 1px 0 #000000, 0 -1px #000000;
-
-        flex: 1 0 auto;
-
-        margin-top: 25px;
-    }
-
-    &__btn {
-        font-size: 32px;
-
-        text-align: center;
-
-        height: 70px;
-        width: 310px;
-
-        z-index: 1;
-    }
-
-    &__sign {
-        font-size: 14px;
-        text-transform: uppercase;
-
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-
-        text-align: center;
-
-        height: 24px;
-        width: 70px;
+        border: 5px solid #F3F3F3;
+        border-radius: 20px;
+    
+        display: flex;
+        flex-direction: column;
+    
+        padding: 40px 50px 50px;
+    
+        position: relative;
+    
+        &__subtitle {
+            color: #7A7B7E;
+            font-size: 24px;
+        }
+    
+        &__title {
+            color: #FFFFFF;
+            font-size: 48px;
+            font-weight: 700;
+            text-shadow: -1px 0 #000000, 0 1px #000000, 1px 0 #000000, 0 -1px #000000;
+    
+            flex: 1 0 auto;
+    
+            margin-top: 25px;
+        }
+    
+        &__btn {
+            font-size: 32px;
+    
+            text-align: center;
+    
+            height: 70px;
+            width: 310px;
+    
+            z-index: 1;
+        }
+    
+        &__sign {
+            font-size: 14px;
+            text-transform: uppercase;
+    
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+    
+            text-align: center;
+    
+            height: 24px;
+            width: 70px;
+        }
     }
 }
 

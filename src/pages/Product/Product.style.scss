@@ -4,6 +4,8 @@
 
     overflow: hidden;
 
+    margin-bottom: 20px;
+    
     max-width: 1280px;
     height: 440px;
     width: 100%;
@@ -20,6 +22,27 @@
 
         height: 100%;
         width: 100%;
+
+        & .slick-arrow {
+            border-radius: 100px;
+
+            height: 40px;
+            width: 40px;
+        
+            &.slick-prev {
+                background: url("../../assets/images/icons/slider-prev-arrow.svg") center center no-repeat, #FFFFFF;
+                background-size: 30px 30px;
+        
+                left: 20px;
+            }
+        
+            &.slick-next {
+                background: url("../../assets/images/icons/slider-next-arrow.svg") center center no-repeat, #FFFFFF;
+                background-size: 30px 30px;
+        
+                right: 30px;
+            }
+        }
     }
 
     & .goods-item:hover {
@@ -38,21 +61,7 @@
     transition: opacity 0.2s ease-in-out;
     opacity: 0.5;
 
-    height: 40px;
-    width: 40px;
     z-index: 2;
-
-    &.slick-prev {
-        background: url("../../assets/images/icons/slider-prev-arrow.svg") center center no-repeat;
-
-        left: 10px;
-    }
-
-    &.slick-next {
-        background: url("../../assets/images/icons/slider-next-arrow.svg") center center no-repeat;
-
-        right: 30px;
-    }
 }
 
 @media(hover: hover) {

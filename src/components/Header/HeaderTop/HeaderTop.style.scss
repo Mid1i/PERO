@@ -13,8 +13,11 @@
         align-items: center;
         display: flex;
 
-        &-icon {
+        &-logo {
             cursor: pointer;
+
+            height: 65px;
+            width: 140px;
         }
 
         &-gender {
@@ -54,22 +57,6 @@
         display: flex;
     }
 
-    &__blackout {
-        background: rgba(0, 0, 0, 0.5);
-
-        position: fixed;
-        top: 0px;
-        left: 0px;
-
-        transition: opacity 0.3s ease-in-out, visibility 0.3s ease-out;
-        pointer-events: auto;
-        overflow: hidden;
-
-        height: 100%;
-        width: 100%;
-        z-index: 3;
-    }
-
     &__mobile {
         align-items: center;
         display: flex;
@@ -85,13 +72,17 @@
         overflow-y: scroll;
         position: absolute;
         top: 0px;
-        right: 0px;
+        right: -100%;
 
         transition: right 0.3s ease-in-out;
 
         height: 100%;
         width: 384px;
         z-index: 4;
+
+        &.active {
+            right: 0px;        
+        }
 
         &-title {
             font-size: 24px;
@@ -111,6 +102,11 @@
         cursor: pointer;
         
         margin: auto 0px;
+
+        & img {
+            height: 65px;
+            width: 65px;
+        }
     }
 }
 

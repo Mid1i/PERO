@@ -122,6 +122,30 @@ body {
     }
 }
 
+.blackout {
+    background: rgba(0, 0, 0, 0.8);
+
+    position: fixed;
+    top: 0px;
+    left: 0px;
+
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: auto;
+    visibility: hidden;
+    
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-out;
+
+    height: 100%;
+    width: 100%;
+    z-index: 3;
+
+    &.active {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
 @media(max-width: 767px) {
     .content {
         margin-top: 0px;

@@ -72,17 +72,6 @@
     }
 
     &__blackout {
-        background: rgba(0, 0, 0, 0.5);
-
-        position: fixed;
-        top: 0px;
-        left: 0px;
-
-        transition: opacity 0.3s ease-in-out, visibility 0.3s ease-out;
-        pointer-events: auto;
-
-        height: 100%;
-        width: 100%;
         z-index: 5;
     }
 

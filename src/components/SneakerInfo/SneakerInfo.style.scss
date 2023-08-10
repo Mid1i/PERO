@@ -45,8 +45,40 @@
 
     &__image {
         border-radius: 5px;
+
+        margin-bottom: 20px;
         
         cursor: pointer;
+
+        height: 650px;
+        width: 600px;
+    }
+
+    &__images {
+        position: relative;
+
+        display: flex;
+        
+        overflow: overlay;
+
+        padding-bottom: 10px;
+
+        width: 600px;
+        
+        &-wrapper img {
+            cursor: pointer;
+
+            object-fit: cover;
+
+            height: 170px;
+            width: 160px;
+        }
+
+        &-wrapper {
+            max-width: 160px;
+
+            margin-right: 10px;
+        }
     }
 
     &__icon,
@@ -55,6 +87,10 @@
 
         position: absolute;
         top: 25px;
+
+        height: 50px;
+        width: 50px;
+        z-index: 2;
     }
 
     &__icon {
@@ -63,10 +99,6 @@
 
     &__back-icon {
         left: 25px;
-    }
-
-    &__title {
-        display: none;
     }
 }
 
@@ -113,7 +145,12 @@
         }
 
         & img {
+            cursor: pointer;
+
             margin: 0px 15px;
+
+            height: 40px;
+            width: 40px;
         }
     }
 
@@ -203,21 +240,7 @@
     flex-direction: column;
     justify-content: center;
 
-    background: rgba(0, 0, 0, 0.8);
-
     padding: 0px 10px;
-
-    position: fixed;
-    top: 0px;
-    left: 0px;
-
-    overflow: hidden;
-    pointer-events: auto;
-    transition: all 0.2s ease-in-out;
-
-    height: 100%;
-    width: 100%;
-    z-index: 3;
 
     &__icon {
         cursor: pointer;
@@ -225,6 +248,9 @@
         position: absolute;
         top: 20px;
         right: 20px;
+
+        height: 30px;
+        width: 30px;
     }
 
     &__img {
@@ -267,12 +293,6 @@
     } 
 }
 
-@media(max-width: 1230px) {
-    .product__top-left {
-        margin-right: 50px;
-    }
-}
-
 @media(max-width: 1250px) {
     .product__top-left {
         margin-right: 25px;
@@ -281,6 +301,21 @@
     .product-left__image {
         height: 550px;
         width: 500px;
+    }
+
+    .product-left__images {
+        width: 500px;
+
+        &-wrapper img {
+            height: 160px;
+            width: 150px;
+        }
+    }
+}
+
+@media(max-width: 1230px) {
+    .product__top-left {
+        margin-right: 50px;
     }
 }
 
@@ -320,6 +355,15 @@
     .product-left__image {
         height: 500px;
         width: 450px;
+    }
+
+    .product-left__images {
+        width: 450px;
+
+        &-wrapper img {
+            height: 150px;
+            width: 140px;
+        }
     }
 
     .product-right__title-left {
@@ -367,6 +411,15 @@
         width: 350px;
     }
 
+    .product-left__images {
+        width: 350px;
+
+        &-wrapper img {
+            height: 120px;
+            width: 110px;
+        }
+    }
+
     .product-right__subtitle  span {
         font-size: 16px;
     }
@@ -385,6 +438,7 @@
     
             &-left {
                 margin-left: -20px;
+                margin-bottom: 20px;
 
                 width: 100vw;
             }
@@ -393,26 +447,18 @@
         &-left__image {
             object-fit: cover;
             object-position: 0px 100%;
+
             height: 80vw;
             width: 100%;
+        }
+
+        .product-left__images {
+            margin: 0px auto;
         }
 
         &-left__icon {
             right: 30px;
             top: 30px;
-        }
-
-        &-left__title {
-            font-size: 28px;
-            font-weight: 700;
-
-            display: block;
-
-            position: absolute;
-            top: 40px;
-            left: 50%;
-
-            transform: translate(-50%);
         }
 
         &-left__back-icon {
@@ -511,6 +557,10 @@
         width: 40px;
     }
 
+    .product-left__image {
+        margin-bottom: 10px;
+    }
+
     .product-right__price {
         bottom: 15px;
 
@@ -606,10 +656,6 @@
         width: 40px;
     }
 
-    .product-left__title {
-        font-size: 16px;
-    }
-
     .product-right__title {
         font-size: 18px;
         line-height: 20px;
@@ -646,5 +692,11 @@
         &__top-left {
             margin-left: -10px;
         }
+    }
+}
+
+@media(max-width: 360px) {
+    .product-left__images {
+        width: 100%;
     }
 }

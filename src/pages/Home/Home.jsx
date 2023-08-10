@@ -1,50 +1,63 @@
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-import { HeaderTop, SearchBar, Brands, GoodsSlider, Card, LoadingCard, EmptyContent, Footer } from "@components";
-import { useRequest, useScroll } from "@hooks";
+import {useRequest, useScroll} from "@hooks";
+import { 
+    Brands, 
+    EmptyContent, 
+    Footer, 
+    GoodsSlider, 
+    HeaderTop, 
+    LoadingCard, 
+    SearchBar, 
+    SneakerCard 
+} from "@components";
 
-import "./Home.styles.scss";
+import "./Home.style.scss";
 
 
-function Home() {
-    const [ items, loading, error ] = useRequest(fetchItems, "items");
+export default function Home() {
     const navigate = useNavigate();
+
     useScroll();
 
-    function fetchItems() {
-        return axios.get("https://java.pero-nn.ru/api/public/get_popular_sneakers?page=0&size=15");
-    }
-
     
-    return (<>
-        <HeaderTop />
-        <SearchBar />
-        <Brands />
+    const fetchItems = () => axios.get('https://java.pero-nn.ru/api/public/get_popular_sneakers?page=0&size=15');
 
-        <div className="content content--home">
-            <GoodsSlider />
-            <div className="goods">
-                <div className="goods__title">
-                    <h4 className="goods__title-left">Наиболее популярные</h4>
-                    <h5 className="goods__title-right" onClick={ () => navigate("/catalog/") }>Больше кроссовок</h5>
-                </div>
-                <div className="goods__content">
-                    { loading ? <LoadingCard /> 
-                        : ((!items || error) ? <EmptyContent 
-                                        title = "Пока что все распродано"
-                                        text = "Но в ближайшее время ожидаются крупные поставки!"
-                        /> 
-                            : items.map((item, i) => <Card 
-                                        key = { i }
-                                        item = { item }
-                    />))}
+    const [items, loading, error] = useRequest(fetchItems, 'items');
+
+
+    return (
+        <>
+            <HeaderTop />
+            <SearchBar />
+            <Brands />
+
+            <div className="content content--home">
+                <GoodsSlider />
+                <div className="goods">
+                    <div className="goods__title">
+                        <h4 className="goods__title-left">Наиболее популярные</h4>
+                        <h5 className="goods__title-right" onClick={() => navigate('/catalog/')}>Больше кроссовок</h5>
+                    </div>
+                    <div className="goods__content">
+                        {loading ? <LoadingCard /> : ((!items || error) ? (
+                            <EmptyContent 
+                                title='Пока что все распродано'
+                                text='Но в ближайшее время ожидаются крупные поставки!'
+                            /> 
+                        ) : items.map((item) => (
+                                <SneakerCard 
+                                    key={item.id}
+                                    {...item}
+                                />
+                            ) 
+                        ))}
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <Footer />
-    </>);
+            
+            <Footer />
+        </>
+    );
 }
-
-export default Home;

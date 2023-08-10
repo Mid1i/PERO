@@ -1,27 +1,28 @@
-import { useEffect, useState, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import {useContext, useEffect, useState} from "react";
+import {useLocation} from "react-router-dom";
 import axios from "axios";
 
-import { appContext } from "@services/Context";
+import {appContext} from "@services/Context";
 
+//TODO: исправить баг с 2 запросами
 
 export default function useCatalogRequest(params) {
-    const [itemsAmount, setItemsAmount] = useState(1);
-    const [loading, setLoading] = useState(false);
-    const [itemsError, setItemsError] = useState("");
     const [data, setData] = useState([]);
+    const [itemsAmount, setItemsAmount] = useState(1);
+    const [itemsError, setItemsError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const [colors, setColors] = useState([]);
-    const [colorsError, setColorsError] = useState("");
+    const [colorsError, setColorsError] = useState('');
     const [colorsLoading, setColorsLoading] = useState(true);
 
     const [fetching, setFetching] = useState(false);
     const [page, setPage] = useState(0);
 
-    const { isMale } = useContext(appContext);
+    const {isMale} = useContext(appContext);
 
-    
-    const { search } = useLocation();
+    const {search} = useLocation();
+
 
     useEffect(() => {
         window.addEventListener('scroll', scrollHandler);
@@ -32,7 +33,7 @@ export default function useCatalogRequest(params) {
     })
 
     useEffect(() => {
-        if (fetching) {
+        if (fetching && !itemsError) {
             axios.get(`https://java.pero-nn.ru/api/public/get_sneakers?page=${page}&size=5&isMale=${isMale}${search.replace("?", "&")}`)
                     .then(response => {
                         setData(prev => [...prev, ...response.data.page.content]);

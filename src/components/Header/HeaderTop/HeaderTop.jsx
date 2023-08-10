@@ -1,46 +1,73 @@
-import { useNavigate } from "react-router-dom";
-import { useContext } from 'react';
+import {useContext, useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import classNames from "classnames";
 
-import { imageImport, toFormatBrandForRequest } from '@utils/helpers';
-import { appContext } from "@services/Context";
-import { brands } from "@utils/constants";
+import {imageImport, toFormatBrandForRequest} from "@utils/helpers";
+import {appContext} from "@services/Context";
+import {brands} from "@utils/constants";
 
 import mainLogo  from "@assets/images/logo/shop-logo.png";
 
-import "./HeaderTop.styles.scss";
+import "./HeaderTop.style.scss";
 
 
-function HeaderTop({ className="header", pageToLink="/catalog/", pageToLinkName="Каталог" }) {
-    const { isMale, setIsMale, isBurgerOpen, setBurgerOpen } = useContext(appContext);
+export default function HeaderTop({className='header', pageToLink='/catalog/', pageToLinkName='Каталог'}) {
+    const {isMale, setIsMale} = useContext(appContext);
+
+    const [popupMenu, setPopupMenu] = useState(false);
+
     const images = imageImport();
 
     const navigate = useNavigate();
 
-    function onClickBrand(brand) {
-        setBurgerOpen(!isBurgerOpen);
-        navigate(`/catalog/?brands=${toFormatBrandForRequest(brand)}`)
+
+    useEffect(() => {
+        popupMenu ? document.body.classList.add("no-scroll") : document.body.classList.remove("no-scroll");
+    }, [popupMenu])
+
+
+    const onClickBrand = (value) => {
+        setPopupMenu(prev => !prev);
+        navigate(`/catalog/?brands=${toFormatBrandForRequest(value)}`);
+    }
+
+    const popupMenuRender = () => {
+        return (
+            <div className={classNames("blackout", popupMenu && "active")}>
+                <div className={classNames("header__mobile", popupMenu && "active")}>
+                    <h4 className="header__mobile-title">Бренды</h4>
+                    <ul className="header__mobile-list mobile-nav">
+                        {brands.map(({id, brand}) => (
+                                <li className="mobile-nav__el" onClick={() => onClickBrand(brand)} key={id}>
+                                    <img src={images.filter(obj => obj.includes(brand))} alt={brand}/>
+                                </li>
+                            )
+                        )}
+                    </ul>
+                </div>
+            </div>
+        );
     }
 
 
     return (
-        <header className={ className }>
+        <header className={className}>
             <div className="header__left">
-                <img src={ mainLogo } width={ 140 } height={ 65 } alt="logo" onClick={ () => navigate("/") } className="header__left-icon" />
-
+                <img className="header__left-logo" src={ mainLogo } alt="logo" onClick={() => navigate('/')}/>
                 <p className="header__left-gender">
-                    <span className={ isMale ? "active" : "" } onClick={ () => setIsMale(true) }>Мужчинам</span>
+                    <span className={classNames(isMale && "active")} onClick={() => setIsMale(true)}>Мужчинам</span>
                     <span>/</span>
-                    <span className={ !isMale ? "active" : "" } onClick={ () => setIsMale(false) }>Женщинам</span>
+                    <span className={classNames(!isMale && "active")} onClick={() => setIsMale(false)}>Женщинам</span>
                 </p>
             </div>
 
-            <div className={ isBurgerOpen ? "header__burger active" : "header__burger" } onClick={ () => setBurgerOpen(!isBurgerOpen) }>
+            <div className={classNames("header__burger", popupMenu && "active")} onClick={() => setPopupMenu(prev => !prev)}>
                 <span className="header__burger-span"></span>
             </div>
 
             <nav className="header__navigation">
                 <ul className="header__navigation-list nav-list">
-                    <li className="nav-list__el" onClick={ () => navigate(pageToLink) }>{ pageToLinkName }</li>
+                    <li className="nav-list__el" onClick={() => navigate(pageToLink) }>{pageToLinkName}</li>
                     <li className="nav-list__el">Избранное</li>
                     <li className="nav-list__el">Профиль</li>
                     <li className="nav-list__el">
@@ -52,19 +79,7 @@ function HeaderTop({ className="header", pageToLink="/catalog/", pageToLinkName=
                 </ul>
             </nav>
 
-            <div className="header__blackout" style={ isBurgerOpen ? { visibility: "visible", opacity: 1 } : { visibility: "hidden", opacity: 0 } }>
-                <div className="header__mobile" style={ isBurgerOpen ? { right: "0%" } : { right: "-100%" } }>
-                    <h4 className="header__mobile-title">Бренды</h4>
-                    <ul className="header__mobile-list mobile-nav">
-                        { brands.map((item, i) => <li className="mobile-nav__el" onClick={ () => onClickBrand(item) } key={ i }>
-                                                      <img src={ images.filter(obj => obj.includes(item)) } alt={ item } width={ 65 } height={ 65 } />
-                                                  </li>)
-                        }
-                    </ul>
-                </div>
-            </div>
+            {popupMenuRender()}
         </header>
-    )
+    );
 }
-
-export default HeaderTop;
