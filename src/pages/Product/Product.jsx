@@ -29,8 +29,8 @@ export default function Product() {
 
     const fetchProduct = () => axios.get(`https://java.pero-nn.ru/api/public/get_sneaker/${params.id}`);
 
-    const [product, loadingProduct, errorProduct] = useRequest(fetchProduct, 'item');
-    const [items, loadingItems, errorItems] = useRequest(fetchItems, 'items');
+    const [product, errorProduct, loadingProduct] = useRequest(fetchProduct, 'item');
+    const [items, errorItems, loadingItems] = useRequest(fetchItems, 'items');
 
 
     return (
@@ -52,7 +52,7 @@ export default function Product() {
                 ) : (
                     <>
                         <SneakerInfo {...product}/> 
-                        {!!(items && !errorItems && !loadingItems) && (
+                        {(items && !errorItems && !loadingItems && items.length !== 0) && (
                             <div className="extra-goods">
                                 <h4 className="extra-goods__title">Смотрите также:</h4> 
                                 <Slider {...settings}>

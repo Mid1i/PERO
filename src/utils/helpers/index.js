@@ -1,6 +1,14 @@
-import { toFormatPrice, toFormatBrand, toFormatBrandForRequest, toFormatTitle } from "./formatter";
-import { imageImport } from "./imageImport";
-import { validatePriceInput } from "./validation";
-import { getRandomNumber } from './randomNumber';
+import {toFormatBrand, toFormatBrandForRequest, toFormatPrice, toFormatTitle} from "./formatters";
+import {validatePriceInput} from "./validators";
+import {getRandomNumber} from './randomNumber';
+import {imageImport} from "./imageImport";
 
-export { toFormatPrice, toFormatBrand, toFormatBrandForRequest, toFormatTitle, imageImport, validatePriceInput, getRandomNumber };
+export { 
+    getRandomNumber, 
+    imageImport, 
+    toFormatBrand, 
+    toFormatBrandForRequest, 
+    toFormatPrice, 
+    toFormatTitle, 
+    validatePriceInput, 
+};

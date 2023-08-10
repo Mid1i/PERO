@@ -1,6 +1,10 @@
-import React from "react";
+import {createContext} from "react";
 
-const appContext = React.createContext({});
-const catalogContext = React.createContext({});
 
-export { appContext, catalogContext };
+const appContext = createContext({});
+const catalogContext = createContext({});
+
+export { 
+    appContext, 
+    catalogContext, 
+};

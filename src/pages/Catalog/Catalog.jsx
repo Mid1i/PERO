@@ -3,9 +3,10 @@ import {useContext, useEffect, useState} from "react";
 import {TailSpin} from "react-loader-spinner";
 import queryString from "query-string";
 import classNames from 'classnames';
+import axios from 'axios';
 
 import {appContext, catalogContext} from "@services/Context";
-import {useCatalogRequest, useScroll} from "@hooks";
+import {useCatalogRequest, useRequest, useScroll} from "@hooks";
 import {filters} from "@utils/constants";
 import {
     EmptyContent, 
@@ -18,7 +19,6 @@ import {
     SneakerCard, 
     Sorting
 } from "@components";
-
 
 import "./Catalog.style.scss";
 
@@ -33,9 +33,6 @@ export default function Catalog() {
     const [link, setLink] = useState([]);
     const [openedFilters, setOpenedFilters] = useState('');
     const [params, setParams] = useState([]);
-    
-    const [items, loading, amount, colors, colorsLoading, fetching, error, colorsError] = useCatalogRequest(params);
-
     
     const {search} = useLocation();
 
@@ -60,6 +57,8 @@ export default function Catalog() {
         searchParams.search && onChangeLink('search', searchParams.search);
     }, [search])
 
+
+    const fetchColors = () => axios.get('https://java.pero-nn.ru/api/public/get_colors');
 
     const formLink = () => `${link.map(item => `${Object.keys(item)}=${item[Object.keys(item)]}`).join('&')}`;
 
@@ -92,11 +91,11 @@ export default function Catalog() {
 
         link.length !== 0 ? navigate(`/catalog/?${formLink()}`) : navigate(`/catalog/`);
     }
-
+    
     const filtersRender = () => {
         return (
             <>
-                {(!colorsLoading && !colorsError) && filters.map((filter, index) => (
+                {filters.map((filter, index) => (
                         <MainFilters                                
                             {...filter}
                             elements={filter.id === 'colors' ? colors : filter.elements}
@@ -109,9 +108,21 @@ export default function Catalog() {
         );
     }
 
+    const [items, loading, amount, fetching, error] = useCatalogRequest(search);
+    const [colors, errorColors, loadingColors] = useRequest(fetchColors, 'colors');
+
+    const contextData = {
+        emptyLink, 
+        formLink, 
+        onChangeLink, 
+        openedFilters, 
+        params, 
+        setOpenedFilters,
+    };
+    
     
     return (
-        <catalogContext.Provider value={{emptyLink, formLink, onChangeLink, openedFilters, params, setOpenedFilters}}>
+        <catalogContext.Provider value={{...contextData}}>
             <HeaderTop pageToLink={'/'} pageToLinkName={'Главная'}/>
             <SearchBar onCancel={true}/>
             <div className="content">
@@ -123,7 +134,7 @@ export default function Catalog() {
                     <div className="catalog__filters">
                         <Sorting />
                         <div className="catalog__filters-items filters-items">
-                            {filtersRender()}
+                            {(!loadingColors && !errorColors && colors) && filtersRender()}
                         </div>
                         <div className="catalog__filters-mobile">
                             <div className="filters-mobile" onClick={() => setIsOpen(prev => !prev)}>
@@ -154,7 +165,7 @@ export default function Catalog() {
                                         )}
                                     </div>
                                     <div className="filters-menu__items">
-                                        {filtersRender()}
+                                        {(!loadingColors && !errorColors && colors) && filtersRender()}
                                     </div>
                                     <button className="filters-menu__btn btn" onClick={() => onCloseFilters()}>
                                         {link.length === 0 ? 'Показать все товары' : 'Применить'}

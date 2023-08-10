@@ -1,6 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
+// import {installPWA} from "../../serviceWorker";
 import {useRequest, useScroll} from "@hooks";
 import { 
     Brands, 
@@ -21,10 +22,10 @@ export default function Home() {
 
     useScroll();
 
-    
-    const fetchItems = () => axios.get('https://java.pero-nn.ru/api/public/get_popular_sneakers?page=0&size=15');
 
-    const [items, loading, error] = useRequest(fetchItems, 'items');
+    const fetchItems = () => axios.get('https://java.pero-nn.ru/api/public/get_sneakers?page=0&size=15&isPopular=true');
+
+    const [items, error, loading] = useRequest(fetchItems, 'items');
 
 
     return (
@@ -32,16 +33,17 @@ export default function Home() {
             <HeaderTop />
             <SearchBar />
             <Brands />
-
+            
             <div className="content content--home">
                 <GoodsSlider />
                 <div className="goods">
+                    {/*<button className="add-button" onClick={() => installPWA()}>click</button>*/}
                     <div className="goods__title">
                         <h4 className="goods__title-left">Наиболее популярные</h4>
                         <h5 className="goods__title-right" onClick={() => navigate('/catalog/')}>Больше кроссовок</h5>
                     </div>
                     <div className="goods__content">
-                        {loading ? <LoadingCard /> : ((!items || error) ? (
+                        {loading ? <LoadingCard /> : ((!items || error || items.length === 0) ? (
                             <EmptyContent 
                                 title='Пока что все распродано'
                                 text='Но в ближайшее время ожидаются крупные поставки!'

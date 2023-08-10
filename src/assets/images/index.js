@@ -1,5 +1,6 @@
 import backArrow from "./icons/back-arrow.svg";
 import blackCross from "./icons/black-cross.svg";
+import blueCheck from "./icons/blue-check-icon.svg";
 import cardHeartDefault from "./icons/card-heart-default.svg";
 import cardHeartLiked from "./icons/card-heart-liked.svg";
 import checkIcon from "./icons/check-icon.svg";
@@ -17,6 +18,7 @@ import whiteCross from "./icons/white-cross.svg";
 export {
     backArrow,
     blackCross,
+    blueCheck,
     cardHeartDefault,
     cardHeartLiked,
     checkIcon,

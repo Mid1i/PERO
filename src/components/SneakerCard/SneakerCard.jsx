@@ -8,7 +8,7 @@ import "./SneakerCard.style.scss";
 
 import {cardHeartDefault as heartDefault, cardHeartLiked as heartLiked} from "@assets/images";
 
-//TODO: изменить верстку слайдера и добавить при  отсутствии фото
+//TODO: изменить верстку слайдера
 
 export default function SneakerCard({id, preview, brand, name, price}) {
     const {isInFavourites, onAddToFavourites} = useContext(appContext);

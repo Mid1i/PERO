@@ -16,7 +16,7 @@ export default function Sorting() {
     const [sort, setSort] = useState('По популярности');
 
     const navigate = useNavigate();
-   
+
 
     useEffect(() => {
         if (sorting.values.includes(params['sort'])) {

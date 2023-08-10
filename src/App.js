@@ -9,7 +9,7 @@ import {Home, Catalog, Product} from "@pages";
 
 export default function App() {
     const [isMale, setIsMale] = useState(true);
-
+    
     const [searchValue, setSearchValue] = useState('');
 
     const [cartItems, setCartItems] = useState([]);
@@ -57,9 +57,19 @@ export default function App() {
 
     const isInFavourites = async (id) => likedItems.includes(id);
     
+    const contextData = {
+        isMale, 
+        isInFavourites, 
+        onAddToFavourites, 
+        onAddToCart, 
+        setIsMale, 
+        searchValue, 
+        setSearchValue,
+    };
+
 
     return (
-        <appContext.Provider value={{isMale, isInFavourites, onAddToFavourites, onAddToCart, setIsMale, searchValue, setSearchValue}}>
+        <appContext.Provider value={{...contextData}}>
             <Routes>
                 <Route path='/' element={<Home />}></Route>
                 <Route path='/catalog/:filters?' element={<Catalog />}></Route>

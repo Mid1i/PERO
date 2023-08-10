@@ -71,17 +71,22 @@
 
         overflow-y: scroll;
         position: absolute;
+        opacity: 0;
+        visibility: hidden;
         top: 0px;
         right: -100%;
 
-        transition: right 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
 
         height: 100%;
         width: 384px;
         z-index: 4;
 
         &.active {
-            right: 0px;        
+            visibility: visible;
+            opacity: 1;
+            
+            right: 0px;
         }
 
         &-title {
