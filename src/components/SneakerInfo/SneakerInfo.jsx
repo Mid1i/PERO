@@ -28,6 +28,10 @@ export default function Sneaker({brand, color, description, id, images, name, pr
 
 
     useEffect(() => {
+        setCurrentImage(preview);
+    }, [preview])
+
+    useEffect(() => {
         popupImage ? document.body.classList.add("no-scroll") : document.body.classList.remove("no-scroll");
     }, [popupImage])
 

@@ -6,17 +6,17 @@ import image3 from "@assets/images/slider-images/3.jpg";
 export const goodsSliderData = [
     {
         id: 1,
-        title: 'Adidas - EQT Bask ADV "Grey Two"', 
+        title: 'New level in Style and Comfort',
         image: image1,
     },
     {
         id: 2,
-        title: 'Air Jordan - 1 Retro High Vachetta', 
+        title: 'Move more, Move better', 
         image: image2,
     },
     {
         id: 3,
-        title: 'Air Jordan - 1 Retro High OG',
+        title: "Results don't lie",
         image: image3,
     }
 ];
@@ -33,48 +33,4 @@ export const goodsSliderSettings = {
     swipe: false,
     className: "slider",
     waitForAnimation: true
-}
-
-export const similarItemsSliderSettings = {
-    arrows: true,
-    dots: false,
-    easing: 'linear',
-    slidesToShow: 4,
-    speed: 600,
-    swipe: true,
-    infinite: false,
-    className: "extra-goods__slider",
-    waitForAnimation: true,
-    responsive: [
-        {
-            breakpoint: 1200,
-            settings: {
-                slidesToShow: 3
-            }
-        },
-        {
-            breakpoint: 850,
-            settings: {
-                slidesToShow: 2
-            }
-        },
-        {
-            breakpoint: 620,
-            settings: {
-                slidesToShow: 3
-            }
-        },
-        {
-            breakpoint: 470,
-            settings: {
-                slidesToShow: 2
-            }
-        },
-        {
-            breakpoint: 320,
-            settings: {
-                slidesToShow: 1
-            }
-        }
-    ]
 }

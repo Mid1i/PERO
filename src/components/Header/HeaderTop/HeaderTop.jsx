@@ -6,7 +6,7 @@ import {imageImport, toFormatBrandForRequest} from "@utils/helpers";
 import {appContext} from "@services/Context";
 import {brands} from "@utils/constants";
 
-import mainLogo  from "@assets/images/logo/shop-logo.png";
+import mainLogo  from "@assets/images/logo/shop-logo.svg";
 
 import "./HeaderTop.style.scss";
 

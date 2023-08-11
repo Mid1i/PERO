@@ -1,5 +1,5 @@
 .extra-goods {
-    flex: 0 0 440px;
+    flex: 0 0 470px;
     padding: 0px 30px;
 
     overflow: hidden;
@@ -7,7 +7,7 @@
     margin-bottom: 20px;
     
     max-width: 1280px;
-    height: 440px;
+    height: 470px;
     width: 100%;
 
     &__title {
@@ -18,55 +18,28 @@
     }
     
     &__slider {
+        display: flex;
+
+        overflow-x: overlay;
         position: relative;
+        
+        padding: 10px;
 
-        height: 100%;
         width: 100%;
-
-        & .slick-arrow {
-            border-radius: 100px;
-
-            height: 40px;
-            width: 40px;
-        
-            &.slick-prev {
-                background: url("../../assets/images/icons/slider-prev-arrow.svg") center center no-repeat, #FFFFFF;
-                background-size: 30px 30px;
-        
-                left: 20px;
-            }
-        
-            &.slick-next {
-                background: url("../../assets/images/icons/slider-next-arrow.svg") center center no-repeat, #FFFFFF;
-                background-size: 30px 30px;
-        
-                right: 30px;
-            }
-        }
     }
 
-    & .goods-item:hover {
-        box-shadow: none !important;
-        transform: none !important;
+    & .goods-item {
+        margin-right: 20px;
     }
-}
-
-.slick-arrow {
-    font-size: 0px;
-
-    position: absolute;
-    top: 50%;
-
-    transform: translateY(-50%);
-    transition: opacity 0.2s ease-in-out;
-    opacity: 0.5;
-
-    z-index: 2;
 }
 
 @media(hover: hover) {
     .slick-arrow:hover {
         opacity: 1;
+    }
+
+    .extra-goods .goods-item:hover {
+        box-shadow: none !important;
     }
 }
 
@@ -122,9 +95,9 @@
 
 @media(max-width: 620px) {
     .extra-goods {
-        flex: 0 0 240px;
+        flex: 0 0 250px;
 
-        height: 240px;
+        height: 250px;
     }
 }
 

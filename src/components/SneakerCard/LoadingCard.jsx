@@ -1,9 +1,10 @@
+import classNames from "classnames";
 import ContentLoader from "react-content-loader";
 
-export default function LoadingCard() {
+export default function LoadingCard({className=''}) {
     return (
         [...Array(15)].map((item, index) => (
-            <div className="goods-item" key={index}>
+            <div className={classNames("goods-item", className && "goods-item--margins")} key={index}>
                 <ContentLoader 
                     speed={2}
                     width={window.innerWidth > 610 ? 280 : 145}

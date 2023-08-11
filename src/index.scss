@@ -1,44 +1,10 @@
-@font-face {
-    font-family: 'Guminert';
-    font-weight: 400;
-    font-style: normal;
-    src:
-        url('./assets/fonts/Guminert-Regular/Guminert-Regular.woff2') format('woff2'),
-        url('./assets/fonts/Guminert-Regular/Guminert-Regular.woff') format('woff');
-}
-
-@font-face {
-    font-family: 'Guminert';
-    font-weight: 500;
-    font-style: normal;
-    src:
-        url('./assets/fonts/Guminert-Medium/Guminert-Medium.woff2') format('woff2'),
-        url('./assets/fonts/Guminert-Medium/Guminert-Medium.woff') format('woff');
-}
-
-@font-face {
-    font-family: 'Guminert';
-    font-weight: 600;
-    font-style: normal;
-    src:
-        url('./assets/fonts/Guminert-SemiBold/Guminert-SemiBold.woff2') format('woff2'),
-        url('./assets/fonts/Guminert-SemiBold/Guminert-SemiBold.woff') format('woff');
-}
-
-@font-face {
-    font-family: 'Guminert';
-    font-weight: 700;
-    font-style: normal;
-    src:
-        url('./assets/fonts/Guminert-Bold/Guminert-Bold.woff2') format('woff2'),
-        url('./assets/fonts/Guminert-Bold/Guminert-Bold.woff') format('woff');
-}
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap');
 
 body {
     background: #E5E3E0;
     color: #212121;
 
-    font-family: "Guminert", sans-serif;
+    font-family: "Raleway", sans-serif;
     font-size: 14px;
     font-weight: 400;
 
@@ -151,7 +117,7 @@ body {
         margin-top: 0px;
         
         &--home {
-            margin-top: 20px;
+            margin-top: 15px;
         }
     }
 

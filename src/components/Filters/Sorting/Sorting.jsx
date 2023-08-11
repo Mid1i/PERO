@@ -21,18 +21,20 @@ export default function Sorting() {
     useEffect(() => {
         if (sorting.values.includes(params['sort'])) {
             setSort(sorting.elements[sorting.values.indexOf(params['sort'])]);
-            onChangeLink(sorting.values[sorting.elements.indexOf(params['sort'])]);
+            onChangeLink('sort', params['sort']);
         } else {
             setSort('По популярности');
+            onChangeLink('sort', '');
         }
     }, [params]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     const onChangeSort = (element) => {
         if (formLink() && element) {
-            return `/catalog/?${formLink()}&sort=${element}`;
+            const link = formLink().split('&').filter(obj => !(obj.includes('sort'))).join('&');
+            return `/catalog/?${link}${link.length > 0 ? `&sort=${element}` : `sort=${element}`}`;
         } else if (formLink()) {
-            return `/catalog/?${formLink()}`;
+            return `/catalog/?${formLink().split('&').filter(obj => !(obj.includes('sort'))).join('&')}`;
         } else if (element) {
             return `/catalog/?sort=${element}`;
         } else {

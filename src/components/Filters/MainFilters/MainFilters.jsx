@@ -80,7 +80,7 @@ export default function MainFilters({id, title, elements, values = elements}) {
                                 onClick={() => onChangeFilter(values[index])} 
                                 key={index}
                             >
-                                <p className="list-wrapper__el-text">{filter}</p>
+                                <p className={classNames("list-wrapper__el-text", id === 'sizes' && "list-wrapper__el-text--num")}>{filter}</p>
                                 {!!filters.find(obj => obj === values[index]) && <img 
                                                                                     className="list-wrapper__el-icon"
                                                                                     alt=""

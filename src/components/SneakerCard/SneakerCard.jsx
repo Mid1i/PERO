@@ -1,4 +1,5 @@
 import {useNavigate} from "react-router-dom";
+import classNames from "classnames";
 import {useContext} from "react";
 
 import {appContext} from "@services/Context";
@@ -8,15 +9,14 @@ import "./SneakerCard.style.scss";
 
 import {cardHeartDefault as heartDefault, cardHeartLiked as heartLiked} from "@assets/images";
 
-//TODO: изменить верстку слайдера
 
-export default function SneakerCard({id, preview, brand, name, price}) {
+export default function SneakerCard({id, preview, brand, name, price, className=''}) {
     const {isInFavourites, onAddToFavourites} = useContext(appContext);
     const navigate = useNavigate();
     
     
     return (
-        <div className="goods__content-item goods-item">
+        <div className={classNames("goods__content-item goods-item", className && "goods-item--margins")}>
             <img 
                 alt={isInFavourites(id) ? 'dislike' : 'like'} 
                 className="goods-item__icon"

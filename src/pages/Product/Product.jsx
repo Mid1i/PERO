@@ -1,9 +1,9 @@
+import useDraggableScroll from "use-draggable-scroll";
 import {TailSpin} from "react-loader-spinner";
 import {useParams} from "react-router-dom";
-import Slider from "react-slick";
+import {useRef} from "react";
 import axios from "axios";
 
-import {similarItemsSliderSettings as settings} from "@utils/constants";
 import {getRandomNumber} from "@utils/helpers";
 import {useRequest, useScroll} from "@hooks";
 import { 
@@ -21,6 +21,8 @@ import "./Product.style.scss";
 
 export default function Product() {
     const params = useParams();
+    const slider = useRef(null);
+    const {onMouseDown} = useDraggableScroll(slider);
     
     useScroll();
 
@@ -54,8 +56,8 @@ export default function Product() {
                         <SneakerInfo {...product}/> 
                         {(items && !errorItems && !loadingItems && items.length !== 0) && (
                             <div className="extra-goods">
-                                <h4 className="extra-goods__title">Смотрите также:</h4> 
-                                <Slider {...settings}>
+                                <h4 className="extra-goods__title">Смотрите также:</h4>
+                                <div className="extra-goods__slider" ref={slider} onMouseDown={onMouseDown}>
                                     {items.filter(item => item.id !== product.id).map((item) => (
                                             <SneakerCard 
                                                 {...item} 
@@ -63,7 +65,7 @@ export default function Product() {
                                             />
                                         )
                                     )}
-                                </Slider>
+                                </div>
                             </div>
                         )}
                     </>

@@ -33,7 +33,7 @@ export default function App() {
     }, [search])
     
 
-    const onAddToCart = async (id) => {
+    const onAddToCart = (id) => {
         if (cartItems.find(obj => obj.id === id)) {
             const amount = cartItems.find(obj => obj.id === id).amount;
             setCartItems(prev => prev.filter(obj => obj.id !== id));
@@ -45,7 +45,7 @@ export default function App() {
         }
     }
     
-    const onAddToFavourites = async (id) => {
+    const onAddToFavourites = (id) => {
         if (likedItems.find(obj => Number(obj) === Number(id))) {
             setLikedItems(prev => prev.filter(obj => Number(obj) !== Number(id)));
             localStorage.setItem("favourites", JSON.stringify(likedItems.filter(obj => Number(obj) !== Number(id))));
@@ -54,8 +54,8 @@ export default function App() {
             localStorage.setItem("favourites", JSON.stringify([...likedItems, id]));
         }
     }
-
-    const isInFavourites = async (id) => likedItems.includes(id);
+    
+    const isInFavourites = (id) => likedItems.includes(id);
     
     const contextData = {
         isMale, 

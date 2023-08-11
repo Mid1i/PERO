@@ -16,7 +16,9 @@
         border-bottom: 1px solid #212121;
 
         color: #212121;
+        font-family: "Oswald", sans-serif;
         font-size: 18px;
+        font-weight: 500;
 
         padding: 0px 10px;
 
@@ -26,6 +28,8 @@
         &::placeholder {
             color: #212121;
             font-size: 14px;
+            font-family: "Raleway", sans-serif;
+            font-weight: 400;
         }
 
         &::-webkit-outer-spin-button,

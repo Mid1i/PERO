@@ -66,7 +66,15 @@ export default function Catalog() {
         let len = 0;
         link.map(item => len += String(item[Object.keys(item)[0]]).split(',').length);
 
-        return params['search'] ? len - 1 : len;
+        if (params['search'] && params['sort']) {
+            return len - 3;
+        } else if (params['sort']) {
+            return len - 2;
+        } else if (params['search']) {
+            return len - 1;
+        } else {
+            return len;
+        }
     }
 
     const onCancelFilters = () => {
@@ -77,11 +85,11 @@ export default function Catalog() {
     }
 
     const onChangeLink = (id, item) => {
-        if (item && item !== "") {
+        if (item && item !== '') {
             setLink(prev => [...prev.filter(el => !Object.keys(el).includes(id)), {[id]: item}]);
-            (id === "fromPrice" && item < 3000) && setLink(prev => [...prev.filter(el => !Object.keys(el).includes(id)), {[id]: 3000}]);
-            (id === "toPrice" && item > 50000) && setLink(prev => [...prev.filter(el => !Object.keys(el).includes(id)), {[id]: 50000}]);
-        } else if (item === "") {
+            (id === 'fromPrice' && item < 3000) && setLink(prev => [...prev.filter(el => !Object.keys(el).includes(id)), {[id]: 3000}]);
+            (id === 'toPrice' && item > 50000) && setLink(prev => [...prev.filter(el => !Object.keys(el).includes(id)), {[id]: 50000}]);
+        } else if (item === '') {
             setLink(prev => [...prev.filter(el => !Object.keys(el).includes(id))]);
         }
     }
@@ -189,6 +197,7 @@ export default function Catalog() {
                                 />
                             ) : items.map((item) => (
                                     <SneakerCard 
+                                        className='margin'
                                         key={item.id}
                                         {...item}
                                     />

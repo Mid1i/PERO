@@ -10,7 +10,7 @@
     display: flex !important;
     justify-content: center;
 
-    margin: 20px 0px;
+    margin: 10px 0px;
 
     & li button {
         background: #E5E3E0;
@@ -30,63 +30,42 @@
 
 .slider {
     margin-top: -10px;
-    padding: 0px 10px;
 
     position: relative;
     overflow: hidden;
     
-    max-width: 1920px;
-    height: auto;
+    max-width: 1600px;
+    height: 380px;
     width: 100%;
 
     &__section {
         position: relative;
 
-        max-width: 100%;
-
         &-item {
-            height: 800px;
+            height: 350px;
             width: 100%;
         }
     }
 
     &-item {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+
+        background-position: center center;
         background-size: cover;
         border: 5px solid #F3F3F3;
         border-radius: 20px;
     
-        display: flex;
-        flex-direction: column;
-    
-        padding: 40px 50px 50px;
-    
         position: relative;
-    
-        &__subtitle {
-            color: #7A7B7E;
-            font-size: 24px;
-        }
-    
+
         &__title {
             color: #FFFFFF;
             font-size: 48px;
             font-weight: 700;
-            text-shadow: -1px 0 #000000, 0 1px #000000, 1px 0 #000000, 0 -1px #000000;
-    
-            flex: 1 0 auto;
-    
-            margin-top: 25px;
-        }
-    
-        &__btn {
-            font-size: 32px;
-    
-            text-align: center;
-    
-            height: 70px;
-            width: 310px;
-    
-            z-index: 1;
+
+            text-shadow: 3px 3px #000000;
+            text-transform: uppercase;
         }
     
         &__sign {
@@ -105,36 +84,30 @@
     }
 }
 
-@media(max-width: 1280px) {
-    .slider__section-item {
-        height: 700px;
+@media(max-width: 1600px) {
+    .slider-item {
+        border-radius: 0px;
+        border: 2px solid #E5E3E0;
+        border-left: none;
+        border-right: none;
     }
 }
 
 @media(max-width: 1100px) {
-    .slider__section-item {
-        height: 600px;
-    }
-
     .slider-item__title {
         font-size: 38px;
-    }
-
-    .slider-item__btn {
-        font-size: 28px;
-
-        height: 60px;
-        width: 270px;
-    }
-}
-
-@media(max-width: 900px) {
-    .slider__section-item {
-        height: 500px;
     }
 }
 
 @media(max-width: 767px) {
+    .slider {
+        height: 280px;
+
+        &__section-item {
+            height: 250px;
+        }
+    }
+
     .slick-dots {
         margin: 5px 0px;
         
@@ -143,66 +116,30 @@
         }
     }
 
-    .slider__section-item {
-        height: 400px;
-    }
-
-    .slider-item {
-        padding: 20px 30px 30px;
-
-        &__title {
-            font-size: 30px;
-        }
-
-        &__btn {
-            font-size: 24px;
-
-            height: 50px;
-            width: 220px;
-        }
+    .slider-item__title {
+        font-size: 30px;
     }
 }
 
 @media(max-width: 600px) {
-    .slider__section-item {
-        height: 250px;
+    .slider-item__title {
+        font-size: 24px;
     }
+}
 
-    .slider-item {
-        padding: 10px 15px 15px;
+@media(max-width: 500px) {
+    .slider {
+        height: 180px;
 
-        &__subtitle {
-            font-size: 20px;
-        }
-
-        &__title {
-            font-size: 24px;
-
-            margin-top: 15px;
-        }
-
-        &__btn {
-            font-size: 18px;
-
-            height: 40px;
-            width: 160px;
+        &__section-item {
+            height: 150px;
         }
     }
 }
 
 @media(max-width: 460px) {
-    .slider-item__subtitle {
-        font-size: 14px;  
-    }
     .slider-item__title {
         font-size: 18px;
-    }
-
-    .slider-item__btn {
-        font-size: 14px;
-
-        height: 30px;
-        width: 100px;
     }
 
     .slider-item__sign {
@@ -217,16 +154,8 @@
 }
 
 @media(max-width: 400px) {
-    .slider__section-item {
-        height: 180px;
-    }
-
-    .slider-item {
-        padding: 10px 15px 15px;
-
-        &__title {
-            font-size: 16px;
-        }
+    .slider-item__title {
+        font-size: 16px;
     }
 }
 

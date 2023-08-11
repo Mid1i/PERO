@@ -24,6 +24,8 @@
             background: #ffffff;
             border-radius: 100px;
 
+            transition: all 0.1s ease-in-out;
+
             height: 80px;
             width: 80px;
 
@@ -62,7 +64,7 @@
 
 @media(max-width: 767px) {
     .brands__item {
-        min-width: 72px;
+        min-width: 80px;
 
         &-image {
             height: 60px;
@@ -76,7 +78,7 @@
     }
 }
 
-@media(max-width: 630px) {
+@media(max-width: 670px) {
     .brands {
         flex: 0 0 110px;
 

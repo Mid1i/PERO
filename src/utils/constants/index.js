@@ -1,7 +1,7 @@
 import {brands} from "./brands";
 import {filters, sorting} from "./filters";
 import {footerTitles , footerElements} from "./footer";
-import {goodsSliderData, goodsSliderSettings, similarItemsSliderSettings} from "./slider";
+import {goodsSliderData, goodsSliderSettings} from "./slider";
 
 
 export { 
@@ -10,7 +10,6 @@ export {
     footerTitles, 
     footerElements, 
     goodsSliderData, 
-    goodsSliderSettings, 
-    similarItemsSliderSettings, 
+    goodsSliderSettings,
     sorting, 
 };
