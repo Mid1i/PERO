@@ -1,60 +1,65 @@
 .goods-item {
     background: #FFFFFF;
-    border-radius: 50px;
+    border-radius: 20px;
 
     cursor: pointer;
 
     display: flex;
     flex-direction: column;
 
+    margin: 0px 12px 20px;
     padding: 10px;
 
     position: relative;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.1s linear;
 
-    height: 390px;
-    width: 280px;
-
-    &--margins {
-        margin-bottom: 20px;
-        margin-right: 10px;
-    }
+    max-width: 320px;
 
     &__icon {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+
+        background: #212121;
+        border-radius: 100px;
+
         position: absolute;
         right: 25px;
         top: 25px;
 
         height: 40px;
         width: 40px;
+
+        & svg path {
+            transition: all 0.1s linear;
+        }
     }
 
     &__image {
-        border-radius: 50px;
+        border-radius: 10px;
 
         pointer-events: none;
 
-        height: 280px;
-        width: 260px;
+        height: 325px;
+        width: 100%;
     }
 
     &__title {
         color: #828282;
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 600;
 
-        margin: 20px 0px;
-        padding: 0px 10px;
+        margin: 15px 0px 20px;
 
-        text-overflow: ellipsis;
         overflow: hidden;
-        white-space:nowrap
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     &__price {
         font-family: "Oswald", sans-serif;
         font-size: 24px;
-        font-weight: 600;
+        font-weight: 700;
 
         text-align: center;
     }
@@ -62,128 +67,44 @@
 
 @media(hover: hover) {
     .goods-item:hover {
-        box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.241);
-        transform: scale(1.02);
+        box-shadow: 2px 0px 44px 5px rgba(171, 171, 171, 0.2);
+        transform: scale(1.01);
         z-index: 1;
     }
 }
 
-@media(max-width: 1600px) {
-    .goods-item--margins {
-        margin-right: 40px;
-    }
-}
-
-@media(max-width: 1400px) {
-    .goods-item--margins {
-        margin-right: 20px;
-    }
-}
-
-@media(max-width: 1370px) {
-    .goods-item--margins {
-        margin-bottom: 30px;
-    }
-}
-
-@media(max-width: 1320px) {
-    .goods-item--margins {
-        margin-right: 30px;
-    }
-}
-
-@media(max-width: 970px) {
-    .goods-item--margins {
-        margin-right: 10px;
-    }
-}
-
-@media(max-width: 910px) {
-    .goods-item--margins {
-        margin-left: 25px;
-        margin-right: 25px;
-    }
-}
-
 @media(max-width: 767px) {
-    .goods-item--margins {
-        margin-bottom: 20px;
-    }
-}
-
-@media(max-width: 700px) {
-    .goods-item--margins {
-        margin-left: 5px;
-        margin-right: 5px;
-    }
-}
-
-@media(max-width: 620px) {
     .goods-item {
-        border-radius: 5px;
-
-        padding: 5px;
-
-        height: 190px;
-        width: 145px;
-
-        &__icon {
-            top: 10px;
-            right: 10px;
-
-            height: 26px;
-            width: 26px;
-        }
+        width: 260px;
 
         &__image {
-            border-radius: 5px;
-
-            height: 140px;
-            width: 135px;
+            height: 250px;
         }
 
         &__title {
-            font-size: 14px;
-
-            margin: 5px 0px; 
-            padding: 0px;
+            font-size: 18px;
         }
 
         &__price {
-            font-size: 14px;
+            font-size: 20px;
         }
-    }
-}
-
-@media(max-width: 505px) {
-    .goods-item--margins {
-        margin-left: 10px;
-        margin-right: 10px;
     }
 }
 
 @media(max-width: 400px) {
-    .goods-item--margins {
-        margin-bottom: 10px;
-    }
-}
+    .goods-item {
+        width: 200px;
 
-@media(max-width: 350px) {
-    .goods-item--margins {
-        margin-left: 5px;
-        margin-right: 5px;
-    }
-}
+        &__image {
+            height: 180px;
+        }
 
-@media(max-width: 330px) {
-    .goods-item--margins {
-        margin-left: 10px;
-        margin-right: 10px;
-    }
-}
+        &__title {
+            font-size: 16px;
+        }
 
-@media(max-width: 320px) {
-    .goods-item--margins {
-        margin-bottom: 20px;
+        &__price {
+            font-size: 18px;
+        }
     }
 }

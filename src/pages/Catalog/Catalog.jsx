@@ -1,13 +1,13 @@
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import {TailSpin} from "react-loader-spinner";
 import queryString from "query-string";
-import classNames from 'classnames';
-import axios from 'axios';
+import classNames from "classnames";
 
 import {appContext, catalogContext} from "@services/Context";
-import {useCatalogRequest, useRequest, useScroll} from "@hooks";
+import {fetchColors} from '@api';
 import {filters} from "@utils/constants";
+import {usePaginationRequest, useRequest, useScroll} from "@hooks";
 import {
     EmptyContent, 
     Footer, 
@@ -15,7 +15,8 @@ import {
     LoadingCard, 
     MainFilters, 
     PriceFilters, 
-    SearchBar, 
+    SearchBar,
+    SignPopup, 
     SneakerCard, 
     Sorting
 } from "@components";
@@ -38,7 +39,26 @@ export default function Catalog() {
 
     const navigate = useNavigate();
 
+    const {
+        data,
+        fetchNextPage,
+        isError,
+        isFetchingNextPage,
+        isLoading
+    } = usePaginationRequest(isMale, search);
+
+    const {data: colors, isError: isErrorColors, isLoading: isLoadingColors} = useRequest(fetchColors, 'colors');
+
     useScroll();
+
+
+    useEffect(() => {
+        window.addEventListener('scroll', scrollHandler);
+ 
+        return function() {
+            window.removeEventListener('scroll', scrollHandler);
+        }
+    })
 
     useEffect(() => {
         isOpen ? document.body.classList.add("no-scroll") : document.body.classList.remove("no-scroll");
@@ -57,8 +77,6 @@ export default function Catalog() {
         searchParams.search && onChangeLink('search', searchParams.search);
     }, [search])
 
-
-    const fetchColors = () => axios.get('https://java.pero-nn.ru/api/public/get_colors');
 
     const formLink = () => `${link.map(item => `${Object.keys(item)}=${item[Object.keys(item)]}`).join('&')}`;
 
@@ -116,8 +134,11 @@ export default function Catalog() {
         );
     }
 
-    const [items, loading, amount, fetching, error] = useCatalogRequest(search);
-    const [colors, errorColors, loadingColors] = useRequest(fetchColors, 'colors');
+    const scrollHandler = () => {
+        if (document.documentElement.scrollHeight - (document.documentElement.scrollTop + window.innerHeight) < 200 && !isLoading) {
+            fetchNextPage();
+        }
+    }
 
     const contextData = {
         emptyLink, 
@@ -126,7 +147,7 @@ export default function Catalog() {
         openedFilters, 
         params, 
         setOpenedFilters,
-    };
+    }
     
     
     return (
@@ -137,12 +158,12 @@ export default function Catalog() {
                 <div className="catalog">
                     <h2 className="catalog__title">
                         <span>{isMale ? 'Мужская обувь' : 'Женская обувь'}</span>
-                        <span>{amount !== 0 && `— ${amount}`}</span>
+                        <span>{!isLoading && (data.pages[0].amount !== 0 && `— ${data.pages[0].amount}`)}</span>
                     </h2>
                     <div className="catalog__filters">
                         <Sorting />
                         <div className="catalog__filters-items filters-items">
-                            {(!loadingColors && !errorColors && colors) && filtersRender()}
+                            {(!isLoadingColors && !isErrorColors) && filtersRender()}
                         </div>
                         <div className="catalog__filters-mobile">
                             <div className="filters-mobile" onClick={() => setIsOpen(prev => !prev)}>
@@ -173,7 +194,7 @@ export default function Catalog() {
                                         )}
                                     </div>
                                     <div className="filters-menu__items">
-                                        {(!loadingColors && !errorColors && colors) && filtersRender()}
+                                        {(!isLoadingColors && !isErrorColors) && filtersRender()}
                                     </div>
                                     <button className="filters-menu__btn btn" onClick={() => onCloseFilters()}>
                                         {link.length === 0 ? 'Показать все товары' : 'Применить'}
@@ -186,26 +207,25 @@ export default function Catalog() {
 
                 <div className="goods">
                     <div className="goods__content">
-                        {loading ? <LoadingCard /> : ((!items || error) ? (
+                        {isLoading ? <LoadingCard /> : (isError ? (
                                 <EmptyContent 
                                     title='Пока что все распродано'
                                     text='Но в ближайшее время ожидаются крупные поставки!'
                                 />
-                            ) : items.length === 0 ? (
+                            ) : (data.pages[0].page.content.length === 0) ? (
                                 <EmptyContent 
                                     title={params["search"] ? `По запросу  «${params['search']}» ничего не найдено` : 'Ничего не найдено'}
                                 />
-                            ) : items.map((item) => (
-                                    <SneakerCard 
-                                        className='margin'
+                            ) : data.pages.map(itemsPage => itemsPage.page.content.map(item => (
+                                    <SneakerCard
                                         key={item.id}
                                         {...item}
-                                    />
+                                    />)
                                 )
                             )   
                         )}
                     </div>
-                    {fetching && (
+                    {isFetchingNextPage && (
                             <div className="loader--catalog">
                                 <TailSpin ariaLabel='loading' color="#E47F46" height={80} width={80}/>
                             </div>
@@ -214,6 +234,8 @@ export default function Catalog() {
                 </div>
             </div>
             <Footer />
+
+            <SignPopup />
         </catalogContext.Provider>
     );
 }

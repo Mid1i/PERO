@@ -1,5 +1,5 @@
 .extra-goods {
-    flex: 0 0 470px;
+    flex: 0 0 auto;
     padding: 0px 30px;
 
     overflow: hidden;
@@ -7,7 +7,6 @@
     margin-bottom: 20px;
     
     max-width: 1280px;
-    height: 470px;
     width: 100%;
 
     &__title {
@@ -23,13 +22,13 @@
         overflow-x: overlay;
         position: relative;
         
-        padding: 10px;
+        padding-bottom: 10px;
 
         width: 100%;
     }
 
     & .goods-item {
-        margin-right: 20px;
+        margin-bottom: 0px;
     }
 }
 
@@ -43,14 +42,6 @@
     }
 }
 
-@media(max-width: 1280px) {
-    .extra-goods {
-        padding-right: 0px;
-
-        max-width: 100%;
-    }
-}
-
 @media(max-width: 1000px) {
     .extra-goods {
         padding-left: 20px;
@@ -58,11 +49,6 @@
 }
 
 @media(max-width: 910px) {
-    .extra-goods div {
-        margin-left: 0px !important;
-        margin-right: 20px;
-    }
-
     .extra-goods__slider .slick-slide {
         display: flex;
         justify-content: center;
@@ -73,37 +59,15 @@
     }
 }
 
-@media(max-width: 850px) {
-    .extra-goods div {
-        margin-left: 0px !important;
-        margin-right: 0px;
-    }
-}
-
 @media(max-width: 767px) {
     .extra-goods {
-        padding-left: 5px;
-        padding-right: 5px;
-
         margin-bottom: 120px;
-
-        &__title {
-            padding-left: 15px;
-        }
-    }
-}
-
-@media(max-width: 620px) {
-    .extra-goods {
-        flex: 0 0 250px;
-
-        height: 250px;
     }
 }
 
 @media(max-width: 500px) {
     .extra-goods {
-        margin-bottom: 70px;
+        margin-bottom: 90px;
 
         &__title {
             font-size: 14px;
@@ -127,7 +91,7 @@
 }
 
 @media(max-width: 400px) {
-    .extra-goods__title {
-        padding-left: 5px;
+    .extra-goods {
+        padding-left: 10px;
     }
 }

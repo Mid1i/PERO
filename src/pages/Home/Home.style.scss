@@ -12,16 +12,15 @@
         align-items: flex-end;
         display: flex;
         justify-content: space-between;
-        flex-wrap: wrap;
         
         margin-bottom: 50px;
-        padding-right: 40px;
+        padding: 0px 60px;
 
         width: 100%;
 
         &-left {
             font-size: 28px;
-            font-weight: 700;
+            font-weight: 600;
         }
 
         &-right {
@@ -31,15 +30,21 @@
 
             cursor: pointer;
 
-            text-decoration: underline;
+            transition: all 0.1s linear;
+
+            & svg {
+                visibility: hidden;
+                opacity: 0;
+                transition: all 0.1s linear; 
+            }
         }
     }
 
     &__content {
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
 
-        max-width: 1600px;
         width: 100%;
     }
 }
@@ -55,15 +60,20 @@
 
     &__male,
     &__female {
+        border-radius: 10px;
+
         cursor: pointer;
 
         position: relative;
+        overflow: hidden;
 
-        height: 750px;
-        width: 500px;
+        height: 800px;
+        width: 600px;
 
         & img {
-            border-radius: 10px;
+            pointer-events: none;
+
+            transition: all 0.1s linear; 
 
             height: 100%;
             width: 100%;
@@ -95,22 +105,36 @@
     }
 }
 
-@media(max-width: 1600px) {
-    .goods__title {
-        max-width: 1280px;
+@media(hover: hover) {
+    .goods__title-right:hover {
+        transform: translateX(-20px);
+
+        & svg {
+            visibility: visible;
+            opacity: 1;
+            transform: translateX(10px);
+        }
     }
-    .goods__content {
-        max-width: 1280px;
+
+    .gender__male:hover,
+    .gender__female:hover {
+        & img {
+            transform: scale(1.1);
+        }
     }
 }
 
-@media(max-width: 1320px) {
-    .goods__title {
-        max-width: 930px;
-        padding-right: 30px;
+@media(max-width: 1300px) {
+    .gender__male,
+    .gender__female {
+        border-radius: 0px;
+
+        height: auto;
+        width: 49%;
     }
-    .goods__content {
-        max-width: 930px;
+
+    .gender__male {
+        margin-right: 5px;
     }
 }
 
@@ -118,110 +142,38 @@
     .goods {
         padding: 0px 20px;
     }
-
-    .gender__male,
-    .gender__female {
-        height: 600px;
-        width: 400px;
-    }
-
-    .gender__male {
-        margin-right: 20px;
-    }
-}
-
-@media(max-width: 970px) {
-    .goods__title {
-        max-width: 870px;
-        padding-right: 10px;
-    }
-    .goods__content {
-        max-width: 870px;
-    }
-}
-
-@media(max-width: 910px) {
-    .goods__title {
-        max-width: 660px;
-        padding-right: 25px;
-    }
-    .goods__content {
-        max-width: 660px;
-    }
-}
-
-@media(max-width: 850px) {
-    .gender__male,
-    .gender__female {
-        height: 450px;
-        width: 300px;
-    }
-
-    .gender__male {
-        margin-right: 10px;
-    }
 }
 
 @media(max-width: 767px) {
     .goods__title {
-        margin-bottom: 20px;
-        margin-top: 10px;
+        margin-bottom: 30px;
 
         &-left {
-            font-size: 26px; 
+            font-size: 22px;
         }
 
         &-right {
-            font-size: 16px;
+            font-size: 20px;
         }
     }
-
-    .goods {
-        margin-bottom: 100px;
-
-        &--no-margin {
-            margin-bottom: 0px;
-        }
-    }
-
     .gender {
         margin-bottom: 100px;
     }
 }
 
-@media(max-width: 700px) {
+@media(max-width: 600px) {
     .goods__title {
-        max-width: 580px;
-        padding-right: 5px;
-    }
-    .goods__content {
-        max-width: 580px;
-    }
-}
+        align-items: center;
+        flex-direction: column;
 
-@media(max-width: 620px) {
-    .goods__title {
-        max-width: 465px;
+        margin-bottom: 20px;
+        padding: 0px;
 
         &-left {
-            font-size: 18px;
+            margin-bottom: 10px;
         }
+    }
     
-        &-right {
-            font-size: 16px;
-        }
-    }
-
-    .goods__content {
-        max-width: 465px;
-    }
-
-    .gender__male,
-    .gender__female {
-        height: 400px;
-        width: 250px;
-    }
-
     .gender__male-title {
         bottom: 15px;
         left: 15px;
@@ -237,88 +189,24 @@
     }
 }
 
-@media(max-width: 530px) {
-    .gender__male,
-    .gender__female {
-        height: 240px;
-        width: 180px;
-    }
-}
-
-@media(max-width: 505px) {
-    .goods__content {
-        max-width: 330px;
-    }
-}
-
 @media(max-width: 420px) {
-    .goods {
-        margin-bottom: 80px;
-
-        &--no-margin {
-            margin-bottom: 0px;
-        }
-    }
-
     .gender {
         margin-bottom: 80px;
     }
 }
 
 @media(max-width: 400px) {
-    .goods {
-        padding: 0px 10px;
-
-        &__title-left {
-            font-size: 14px;
-        }
-    
-        &__title-right {
-            font-size: 12px;
-        }
-    }
-
     .gender__male,
     .gender__female {
-        height: auto;
-        width: 48%;
+        border-radius: 5px;
 
         &-title {
             font-size: 18px;
         }
-
-        & img {
-            border-radius: 5px;
-        }
-    }
-
-    .gender__male {
-        margin-right: 5px;
-    }
-}
-
-@media(max-width: 350px) {
-    .goods__content {
-        max-width: 310px;
     }
 }
 
 @media(max-width: 330px) {
-    .goods__title {
-        align-items: center;
-        flex-direction: column;
-
-        &-left {
-            margin-bottom: 5px;
-        }
-    }
-
-    .goods__content {
-        justify-content: center;
-        
-        max-width: 100%;
-    }
-
     .goods__empty-title {
         font-size: 18px;
     }

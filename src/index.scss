@@ -100,7 +100,7 @@ body {
     pointer-events: auto;
     visibility: hidden;
     
-    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-out;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s linear;
 
     height: 100%;
     width: 100%;

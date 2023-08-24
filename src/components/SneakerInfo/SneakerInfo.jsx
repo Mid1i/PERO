@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {RWebShare} from "react-web-share";
 import classNames from "classnames";
 
-import {imageImport, toFormatPrice, toFormatBrand, toFormatBrandForRequest} from "@utils/helpers";
+import {imageImport, toFormatPrice, toFormatBrand, toFormatBrandForRequest, toFormatTitle} from "@utils/helpers";
 import {appContext} from "@services/Context";
 
 import "./SneakerInfo.style.scss";
@@ -13,9 +13,11 @@ import {backArrow, blackCross, blueCheck, sneakerHeartDefault, sneakerHeartLiked
 
 
 export default function Sneaker({brand, color, description, id, images, name, preview, price, sizes}) {
-    const {isInFavourites, onAddToFavourites, onAddToCart} = useContext(appContext);
+    const {isInFavorites, onAddToFavorites, onAddToCart} = useContext(appContext);
 
     const [popupImage, setPopupImage] = useState(false);
+    const [popupSizes, setPopupSizes] = useState(false);
+    const [popupSuccess, setPopupSuccess] = useState(false);
     const [zoomImage, setZoomImage] = useState(false);
     const [currentImage, setCurrentImage] = useState(preview);
     const [currentSize, setCurrentSize] = useState('');
@@ -32,32 +34,53 @@ export default function Sneaker({brand, color, description, id, images, name, pr
     }, [preview])
 
     useEffect(() => {
-        popupImage ? document.body.classList.add("no-scroll") : document.body.classList.remove("no-scroll");
-    }, [popupImage])
+        if (popupImage || popupSizes || popupSuccess) {
+            document.body.classList.add("no-scroll");
+        } else {
+            document.body.classList.remove("no-scroll");
+        }
+    }, [popupImage, popupSizes, popupSuccess])
 
 
-    const onBuyItem = () => currentSize !== "" ? onAddToCart(currentSize) : sizesBlockRender();
-
-    const sizesBlockRender = () => {
-        return (
-            <div className="sizes-block">
-                <img src={blackCross} alt="close" className="sizes-block__icon"/>
-                <h4 className="sizes-block__title">Выберите размер</h4>
-                <div className="sizes-block__items">
-                    {sizes.map(({sizeId, size}) => (
-                            <button 
-                                className={classNames(sizeId === currentSize && "active")}
-                                key={sizeId} 
-                                onClick={() => setCurrentSize(sizeId)} 
-                                >
-                                    {size}</button>
-                        )
-                    )}
-                </div>
-            </div>
-        )
+    const onBuyItem = () => {
+        if (currentSize !== '') {
+            onAddToCart(currentSize);
+            setPopupSuccess(prev => !prev);
+        } else {
+           setPopupSizes(prev => !prev);
+        }
     }
 
+    const onCloseSuccess = () => {
+        setPopupSuccess(prev => !prev);
+        setCurrentSize('');
+    }
+
+    const onClickSize = (isBuy, sizeId) => {
+        if (isBuy) {
+            onAddToCart(currentSize);
+            setCurrentSize(sizeId);
+            setPopupSizes(prev => !prev);
+            setPopupSuccess(prev => !prev);
+        } else if (sizeId === currentSize) {
+            setCurrentSize('');
+        } else {
+            setCurrentSize(sizeId);
+        }
+    }
+
+    const sizesRender = (isBuy) => {
+        return (
+            sizes.map(({sizeId, size}) => (
+                <button 
+                    className={classNames(sizeId === currentSize && "active")}
+                    key={sizeId} 
+                    onClick={() => onClickSize(isBuy, sizeId)} 
+                >
+                    {size}</button>)
+            )
+        )
+    }
     
     return (
         <>
@@ -71,16 +94,17 @@ export default function Sneaker({brand, color, description, id, images, name, pr
                             src={backArrow} 
                         />
                         <img 
-                            alt={isInFavourites(id) ? 'dislike' : 'like'}
+                            alt={isInFavorites(id) ? 'dislike' : 'like'}
                             className="product-left__icon" 
-                            onClick={() => onAddToFavourites(id)}
-                            src={isInFavourites(id) ? sneakerHeartLiked : sneakerHeartDefault} 
+                            onClick={() => onAddToFavorites(id)}
+                            src={isInFavorites(id) ? sneakerHeartLiked : sneakerHeartDefault} 
                         />
                         <img 
                             alt={name} 
                             className="product-left__image"
                             loading="lazy"
                             onClick={() => setPopupImage(prev => !prev)}
+                            title={name}
                             src={currentImage} 
                         />
                         <div className="product-left__images">
@@ -112,6 +136,7 @@ export default function Sneaker({brand, color, description, id, images, name, pr
                                 loading="lazy"
                                 onClick={() => navigate(`/catalog/?brands=${toFormatBrandForRequest(brand)}`)}
                                 src={brandsImages.filter(value => value.includes(toFormatBrand(brand).replace(' ', '-')))} 
+                                title={toFormatBrand(brand)}
                             />
                             <span>{toFormatBrand(brand)}</span>
                             <div className="product-right__subtitle-original">
@@ -122,17 +147,7 @@ export default function Sneaker({brand, color, description, id, images, name, pr
                         <p className="product-right__article">{`Арт. ${id}`}</p>
                         <p className="product-right__color">{`Цвет: ${color}`}</p>
                         <h5 className="product-right__text">Размер:</h5>
-                        <div className="product-right__sizes">
-                            {sizes.map(({sizeId, size}) => (
-                                    <button 
-                                        className={classNames(sizeId === currentSize && "active")}
-                                        key={sizeId} 
-                                        onClick={() => setCurrentSize(sizeId)} 
-                                    >
-                                        {size}</button>
-                                )
-                            )}
-                        </div>
+                        <div className="product-right__sizes">{sizesRender(false)}</div>
                         <div className="product-right__price">
                             <p className="product-right__price-text">{`${toFormatPrice(price)} ₽`}</p>
                             <button className="product-right__price-btn btn" onClick={() => onBuyItem()}>Купить</button>
@@ -173,6 +188,53 @@ export default function Sneaker({brand, color, description, id, images, name, pr
                     />
                 )}
                 <h6 className="modal__title">{name}</h6>
+            </div>
+
+            <div className={classNames("blackout sizes-block__blackout", (popupSizes || popupSuccess) && "active")}>
+                <div className={classNames("sizes-block", popupSizes && "active")}>
+                    <div className="sizes-block__top">
+                        <h4 className="sizes-block__top-title">Выберите размер</h4>
+                        <img 
+                            alt="close" 
+                            height={20}                               
+                            onClick={() => setPopupSizes(prev => !prev)} 
+                            src={blackCross} 
+                            width={20} 
+                        />
+                    </div>
+                    <div className="sizes-block__items">{sizesRender(true)}</div>
+                </div>
+
+                <div className={classNames("success", popupSuccess && "active")}>
+                    <div className="success__top">
+                        <h4 className="success__top-title">Товар добавлен в корзину</h4>
+                        <img 
+                            alt="close" 
+                            height={20}
+                            onClick={() => onCloseSuccess()} 
+                            src={blackCross} 
+                            width={20} 
+                        />
+                    </div>
+                    <div className="success__middle">
+                        <h6 className="success__middle-title">{`${toFormatTitle(brand)} - ${name}`}</h6>
+                        <p className="success__middle-price">{`${toFormatPrice(price)} ₽`}</p>
+                    </div>
+                    <p className="success__article">{`Арт. ${id}`}</p>
+                    <p className="success__size">{`Размер: ${sizes.find(obj => obj.sizeId === currentSize)?.size}`}</p>
+                    <div className="success__btns">
+                        <button 
+                            className="success__btns-continue btn" 
+                            onClick={() => onCloseSuccess()}
+                        >
+                            Продолжить покупки</button>
+                        <button 
+                            className="success__btns-cart"
+                            onClick={() => onCloseSuccess()}
+                        >
+                            В корзину</button>
+                    </div>
+                </div>
             </div>
         </>
     );

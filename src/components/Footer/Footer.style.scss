@@ -197,14 +197,12 @@
                 transition: fill 0.1s ease-in-out;
             }
         }
-    
-        & svg:hover {
-            transform: scale(1.2);
-    
-            &   path {
-                fill: #000000;
-            }
-        }
+    }
+}
+
+@media(hover: hover) {
+    .footer-block__list-el:hover {
+        text-decoration: underline;
     }
 }
 
@@ -228,7 +226,7 @@
         position: fixed;
         bottom: 0px;
 
-        z-index: 1;
+        z-index: 2;
 
         &__wrapper {
             padding: 20px 80px;

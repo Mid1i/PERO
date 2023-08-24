@@ -1,10 +1,10 @@
 import {useNavigate} from "react-router-dom";
-import { useContext } from "react";
-import axios from "axios";
+import {useContext} from "react";
 
 // import {installPWA} from "../../serviceWorker";
 import {useRequest, useScroll} from "@hooks";
 import {appContext} from "@services/Context";
+import {fetchProducts} from "@api";
 import { 
     Brands, 
     EmptyContent, 
@@ -13,6 +13,7 @@ import {
     HeaderTop, 
     LoadingCard, 
     SearchBar, 
+    SignPopup,
     SneakerCard 
 } from "@components";
 
@@ -24,20 +25,18 @@ import femaleImage from "@assets/images/gender-images/2.jpg";
 
 export default function Home() {
     const {setIsMale} = useContext(appContext);
+    
+    const {data: items, isError, isLoading} = useRequest(fetchProducts);
 
     const navigate = useNavigate();
 
     useScroll();
 
 
-    const fetchItems = () => axios.get('https://java.pero-nn.ru/api/public/get_sneakers?page=0&size=15&isPopular=true');
-
     const onChooseGender = (gender) => {
         setIsMale(gender);
         navigate('/catalog/');
     }
-
-    const [items, error, loading] = useRequest(fetchItems, 'items');
 
 
     return (
@@ -45,24 +44,27 @@ export default function Home() {
             <HeaderTop />
             <SearchBar />
             <Brands />
-            
             <div className="content content--home">
                 <GoodsSlider />
-                <div className="goods goods--no-margin">
+                <div className="goods">
                     {/*<button className="add-button" onClick={() => installPWA()}>click</button>*/}
                     <div className="goods__title">
                         <h4 className="goods__title-left">Наиболее популярные</h4>
-                        <h5 className="goods__title-right" onClick={() => navigate('/catalog/')}>Больше кроссовок</h5>
+                        <h5 className="goods__title-right" onClick={() => navigate('/catalog/')}>
+                            <span>Больше кроссовок</span>
+                            <svg width="26" height="21" fill="none">
+                                <path stroke="#F47E46" d="M24 10.5H2m22 0L14.5714 19M24 10.5 14.5714 2" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                        </h5>
                     </div>
                     <div className="goods__content">
-                        {loading ? <LoadingCard className='margins'/> : ((!items || error || items.length === 0) ? (
+                        {isLoading ? <LoadingCard/> : ((isError || items.length === 0) ? (
                             <EmptyContent 
                                 title='Пока что все распродано'
                                 text='Но в ближайшее время ожидаются крупные поставки!'
                             /> 
                         ) : items.map((item) => (
-                                <SneakerCard 
-                                    className='margins'
+                                <SneakerCard
                                     key={item.id}
                                     {...item}
                                 />
@@ -71,18 +73,19 @@ export default function Home() {
                     </div>
                 </div>
                 <div className="gender">
-                    <div className="gender__male" onClick={() => onChooseGender(true)}>
+                    <div className="gender__male" onClick={() => onChooseGender(true)} title="Мужская спортивная обувь">
                         <img src={maleImage} alt="male"/>
-                        <h2 className="gender__male-title">Мужчинам</h2>
+                        <h2 className="gender__male-title">Для него</h2>
                     </div>
-                    <div className="gender__female" onClick={() => onChooseGender(false)}>
+                    <div className="gender__female" onClick={() => onChooseGender(false)} title="Женская спортивная обувь">
                         <img src={femaleImage} alt="female"/>
-                        <h2 className="gender__female-title">Женщинам</h2>
+                        <h2 className="gender__female-title">Для неё</h2>
                     </div>
                 </div>
             </div>
-            
             <Footer />
+
+            <SignPopup />
         </>
     );
 }
