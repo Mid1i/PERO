@@ -9,7 +9,7 @@ import {appContext} from "@services/Context";
 
 import "./SneakerInfo.style.scss";
 
-import {backArrow, blackCross, blueCheck, sneakerHeartDefault, sneakerHeartLiked, shareIcon, whiteCross} from "@assets/images";
+import {backArrow, blackCross, sneakerHeartDefault, sneakerHeartLiked, shareIcon, whiteCross} from "@assets/images";
 
 
 export default function Sneaker({brand, color, description, id, images, name, preview, price, sizes}) {
@@ -129,7 +129,7 @@ export default function Sneaker({brand, color, description, id, images, name, pr
                                 </button>
                             </RWebShare>
                         </div>
-                        <h4 className="product-right__subtitle" onClick={() => navigate(`/catalog/?brands=${toFormatBrandForRequest(brand)}`)}>
+                        <h4 className="product-right__subtitle">
                             <span>By</span>
                             <img 
                                 alt={brand}
@@ -139,10 +139,6 @@ export default function Sneaker({brand, color, description, id, images, name, pr
                                 title={toFormatBrand(brand)}
                             />
                             <span>{toFormatBrand(brand)}</span>
-                            <div className="product-right__subtitle-original">
-                                <img src={blueCheck} alt="original"/>
-                                <p className="product-right__subtitle-original--text">Оригинальный товар</p>
-                            </div>
                         </h4>
                         <p className="product-right__article">{`Арт. ${id}`}</p>
                         <p className="product-right__color">{`Цвет: ${color}`}</p>

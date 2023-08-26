@@ -1,6 +1,6 @@
+import {QueryClient, QueryClientProvider} from "react-query";
 import {Route, Routes, useLocation} from "react-router-dom";
 import {useState, useEffect} from "react";
-import {QueryClient, QueryClientProvider} from "react-query";
 import queryString from "query-string";
 
 import {appContext} from "@services/Context";
@@ -18,6 +18,8 @@ export default function App() {
     const [likedItems, setLikedItems] = useState([]);
 
     const {search} = useLocation();
+
+    const queryClient = new QueryClient();
 
 
     useEffect(() => {
@@ -70,8 +72,6 @@ export default function App() {
         searchValue, 
         setSearchValue,
     };
-
-    const queryClient = new QueryClient();
 
 
     return (

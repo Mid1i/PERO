@@ -17,7 +17,7 @@ export default function usePaginationRequest(isMale, search) {
         isError,
         isFetchingNextPage,
         isLoading
-    } = useInfiniteQuery(['items', isMale, search], fetchCatalogProducts, {getNextPageParam: (lastPage) => currentPage(lastPage)})
+    } = useInfiniteQuery(['items', isMale, search], fetchCatalogProducts, {getNextPageParam: (lastPage) => currentPage(lastPage), retry: false})
 
 
     return {data, fetchNextPage, isError, isFetchingNextPage, isLoading};

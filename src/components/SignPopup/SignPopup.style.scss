@@ -6,6 +6,12 @@
     background: #F3F3F3;
     border-radius: 30px;
 
+    background: rgba(243, 243, 243, 0.65);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(12.4px);
+    -webkit-backdrop-filter: blur(12.4px);
+    border: 1px solid rgba(243, 243, 243, 0.2);
+
     padding: 30px;
 
     pointer-events: auto;
@@ -65,8 +71,21 @@
             & span {
                 cursor: pointer;
 
+                transition: all 0.1s linear;
                 text-decoration: underline;
             }
+        }
+
+        &-error {
+            color: #FF0000;
+            font-size: 14px;
+            font-weight: 600;
+
+            margin-top: 10px;
+
+            text-align: center;
+
+            height: 14px;
         }
 
         &-form {
@@ -85,7 +104,7 @@
 
         position: relative;
 
-        height: 60px;
+        height: 70px;
         width: 100%;
 
         &-label {
@@ -97,6 +116,20 @@
             position: absolute;
             left: 0px;
             top: 10px;
+
+            &.active {
+                color: #FF0000;
+                font-size: 14px;
+                font-weight: 600;
+
+                visibility: visible !important;
+            }
+
+            &.success-password {
+                color: #229622;
+                font-size: 14px;
+                font-weight: 600;
+            }
         }
 
         &-input {
@@ -145,6 +178,8 @@
             }
 
             & input {
+                cursor: pointer;
+
                 height: 20px;
                 width: 20px;
             }
@@ -159,6 +194,12 @@
 
         height: 50px;
         width: 100%;
+    }
+}
+
+@media(hover: hover) {
+    .sign-popup__content-subtitle span:hover {
+        color: #F47E46;
     }
 }
 

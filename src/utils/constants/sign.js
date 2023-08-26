@@ -1,6 +1,6 @@
 export const sign = [
     {
-        id: 'fullname',
+        id: 'fullName',
         label: 'Введите свои ФИО',
         type: 'text',
     },
@@ -8,11 +8,6 @@ export const sign = [
         id: 'email',
         label: 'Введите свой email',
         type: 'email',
-    },
-    {
-        id: 'phone',
-        label: 'Номер телефона',
-        type: 'tel',
     },
     {
         id: 'password',

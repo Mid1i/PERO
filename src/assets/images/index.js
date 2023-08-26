@@ -1,6 +1,5 @@
 import backArrow from "./icons/back-arrow.svg";
 import blackCross from "./icons/black-cross.svg";
-import blueCheck from "./icons/blue-check-icon.svg";
 import checkIcon from "./icons/check-icon.svg";
 import filtersIcon from "./icons/filters-icon.svg";
 import listArrow from "./icons/list-arrow.svg";
@@ -16,7 +15,6 @@ import whiteCross from "./icons/white-cross.svg";
 export {
     backArrow,
     blackCross,
-    blueCheck,
     checkIcon,
     filtersIcon,
     listArrow,

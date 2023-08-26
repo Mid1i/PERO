@@ -50,7 +50,7 @@ export default function Catalog() {
     const {data: colors, isError: isErrorColors, isLoading: isLoadingColors} = useRequest(fetchColors, 'colors');
 
     useScroll();
-
+    
 
     useEffect(() => {
         window.addEventListener('scroll', scrollHandler);
@@ -158,7 +158,7 @@ export default function Catalog() {
                 <div className="catalog">
                     <h2 className="catalog__title">
                         <span>{isMale ? 'Мужская обувь' : 'Женская обувь'}</span>
-                        <span>{!isLoading && (data.pages[0].amount !== 0 && `— ${data.pages[0].amount}`)}</span>
+                        <span>{(!isLoading && !isError) && (data.pages[0].amount !== 0 && `— ${data.pages[0].amount}`)}</span>
                     </h2>
                     <div className="catalog__filters">
                         <Sorting />
