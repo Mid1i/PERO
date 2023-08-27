@@ -188,47 +188,53 @@ export default function Sneaker({brand, color, description, id, images, name, pr
 
             <div className={classNames("blackout sizes-block__blackout", (popupSizes || popupSuccess) && "active")}>
                 <div className={classNames("sizes-block", popupSizes && "active")}>
-                    <div className="sizes-block__top">
-                        <h4 className="sizes-block__top-title">Выберите размер</h4>
-                        <img 
-                            alt="close" 
-                            height={20}                               
-                            onClick={() => setPopupSizes(prev => !prev)} 
-                            src={blackCross} 
-                            width={20} 
-                        />
+                    <div className="size-block__wrapper">
+                        <div className="effect"></div>
+                        <div className="sizes-block__top">
+                            <h4 className="sizes-block__top-title">Выберите размер</h4>
+                            <img 
+                                alt="close" 
+                                height={20}                               
+                                onClick={() => setPopupSizes(prev => !prev)} 
+                                src={blackCross} 
+                                width={20} 
+                            />
+                        </div>
+                        <div className="sizes-block__items">{sizesRender(true)}</div>
                     </div>
-                    <div className="sizes-block__items">{sizesRender(true)}</div>
                 </div>
 
                 <div className={classNames("success", popupSuccess && "active")}>
-                    <div className="success__top">
-                        <h4 className="success__top-title">Товар добавлен в корзину</h4>
-                        <img 
-                            alt="close" 
-                            height={20}
-                            onClick={() => onCloseSuccess()} 
-                            src={blackCross} 
-                            width={20} 
-                        />
-                    </div>
-                    <div className="success__middle">
-                        <h6 className="success__middle-title">{`${toFormatTitle(brand)} - ${name}`}</h6>
-                        <p className="success__middle-price">{`${toFormatPrice(price)} ₽`}</p>
-                    </div>
-                    <p className="success__article">{`Арт. ${id}`}</p>
-                    <p className="success__size">{`Размер: ${sizes.find(obj => obj.sizeId === currentSize)?.size}`}</p>
-                    <div className="success__btns">
-                        <button 
-                            className="success__btns-continue btn" 
-                            onClick={() => onCloseSuccess()}
-                        >
-                            Продолжить покупки</button>
-                        <button 
-                            className="success__btns-cart"
-                            onClick={() => onCloseSuccess()}
-                        >
-                            В корзину</button>
+                    <div className="success__wrapper">
+                        <div className="effect"></div>
+                        <div className="success__top">
+                            <h4 className="success__top-title">Товар добавлен в корзину</h4>
+                            <img 
+                                alt="close" 
+                                height={20}
+                                onClick={() => onCloseSuccess()} 
+                                src={blackCross} 
+                                width={20} 
+                            />
+                        </div>
+                        <div className="success__middle">
+                            <h6 className="success__middle-title">{`${toFormatTitle(brand)} - ${name}`}</h6>
+                            <p className="success__middle-price">{`${toFormatPrice(price)} ₽`}</p>
+                        </div>
+                        <p className="success__article">{`Арт. ${id}`}</p>
+                        <p className="success__size">{`Размер: ${sizes.find(obj => obj.sizeId === currentSize)?.size}`}</p>
+                        <div className="success__btns">
+                            <button 
+                                className="success__btns-continue btn" 
+                                onClick={() => onCloseSuccess()}
+                            >
+                                Продолжить покупки</button>
+                            <button 
+                                className="success__btns-cart"
+                                onClick={() => onCloseSuccess()}
+                            >
+                                В корзину</button>
+                        </div>
                     </div>
                 </div>
             </div>

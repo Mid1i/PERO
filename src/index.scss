@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap&family=Roboto&display=swap');
 
 body {
     background: #E5E3E0;
@@ -110,6 +110,19 @@ body {
         opacity: 1;
         visibility: visible;
     }
+}
+
+.effect {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    position: fixed;
+    top: 0px;
+    left: 0px;
+
+    height: 100%;
+    width: 100%;
+    z-index: -1;
 }
 
 @media(max-width: 767px) {

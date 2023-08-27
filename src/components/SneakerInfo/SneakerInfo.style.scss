@@ -287,14 +287,14 @@
 
 .success,
 .sizes-block {
-    background: #F3F3F3;
+    background: rgba(243, 243, 243, 0.6);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(243, 243, 243, 0.2);
     border-radius: 10px;
-
-    display: flex;
-    flex-direction: column;
 
     padding: 20px;
 
+    overflow: hidden;
     pointer-events: auto;
     position: fixed;
     top: 50%;
@@ -312,6 +312,16 @@
     &.active {
         visibility: visible;
         opacity: 1;
+    }
+
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+
+        position: relative;
+
+        height: 100%;
+        width: 100%;
     }
 
     &__blackout {

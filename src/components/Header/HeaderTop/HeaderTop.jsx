@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 import classNames from "classnames";
 
 import {imageImport, toFormatBrandForRequest} from "@utils/helpers";
@@ -19,6 +19,7 @@ export default function HeaderTop({className='header', pageToLink='/catalog/', p
     const images = imageImport();
 
     const navigate = useNavigate();
+    const {pathname} = useLocation();
 
 
     useEffect(() => {
@@ -33,6 +34,14 @@ export default function HeaderTop({className='header', pageToLink='/catalog/', p
     const onClickBrand = (value) => {
         setPopupMenu(prev => !prev);
         navigate(`/catalog/?brands=${toFormatBrandForRequest(value)}`);
+    }
+
+    const onClickGender = (gender) => {
+        setIsMale(gender);
+        
+        if (pathname !== '/catalog/') {
+            navigate('/catalog/');
+        }
     }
 
     const popupMenuRender = () => {
@@ -59,9 +68,9 @@ export default function HeaderTop({className='header', pageToLink='/catalog/', p
             <div className="header__left">
                 <img className="header__left-logo" src={mainLogo} alt="logo" onClick={() => navigate('/')}/>
                 <p className="header__left-gender">
-                    <span className={classNames(isMale && "active")} onClick={() => setIsMale(true)}>Мужчинам</span>
+                    <span className={classNames(isMale && "active")} onClick={() => onClickGender(true)}>Мужчинам</span>
                     <span>/</span>
-                    <span className={classNames(!isMale && "active")} onClick={() => setIsMale(false)}>Женщинам</span>
+                    <span className={classNames(!isMale && "active")} onClick={() => onClickGender(false)}>Женщинам</span>
                 </p>
             </div>
 
