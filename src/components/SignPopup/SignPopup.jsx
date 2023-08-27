@@ -27,7 +27,7 @@ export default function SignPopup() {
 
     const [inputError, setInputError] = useState({});
     const [passwordCheck, setPasswordCheck] = useState(false);
-    const [value, setValue] = useState({'passwordCheck': '', 'email': 'example@mail.ru'});
+    const [value, setValue] = useState({'passwordCheck': ''});
     const [timer, setTimer] = useState(4);
 
 

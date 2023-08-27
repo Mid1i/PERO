@@ -1,7 +1,7 @@
 import {fetchColors} from "./colorsAPI";
 import {fetchCurrentProduct} from "./currentProductAPI";
 import {fetchCatalogProducts, fetchProducts, fetchRandomProducts} from "./productsAPI";
-import {fetchRegUser, fetchEmail} from "./signAPI";
+import {fetchRegUser, fetchEmail, fetchTokens} from "./signAPI";
 
 export {
     fetchCatalogProducts,
@@ -11,4 +11,5 @@ export {
     fetchProducts,
     fetchRandomProducts,
     fetchRegUser,
+    fetchTokens,
 };
