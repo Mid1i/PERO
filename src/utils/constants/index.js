@@ -2,7 +2,7 @@ import {goodsSliderData, goodsSliderSettings} from "./slider";
 import {footerTitles , footerElements} from "./footer";
 import {filters, sorting} from "./filters";
 import {brands} from "./brands";
-import {sign} from "./sign";
+import {reg, sign} from "./sign";
 
 
 export { 
@@ -12,6 +12,7 @@ export {
     footerElements, 
     goodsSliderData, 
     goodsSliderSettings,
+    reg,
     sign,
     sorting, 
 };

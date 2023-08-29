@@ -10,6 +10,7 @@ import {Home, Catalog, EmailConfirm, Product} from "@pages";
 
 export default function App() {
     const [isMale, setIsMale] = useState(true);
+    const [regUser, setRegUser] = useState(false);
     const [regPopup, setRegPopup] = useState(false);
     
     const [searchValue, setSearchValue] = useState('');
@@ -28,6 +29,10 @@ export default function App() {
 
         Array.isArray(favourites) && setLikedItems(favourites);
         Array.isArray(cart) && setCartItems(cart);
+
+        if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) {
+            setRegUser(prev => !prev);
+        }
     }, [])
 
     useEffect(() => {
@@ -67,6 +72,7 @@ export default function App() {
         onAddToFavorites, 
         onAddToCart,
         regPopup,
+        regUser,
         setIsMale, 
         setRegPopup, 
         searchValue, 

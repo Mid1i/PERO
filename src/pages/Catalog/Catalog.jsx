@@ -31,7 +31,7 @@ export default function Catalog() {
 
     const [emptyLink, setEmptyLink] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [link, setLink] = useState([]);
+    const [link, setLink] = useState({});
     const [openedFilters, setOpenedFilters] = useState('');
     const [params, setParams] = useState([]);
     
@@ -61,12 +61,18 @@ export default function Catalog() {
     })
 
     useEffect(() => {
-        isOpen ? document.body.classList.add("no-scroll") : document.body.classList.remove("no-scroll");
+        if (isOpen) {
+            document.body.classList.add("no-scroll")
+        } else {
+            document.body.classList.remove("no-scroll");
+        }
     }, [isOpen])
 
     useEffect(() => {
-        searchValue === '' && onChangeLink('search', '');
-    }, [searchValue])
+        if (searchValue === '') {
+            onChangeLink('search', '');
+        }
+    }, [searchValue]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         setOpenedFilters('');
@@ -74,15 +80,35 @@ export default function Catalog() {
         const searchParams = queryString.parse(search);
         
         setParams(searchParams);
-        searchParams.search && onChangeLink('search', searchParams.search);
-    }, [search])
+        if (searchParams.search) {
+            onChangeLink('search', searchParams.search);
+        }
+    }, [search]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
-    const formLink = () => `${link.map(item => `${Object.keys(item)}=${item[Object.keys(item)]}`).join('&')}`;
+    const formLink = () => {
+        let stringLink = '';
+
+        for (let id in link) {
+            if (link[id] !== '') {
+                stringLink += `${id}=${link[id]}&`;
+            }
+        }
+
+        if (stringLink.slice(-1) === '&') {
+            return stringLink.slice(0, -1);
+        } else {
+            return stringLink;
+        }
+    }
 
     const checkFiltersAmount = () => {
         let len = 0;
-        link.map(item => len += String(item[Object.keys(item)[0]]).split(',').length);
+        for (let id in link) {
+            if (link[id] !== '') {
+                len += link[id].length;
+            }
+        }
 
         if (params['search'] && params['sort']) {
             return len - 3;
@@ -97,27 +123,30 @@ export default function Catalog() {
 
     const onCancelFilters = () => {
         setEmptyLink(true);
-        setLink([]);
+        setLink({});
 
         navigate("/catalog/");
     }
-
+    
     const onChangeLink = (id, item) => {
         if (item && item !== '') {
-            setLink(prev => [...prev.filter(el => !Object.keys(el).includes(id)), {[id]: item}]);
-            (id === 'fromPrice' && item < 3000) && setLink(prev => [...prev.filter(el => !Object.keys(el).includes(id)), {[id]: 3000}]);
-            (id === 'toPrice' && item > 50000) && setLink(prev => [...prev.filter(el => !Object.keys(el).includes(id)), {[id]: 50000}]);
+            setLink({...link, [id]: item});
         } else if (item === '') {
-            setLink(prev => [...prev.filter(el => !Object.keys(el).includes(id))]);
+            setLink({...link, [id]: ''});
         }
     }
 
     const onCloseFilters = () => {
         setIsOpen(prev => !prev);
 
-        link.length !== 0 ? navigate(`/catalog/?${formLink()}`) : navigate(`/catalog/`);
+        if (formLink().length !== 0) {
+            navigate(`/catalog/?${formLink()}`)
+        } else {
+            navigate(`/catalog/`);
+        }
     }
     
+
     const filtersRender = () => {
         return (
             <>
@@ -139,6 +168,7 @@ export default function Catalog() {
             fetchNextPage();
         }
     }
+
 
     const contextData = {
         emptyLink, 
@@ -168,7 +198,7 @@ export default function Catalog() {
                         <div className="catalog__filters-mobile">
                             <div className="filters-mobile" onClick={() => setIsOpen(prev => !prev)}>
                                 {checkFiltersAmount() <= 0 ? <img src={filtersIcon} alt="more" height={16} width={16}/>       
-                                    : <span className="filters-mobile__amount">{checkFiltersAmount()}</span> 
+                                    : <span className="filters-mobile__amount">{`${checkFiltersAmount()}`}</span> 
                                 }
                                 <h6 className="filters-mobile__title">Фильтры</h6>
                             </div>

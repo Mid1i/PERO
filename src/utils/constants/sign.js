@@ -1,4 +1,4 @@
-export const sign = [
+export const reg = [
     {
         id: 'fullName',
         label: 'Введите свои ФИО',
@@ -21,5 +21,18 @@ export const sign = [
         label: 'Повторите пароль',
         type: 'password',
         title: 'Пароли должны совпадать'
+    },
+]
+
+export const sign = [
+    {
+        id: 'email',
+        label: 'Email',
+        type: 'email'
+    },
+    {
+        id: 'password',
+        label: 'Пароль',
+        type: 'password'
     },
 ]

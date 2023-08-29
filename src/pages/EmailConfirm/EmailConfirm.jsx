@@ -16,7 +16,7 @@ import "./EmailConfirm.style.scss";
 
 import emailConfirm from "@assets/images/content-images/email-confirm--success.jpg";
 
-//TODO: обсудить момент, когда ссылка на почту недействительна и как её отправить
+//TODO: исправить письма с логотипом
 
 export default function EmailConfirm() {
     const mutation = useMutation(fetchTokens, {
@@ -41,6 +41,7 @@ export default function EmailConfirm() {
     const onSuccessRequest = (data) => {
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
+        window.setTimeout(() => window.location.reload(), 1000);
     }
 
 

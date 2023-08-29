@@ -18,14 +18,14 @@ export default function MainFilters({id, title, elements, values = elements}) {
    
 
     useEffect(() => {
-        setFilters(params[id] ? String(params[id]).split(",")
+        setFilters(params[id] ? String(params[id]).split(',')
                                                   .filter(item => values.includes(item)) 
             : []);
 
-        onChangeLink(id, params[id] ? String(params[id]).split(",")
+        onChangeLink(id, params[id] ? String(params[id]).split(',')
                                                         .filter(item => values.includes(item))
-                                                        .join(",") 
-            : "");
+                                                        .join(',') 
+            : '');
     }, [params]) // eslint-disable-line react-hooks/exhaustive-deps
     
     useEffect(() => {
@@ -36,7 +36,12 @@ export default function MainFilters({id, title, elements, values = elements}) {
     const onChangeFilter = (element) => {
         if (filters.find(obj => obj === element)) {
             setFilters(prev => prev.filter(obj => obj !== element));
-            filters.length === 1 ? onChangeLink(id, '') : onChangeLink(id, filters.filter(obj => obj !== element).join(','));
+
+            if (filters.length === 1) {
+                onChangeLink(id, '');
+            } else {
+                onChangeLink(id, filters.filter(obj => obj !== element).join(','));
+            }
         } else {
             setFilters(prev => [...prev, element]);
             onChangeLink(id, [...filters, element].join(','));
@@ -52,9 +57,19 @@ export default function MainFilters({id, title, elements, values = elements}) {
         navigate(`/catalog/?${formLink().split('&').filter(obj => !(obj.includes(id))).join('&')}`);
     }
 
-    const onCloseFilters = () => navigate(`/catalog/?${formLink()}`);
+    const onCloseFilters = () => {
+        if (formLink().length > 0) {
+            navigate(`/catalog/?${formLink()}`);
+        }
+    }
 
-    const onOpenFiltersList = () => openedFilters === id ? setOpenedFilters('') : setOpenedFilters(id);
+    const onOpenFiltersList = () => {
+        if (openedFilters === id) {
+            setOpenedFilters('');
+        } else {
+            setOpenedFilters(id);
+        }
+    }
 
 
     return (

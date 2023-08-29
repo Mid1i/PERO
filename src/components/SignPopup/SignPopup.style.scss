@@ -76,18 +76,11 @@
             line-height: 20px;
             font-size: 16px;
 
+            margin-bottom: 80px;
+
             & span:nth-child(2) {
                 font-weight: 700;
             }
-        }
-
-        &-image {
-            max-height: 205px;
-            max-width: 300px;
-
-            margin: 20px auto;
-
-            pointer-events: none;
         }
 
         &-btn {
@@ -115,6 +108,8 @@
 
             & span {
                 cursor: pointer;
+
+                margin-left: 5px;
 
                 transition: all 0.1s linear;
                 text-decoration: underline;
@@ -162,12 +157,16 @@
             left: 0px;
             top: 10px;
 
-            &.active {
+            &.error {
                 color: #ED0A34;
                 font-size: 14px;
                 font-weight: 600;
 
                 visibility: visible !important;
+            }
+
+            &.active {
+                visibility: visible;
             }
         }
 
@@ -203,7 +202,7 @@
         display: flex;
         justify-content: space-between;
 
-        margin: 20px 0px;
+        margin: 20px 0px 0px;
         padding: 0px 20px;
 
         &-wrapper {
@@ -243,6 +242,8 @@
 
         font-size: 20px;
         font-weight: 700;
+
+        margin-top: 40px;
 
         height: 50px;
         width: 100%;

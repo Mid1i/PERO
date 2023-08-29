@@ -1,17 +1,18 @@
+import {browserName, osName} from "react-device-detect";
 import {useContext, useEffect, useState} from "react";
 import {useMutation} from "react-query";
 import classNames from "classnames";
 
-import {sign} from "@utils/constants";
+import {reg, sign} from "@utils/constants";
 import {blackCross} from "@assets/images";
 import {appContext} from "@services/Context";
-import {fetchEmail, fetchRegUser} from "@api";
 import {toFormatEmail, toFormatTime} from "@utils/helpers"; 
 import peroLogo from "@assets/images/logo/peroID-logo.svg";
+import {fetchEmail, fetchRegUser, fetchSignUser} from "@api";
 
 import "./SignPopup.style.scss";
-import confirmImage from "@assets/images/content-images/email-confirm.png";
 
+//TODO: При входе обработать ошибку 401 с подтверждением почты
 
 export default function SignPopup() {
     const {regPopup, setRegPopup} = useContext(appContext);
@@ -25,7 +26,14 @@ export default function SignPopup() {
         onSuccess: () => onSuccessHandling()
     });
 
+    const signUserMutation = useMutation(fetchSignUser, {
+        onSuccess: (data) => onSuccessHandling(data),
+        onError: (error) => onErrorHandling(error.response)
+    });
+
+
     const [inputError, setInputError] = useState({});
+    const [isReg, setIsReg] = useState(true);
     const [passwordCheck, setPasswordCheck] = useState(false);
     const [value, setValue] = useState({'passwordCheck': ''});
     const [timer, setTimer] = useState(4);
@@ -53,6 +61,16 @@ export default function SignPopup() {
     }, [value]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
+    const onCloseRegPopup = () => {
+        setRegPopup(prev => !prev);
+        setPasswordCheck(false);
+    }
+
+    const onClickChangeStep = () => {
+        setIsReg(prev => !prev);
+        setValue({'passwordCheck': ''});
+    }
+    
     const isEmptyValue = (id) => {
         if (value[id]) {
             return value[id];
@@ -69,34 +87,39 @@ export default function SignPopup() {
         }
     }
 
-    const onSuccessHandling = () => {
-        setPasswordCheck(true);
-        setTimer(4);
-
-        window.setInterval(() => {
-            if (timer > 0) {
-                setTimer(prev => prev - 1);
-            }
-        }, 1000);
+    const onSuccessHandling = (data) => {
+        if (data) {
+            localStorage.setItem('accessToken', data.accessToken);
+            localStorage.setItem('refreshToken', data.refreshToken);
+            setRegPopup(prev => !prev);
+            window.location.reload();
+        } else {
+            setPasswordCheck(true);
+            setTimer(4);
+    
+            window.setInterval(() => {
+                if (timer > 0) {
+                    setTimer(prev => prev - 1);
+                }
+            }, 1000);
+        }
     }
     
     const onSubmitForm = (event) => {
         event.preventDefault();
 
-        if (passwordCheck) {
-            const data = value;
-            delete data['passwordCheck'];
-            
+        const data = value;
+        delete data['passwordCheck'];
+
+        if (isReg && passwordCheck) {
             setInputError({...inputError, 'passwordCheck': ''});
             setPasswordCheck(false);
 
             regUserMutation.mutate(data);
+        } else if (!isReg) {
+            const userData = {'userData': data, 'browser': browserName, 'device': osName};
+            signUserMutation.mutate(userData);
         }
-    }
-
-    const onCloseRegPopup = () => {
-        setRegPopup(prev => !prev);
-        setPasswordCheck(false);
     }
 
 
@@ -116,14 +139,17 @@ export default function SignPopup() {
         );
     }
 
-    const inputsRender = () => {
+    const inputsRegRender = () => {
         return (
             <>
                 <h3 className="sign-popup__content-title">Добро пожаловать в <span>Pero</span></h3>
-                <h4 className="sign-popup__content-subtitle">Уже есть аккаунт? <span>Войдите</span></h4>
+                <h4 className="sign-popup__content-subtitle">
+                    Уже есть аккаунт? 
+                    <span onClick={() => onClickChangeStep()}>Войдите</span>
+                </h4>
                 <p className="sign-popup__content-error">{inputError?.exist || ''}</p>
                 <form onSubmit={onSubmitForm} className="sign-popup__content-form reg-form" autoComplete="off">
-                    {sign.map((item, index) => (
+                    {reg.map((item, index) => (
                         <div className="reg-form__wrapper" key={index}>
                             <input 
                                 className="reg-form__wrapper-input"
@@ -137,7 +163,7 @@ export default function SignPopup() {
                                 value={isEmptyValue(item.id)}
                             />
                             <label 
-                                className={classNames("reg-form__wrapper-label", !!inputError[item.id] && "active")} 
+                                className={classNames("reg-form__wrapper-label", !!inputError[item.id] && "error", !!value[item.id] && "active")} 
                                 htmlFor={item.id}
                             >
                                 {!!inputError[item.id] ? inputError[item.id] : item.label}
@@ -151,7 +177,47 @@ export default function SignPopup() {
                     <button 
                         className="reg-form__btn btn"
                         type="submit"
-                    >Зарегистрироваться</button>
+                    >
+                        Зарегистрироваться</button>
+                </form>
+            </>
+        );
+    }
+
+    const inputsSignRender = () => {
+        return (
+            <>
+                <h3 className="sign-popup__content-title">Добро пожаловать в <span>Pero</span></h3>
+                <h4 className="sign-popup__content-subtitle">
+                    Ещё нет аккаунта? 
+                    <span onClick={() => onClickChangeStep()}>Зарегистрируйтесь</span>
+                </h4>
+                <p className="sign-popup__content-error">{inputError?.exist || ''}</p>
+                <form onSubmit={onSubmitForm} className="sign-popup__content-form reg-form" autoComplete="off">
+                    {sign.map((item, index) => (
+                        <div className="reg-form__wrapper" key={index}>
+                            <input 
+                                className="reg-form__wrapper-input"
+                                id={item.id}
+                                name={item.id}
+                                onChange={(event) => setValue({...value, [item.id]: event.target.value})}
+                                placeholder={item.label}
+                                required
+                                type={item.type}
+                                value={isEmptyValue(item.id)}
+                            />
+                            <label 
+                                className={classNames("reg-form__wrapper-label", !!value[item.id] && "active")} 
+                                htmlFor={item.id}
+                            >
+                                {item.label}</label>
+                        </div>)
+                    )}
+                    <button 
+                            className="reg-form__btn btn"
+                            type="submit"
+                        >
+                            Войти</button>
                 </form>
             </>
         );
@@ -166,7 +232,6 @@ export default function SignPopup() {
                     <span>{`${toFormatEmail(value.email)}`}</span> 
                     <span>. Перейдите по ссылке из письма в течение 24 часов.</span>
                 </p>
-                <img className="sign-popup__content-image" src={confirmImage} alt="confirm email"/>
                 <button 
                     className="sign-popup__content-btn btn" 
                     disabled={timer > 0 ? true : false}
@@ -190,7 +255,9 @@ export default function SignPopup() {
                         <img src={blackCross} alt="close" width={28} height={28} onClick={() => onCloseRegPopup()}/>
                     </div>
                     <div className="sign-popup__content">
-                        {(regUserMutation.isSuccess && passwordCheck) ? successRegRender() : inputsRender()}
+                        {isReg ? (
+                            (regUserMutation.isSuccess && passwordCheck) ? successRegRender() : inputsRegRender()
+                        ) : inputsSignRender()}
                     </div>
                 </div>
             </div>

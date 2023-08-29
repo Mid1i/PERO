@@ -45,12 +45,46 @@ export default function PriceFilters() {
 
     const onChangeEndValue = (event) => {
         setEndValue(event.target.value);
-        onChangeLink('toPrice', event.target.value);
+
+        if (event.target.value > 50000) {
+            onChangeLink('toPrice', 50000);
+        } else {
+            onChangeLink('toPrice', event.target.value);
+        }
+
+        if (startValue === '') {
+            setStartValue(3000);
+            onChangeLink('fromPrice', 3000);
+        }
+            
+        if (event.target.value === '' && startValue !== '') {
+            onChangeLink('toPrice', 50000);
+        } else if (event.target.value === '' && endValue === '') {
+            onChangeLink('fromPrice', '');
+            onChangeLink('toPrice', '');
+        }
     }
 
     const onChangeStartValue = (event) => {
         setStartValue(event.target.value);
-        onChangeLink('fromPrice', event.target.value);
+
+        if (event.target.value < 3000) {
+            onChangeLink('fromPrice', 3000);
+        } else {
+            onChangeLink('fromPrice', event.target.value);
+        }
+        
+        if (endValue === '') {
+            setEndValue(50000);
+            onChangeLink('toPrice', 50000);
+        }
+
+        if (event.target.value === '' && endValue !== '') {
+            onChangeLink('fromPrice', 50000);
+        } else if (event.target.value === '' && endValue === '') {
+            onChangeLink('fromPrice', '');
+            onChangeLink('toPrice', '');
+        }
     }
 
     const onCancelFilters = () => {
@@ -61,20 +95,31 @@ export default function PriceFilters() {
         onChangeLink('fromPrice', '');
         onChangeLink('toPrice', '');
 
-        navigate(`/catalog/?${formLink().split('&').filter(obj => !obj.includes('toPrice') && !obj.includes('fromPrice')).join('&')}`);
+        const newLink = formLink().split('&').filter(obj => !obj.includes('toPrice') && !obj.includes('fromPrice')).join('&');
+        
+        if (newLink.length > 0) {
+            navigate(`/catalog/?${newLink}`);
+        } else {
+            navigate('/catalog/');
+        }
+        // navigate(`/catalog/?${formLink().split('&').filter(obj => !obj.includes('toPrice') && !obj.includes('fromPrice')).join('&')}`);
     }
 
     const setTitle = () => {
-        if (startValue !== "" && endValue !== "") {
+        if (startValue !== '' && endValue !== '') {
             return 2;
-        } else if (startValue !== "" || endValue !== "") {
+        } else if (startValue !== '' || endValue !== '') {
             return 1;
         } else {
             return '';
         }
     }
 
-    const onCloseFilters = () => navigate(`/catalog/?${formLink()}`);
+    const onCloseFilters = () => {
+        if (formLink().length > 0) {
+            navigate(`/catalog/?${formLink()}`);
+        }
+    }
 
 
     return (
