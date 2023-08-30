@@ -41,7 +41,7 @@ export default function EmailConfirm() {
     const onSuccessRequest = (data) => {
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
-        window.setTimeout(() => window.location.reload(), 1000);
+        window.setTimeout(() => navigate('/'), 3000);
     }
 
 

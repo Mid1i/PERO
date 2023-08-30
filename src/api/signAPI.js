@@ -25,7 +25,6 @@ export async function fetchTokens({uuid, browser, device}) {
 }
 
 export async function fetchSignUser({userData, browser, device}) {
-    console.log(userData, browser, device)
     const {data} = await axios({
         url: 'https://java.pero-nn.ru/api/auth/sign_in',
         method: 'post',
