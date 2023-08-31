@@ -236,7 +236,7 @@ export default function Catalog() {
                 </div>
 
                 <div className="goods">
-                    <div className="goods__content">
+                    <div className="goods__content goods__content--catalog">
                         {isLoading ? <LoadingCard /> : (isError ? (
                                 <EmptyContent 
                                     title='Пока что все распродано'

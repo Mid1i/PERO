@@ -1,6 +1,6 @@
 import {QueryClient, QueryClientProvider} from "react-query";
 import {Route, Routes, useLocation} from "react-router-dom";
-import {useState, useEffect} from "react";
+import {useState, useEffect, useReducer} from "react";
 import queryString from "query-string";
 
 import {appContext} from "@services/Context";
@@ -10,8 +10,8 @@ import {Home, Catalog, EmailConfirm, Product} from "@pages";
 
 export default function App() {
     const [isMale, setIsMale] = useState(true);
-    const [regUser, setRegUser] = useState(false);
-    const [regPopup, setRegPopup] = useState(false);
+    const [isReg, setIsReg] = useReducer(prev => !prev, false);
+    const [regPopup, changeRegPopup] = useReducer(prev => !prev, false);
     
     const [searchValue, setSearchValue] = useState('');
 
@@ -31,7 +31,7 @@ export default function App() {
         Array.isArray(cart) && setCartItems(cart);
 
         if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) {
-            setRegUser(prev => !prev);
+            setIsReg();
         }
     }, [])
 
@@ -67,14 +67,14 @@ export default function App() {
     const isInFavorites = (id) => likedItems.includes(id);
     
     const contextData = {
+        changeRegPopup,
         isMale, 
+        isReg,
         isInFavorites, 
         onAddToFavorites, 
         onAddToCart,
         regPopup,
-        regUser,
-        setIsMale, 
-        setRegPopup, 
+        setIsMale,
         searchValue, 
         setSearchValue,
     };

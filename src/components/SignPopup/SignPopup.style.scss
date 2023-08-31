@@ -226,12 +226,36 @@
 
                 cursor: pointer;
 
+                position: relative;
+                transition: border 0.1s linear;
+
                 height: 20px;
                 width: 20px;
 
-                &:checked {
-                    background: #E47F46;
-                    border: none;
+                &:hover {
+                    border-color: lighten(#212121, 20%);
+                }
+
+                &::before {
+                    border-radius: 100px;
+                    content: '';
+
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    transition: background 0.1s linear;
+
+                    height: 12px;
+                    width: 12px;
+                }
+
+                &:checked::before {
+                    background: #212121;
+                }
+
+                &:checked:hover::before {
+                    background: lighten(#212121, 20%);
                 }
             }
         }

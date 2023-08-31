@@ -16,7 +16,7 @@ import "./SignPopup.style.scss";
 //TODO: баг при неправильном пароле и подтверждении почты при входе
 
 export default function SignPopup() {
-    const {regPopup, setRegPopup} = useContext(appContext);
+    const {regPopup, changeRegPopup} = useContext(appContext);
 
     const regUserMutation = useMutation(fetchRegUser, {
         onSuccess: () => onSuccessHandling(),
@@ -63,8 +63,8 @@ export default function SignPopup() {
 
 
     const onCloseRegPopup = () => {
-        setRegPopup(prev => !prev);
         setPasswordCheck(false);
+        changeRegPopup();
     }
 
     const onClickChangeStep = () => {
@@ -87,7 +87,7 @@ export default function SignPopup() {
         if (data) {
             localStorage.setItem('accessToken', data.accessToken);
             localStorage.setItem('refreshToken', data.refreshToken);
-            setRegPopup(prev => !prev);
+            changeRegPopup();
             window.location.reload();
         } else {
             setPasswordCheck(true);

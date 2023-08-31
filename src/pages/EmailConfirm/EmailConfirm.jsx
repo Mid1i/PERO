@@ -16,7 +16,6 @@ import "./EmailConfirm.style.scss";
 
 import emailConfirm from "@assets/images/content-images/email-confirm--success.jpg";
 
-//TODO: исправить письма с логотипом
 
 export default function EmailConfirm() {
     const mutation = useMutation(fetchTokens, {
