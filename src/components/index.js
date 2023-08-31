@@ -1,5 +1,5 @@
 import EmptyContent from "./EmptyContent/EmptyContent";
-import {MainFilters, PriceFilters, Sorting} from "./Filters";
+import {LoadingFilters, MainFilters, PriceFilters, Sorting} from "./Filters";
 import Footer from "./Footer/Footer";
 import GoodsSlider from "./GoodsSlider/GoodsSlider";
 import {HeaderTop, SearchBar, Brands} from "./Header";
@@ -16,6 +16,7 @@ export {
     GoodsSlider, 
     HeaderTop,
     LoadingCard,
+    LoadingFilters,
     MainFilters, 
     PriceFilters, 
     SneakerCard, 

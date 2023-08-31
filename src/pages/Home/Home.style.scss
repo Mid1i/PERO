@@ -156,7 +156,9 @@
             font-size: 20px;
         }
     }
-    .gender {
+
+    .gender--mobile,
+    .goods--mobile {
         margin-bottom: 100px;
     }
 }
@@ -190,7 +192,8 @@
 }
 
 @media(max-width: 420px) {
-    .gender {
+    .gender--mobile,
+    .goods--mobile {
         margin-bottom: 80px;
     }
 }

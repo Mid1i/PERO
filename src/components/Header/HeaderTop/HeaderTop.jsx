@@ -1,10 +1,11 @@
-import {useContext, useEffect, useReducer} from "react";
+import {useContext, useReducer} from "react";
 import {useNavigate, useLocation} from "react-router-dom";
 import classNames from "classnames";
 
-import {imageImport, toFormatBrandForRequest} from "@utils/helpers";
+import {imageImport, isPWA, toFormatBrandForRequest} from "@utils/helpers";
 import {appContext} from "@services/Context";
 import {brands} from "@utils/constants";
+import {useNoScroll} from "@hooks";
 
 import mainLogo  from "@assets/images/logo/shop-logo.svg";
 
@@ -20,20 +21,18 @@ export default function HeaderTop({className='header', pageToLink='/catalog/', p
 
     const navigate = useNavigate();
     const {pathname} = useLocation();
-
-
-    useEffect(() => {
-        if(popupMenu) {
-            document.body.classList.add("no-scroll");
-        } else {
-            document.body.classList.remove("no-scroll");
-        }
-    }, [popupMenu])
+    
+    useNoScroll(popupMenu);
 
 
     const onClickBrand = (value) => {
         changePopupMenu();
         navigate(`/catalog/?brands=${toFormatBrandForRequest(value)}`);
+    }
+
+    const onClickRegPopup = () => {
+        changeRegPopup();
+        changePopupMenu();
     }
 
     const onClickGender = (gender) => {
@@ -48,13 +47,21 @@ export default function HeaderTop({className='header', pageToLink='/catalog/', p
         return (
             <div className={classNames("blackout", popupMenu && "active")}>
                 <div className={classNames("header__mobile", popupMenu && "active")}>
-                    <h4 className="header__mobile-title">Бренды</h4>
+                    {isPWA() && <h4 className="header__mobile-title">Бренды</h4>}
                     <ul className="header__mobile-list mobile-nav">
-                        {brands.map(({id, brand}) => (
+                        {isPWA() ? (
+                            brands.map(({id, brand}) => (
                                 <li className="mobile-nav__el" onClick={() => onClickBrand(brand)} key={id}>
                                     <img src={images.filter(obj => obj.includes(brand))} alt={brand}/>
                                 </li>
-                            )
+                            ))
+                        ) : (
+                            <>
+                                <li className="mobile-nav__el" onClick={() => navigate(pageToLink) }>{pageToLinkName}</li>
+                                <li className="mobile-nav__el">Избранное</li>
+                                <li className="mobile-nav__el" onClick={onClickRegPopup}>{isReg ? 'Профиль' : 'Войти'}</li>
+                                <li className="mobile-nav__el">Корзина</li>
+                            </>
                         )}
                     </ul>
                 </div>

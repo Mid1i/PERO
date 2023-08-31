@@ -4,15 +4,17 @@ import {TailSpin} from "react-loader-spinner";
 import queryString from "query-string";
 import classNames from "classnames";
 
+import {useNoScroll, usePaginationRequest, useRequest, useScroll} from "@hooks";
 import {appContext, catalogContext} from "@services/Context";
-import {fetchColors} from '@api';
 import {filters} from "@utils/constants";
-import {usePaginationRequest, useRequest, useScroll} from "@hooks";
+import {isPWA} from "@utils/helpers";
+import {fetchColors} from '@api';
 import {
     EmptyContent, 
     Footer, 
     HeaderTop, 
-    LoadingCard, 
+    LoadingCard,
+    LoadingFilters, 
     MainFilters, 
     PriceFilters, 
     SearchBar,
@@ -50,6 +52,7 @@ export default function Catalog() {
     const {data: colors, isError: isErrorColors, isLoading: isLoadingColors} = useRequest(fetchColors, 'colors');
 
     useScroll();
+    useNoScroll(isOpen);
     
 
     useEffect(() => {
@@ -59,14 +62,6 @@ export default function Catalog() {
             window.removeEventListener('scroll', scrollHandler);
         }
     })
-
-    useEffect(() => {
-        if (isOpen) {
-            document.body.classList.add("no-scroll")
-        } else {
-            document.body.classList.remove("no-scroll");
-        }
-    }, [isOpen])
 
     useEffect(() => {
         if (searchValue === '') {
@@ -169,7 +164,6 @@ export default function Catalog() {
         }
     }
 
-
     const contextData = {
         emptyLink, 
         formLink, 
@@ -193,7 +187,7 @@ export default function Catalog() {
                     <div className="catalog__filters">
                         <Sorting />
                         <div className="catalog__filters-items filters-items">
-                            {(!isLoadingColors && !isErrorColors) && filtersRender()}
+                            {isLoadingColors ? <LoadingFilters/> : (!isErrorColors && filtersRender())}
                         </div>
                         <div className="catalog__filters-mobile">
                             <div className="filters-mobile" onClick={() => setIsOpen(prev => !prev)}>
@@ -235,8 +229,8 @@ export default function Catalog() {
                     </div>
                 </div>
 
-                <div className="goods">
-                    <div className="goods__content goods__content--catalog">
+                <div className={classNames("goods", isPWA() && "goods--mobile")}>
+                    <div className="goods__content">
                         {isLoading ? <LoadingCard /> : (isError ? (
                                 <EmptyContent 
                                     title='Пока что все распродано'
@@ -263,7 +257,7 @@ export default function Catalog() {
                     }
                 </div>
             </div>
-            <Footer />
+            <Footer activePage='catalog'/>
 
             <SignPopup />
         </catalogContext.Provider>

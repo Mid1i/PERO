@@ -6,6 +6,7 @@ import classNames from "classnames";
 
 import {imageImport, toFormatPrice, toFormatBrand, toFormatBrandForRequest, toFormatTitle} from "@utils/helpers";
 import {appContext} from "@services/Context";
+import {useNoScroll} from "@hooks";
 
 import "./SneakerInfo.style.scss";
 
@@ -28,19 +29,12 @@ export default function Sneaker({brand, color, description, id, images, name, pr
 
     const navigate = useNavigate();
 
+    useNoScroll([popupImage, popupSizes, popupSuccess]);
+
 
     useEffect(() => {
         setCurrentImage(preview);
     }, [preview])
-
-    useEffect(() => {
-        if (popupImage || popupSizes || popupSuccess) {
-            document.body.classList.add("no-scroll");
-        } else {
-            document.body.classList.remove("no-scroll");
-        }
-    }, [popupImage, popupSizes, popupSuccess])
-
 
     const onBuyItem = () => {
         if (currentSize !== '') {
@@ -189,7 +183,6 @@ export default function Sneaker({brand, color, description, id, images, name, pr
             <div className={classNames("blackout sizes-block__blackout", (popupSizes || popupSuccess) && "active")}>
                 <div className={classNames("sizes-block", popupSizes && "active")}>
                     <div className="size-block__wrapper">
-                        <div className="effect"></div>
                         <div className="sizes-block__top">
                             <h4 className="sizes-block__top-title">Выберите размер</h4>
                             <img 
@@ -206,7 +199,6 @@ export default function Sneaker({brand, color, description, id, images, name, pr
 
                 <div className={classNames("success", popupSuccess && "active")}>
                     <div className="success__wrapper">
-                        <div className="effect"></div>
                         <div className="success__top">
                             <h4 className="success__top-title">Товар добавлен в корзину</h4>
                             <img 

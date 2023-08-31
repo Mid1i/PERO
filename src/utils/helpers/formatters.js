@@ -1,4 +1,4 @@
-export const toFormatBrand = (brand) => String(brand).toLowerCase().replace('_', ' ');
+export const toFormatBrand = (brand) => String(brand).toLowerCase().replace('_', ' ').replace('-', ' ');
 
 
 export const toFormatBrandForRequest = (brand) => String(brand).toUpperCase().replace('-', '_');
@@ -13,7 +13,6 @@ export const toFormatTitle = (title) => String(title).toUpperCase().replace('_',
 
 export const toFormatEmail = (email) => {
     const index = email.indexOf('@');
-
     return `${email.charAt(0)}${email.slice(index).replace(/./g, '*')}${email.slice(index)}`;
 }
 

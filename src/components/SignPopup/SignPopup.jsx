@@ -3,12 +3,14 @@ import {useContext, useEffect, useState} from "react";
 import {useMutation} from "react-query";
 import classNames from "classnames";
 
+import {isEmptyValue, toFormatEmail, toFormatTime} from "@utils/helpers"; 
+import {fetchEmail, fetchRegUser, fetchSignUser} from "@api";
+import {appContext} from "@services/Context";
 import {reg, sign} from "@utils/constants";
 import {blackCross} from "@assets/images";
-import {appContext} from "@services/Context";
-import {isEmptyValue, toFormatEmail, toFormatTime} from "@utils/helpers"; 
+import {useNoScroll} from "@hooks";
+
 import peroLogo from "@assets/images/logo/peroID-logo.svg";
-import {fetchEmail, fetchRegUser, fetchSignUser} from "@api";
 
 import "./SignPopup.style.scss";
 
@@ -39,15 +41,9 @@ export default function SignPopup() {
     const [value, setValue] = useState({'passwordCheck': ''});
     const [timer, setTimer] = useState(59);
 
+    useNoScroll(regPopup);
 
-    useEffect(() => {
-        if (regPopup) {
-            document.body.classList.add('no-scroll');
-        } else {
-            document.body.classList.remove('no-scroll');
-        }
-    }, [regPopup])
-
+    
     useEffect(() => {
         if (value.password !== value.passwordCheck && value.passwordCheck !== '') {
             setInputError({...inputError, 'passwordCheck': 'Пароли не совпадают'});
