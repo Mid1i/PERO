@@ -6,6 +6,7 @@ import {HeaderTop, SearchBar, Brands} from "./Header";
 import LoadingCard from "./SneakerCard/LoadingCard";
 import SignPopup from "./SignPopup/SignPopup";
 import SneakerCard from "./SneakerCard/SneakerCard";
+import SneakerSlider from "./SneakerSlider/SneakerSlider";
 import SneakerInfo from "./SneakerInfo/SneakerInfo";
 
 
@@ -23,5 +24,6 @@ export {
     SearchBar, 
     Sorting, 
     SignPopup,
+    SneakerSlider,
     SneakerInfo,
 };

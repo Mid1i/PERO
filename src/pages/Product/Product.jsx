@@ -1,19 +1,16 @@
-import useDraggableScroll from "use-draggable-scroll";
 import {TailSpin} from "react-loader-spinner";
 import {useParams} from "react-router-dom";
-import {useRef} from "react";
 
-import {fetchCurrentProduct, fetchRandomProducts} from "@api";
 import {useRequest, useScroll} from "@hooks";
+import {fetchCurrentProduct} from "@api";
 import { 
     Brands, 
     EmptyContent, 
-    LoadingCard,
     Footer, 
     HeaderTop, 
     SearchBar,
-    SignPopup, 
-    SneakerCard, 
+    SignPopup,
+    SneakerSlider, 
     SneakerInfo 
 } from "@components";
 
@@ -22,12 +19,8 @@ import "./Product.style.scss";
 
 export default function Product() {
     const params = useParams();
-    const slider = useRef(null);
     
     const {data: currentItem, isError, isLoading} = useRequest(fetchCurrentProduct, ['currentItem', params.id]);
-    const {data: items, isError: isErrorItems, isLoading: isLoadingItems} = useRequest(fetchRandomProducts, ['items', params.id])
-
-    const {onMouseDown} = useDraggableScroll(slider);
 
     useScroll();
 
@@ -50,23 +43,7 @@ export default function Product() {
                 ) : (
                     <>
                         <SneakerInfo {...currentItem}/> 
-                        {!isErrorItems && (
-                            <div className="extra-goods">
-                                <h4 className="extra-goods__title">Смотрите также:</h4>
-                                <div className="extra-goods__slider" ref={slider} onMouseDown={onMouseDown}>
-                                    {isLoadingItems ? (
-                                        <LoadingCard />
-                                    ) : (items.length !== 0) && (
-                                        items.filter(item => item.id !== currentItem.id).map((item) => (
-                                            <SneakerCard 
-                                                {...item} 
-                                                key={item.id} 
-                                            />)
-                                        )
-                                    )}
-                                </div>
-                            </div>
-                        )}
+                        <SneakerSlider id={currentItem.id} title='Смотрите также:'/>
                     </>
                 ))}
             </div>

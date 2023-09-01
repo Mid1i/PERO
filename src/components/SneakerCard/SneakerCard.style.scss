@@ -1,19 +1,19 @@
 .goods-item {
     background: #FFFFFF;
-    border-radius: 20px;
+    border-radius: 50px;
 
     cursor: pointer;
 
     display: flex;
     flex-direction: column;
 
-    margin: 0px 12px 20px;
+    margin: 0px 15px 20px;
     padding: 10px;
 
     position: relative;
     transition: all 0.1s linear;
 
-    max-width: 320px;
+    max-width: 280px;
 
     &__icon {
         align-items: center;
@@ -30,17 +30,22 @@
         height: 40px;
         width: 40px;
 
-        & svg path {
-            transition: all 0.1s linear;
+        & svg {
+            height: 60%;
+            width: 60%;
+
+            & path {
+                transition: all 0.1s linear;
+            }
         }
     }
 
     &__image {
-        border-radius: 10px;
+        border-radius: 50px;
 
         pointer-events: none;
 
-        height: 325px;
+        height: 282px;
         width: 100%;
     }
 
@@ -49,7 +54,7 @@
         font-size: 20px;
         font-weight: 600;
 
-        margin: 15px 0px 20px;
+        margin: 20px 0px;
 
         overflow: hidden;
         text-overflow: ellipsis;
@@ -75,14 +80,30 @@
 
 @media(max-width: 767px) {
     .goods-item {
-        width: 260px;
+        border-radius: 20px;
+
+        margin: 0px 10px 15px;
+
+        width: 200px;
+
+        &__icon {
+            top: 20px;
+            right: 20px;
+
+            height: 30px;
+            width: 30px;
+        }
 
         &__image {
-            height: 250px;
+            border-radius: 20px;
+
+            height: 190px;
         }
 
         &__title {
-            font-size: 18px;
+            font-size: 16px;
+
+            margin: 10px 0px 15px;
         }
 
         &__price {
@@ -91,20 +112,38 @@
     }
 }
 
-@media(max-width: 400px) {
+@media(max-width: 500px) {
     .goods-item {
-        width: 200px;
+        border-radius: 10px;
+
+        margin: 0px 5px 10px;
+
+        padding: 5px;
+
+        width: 145px;
+
+        &__icon {
+            top: 10px;
+            right: 10px;
+
+            height: 25px;
+            width: 25px;
+        }
 
         &__image {
-            height: 180px;
+            border-radius: 10px;
+
+            height: 140px;
         }
 
         &__title {
-            font-size: 16px;
+            font-size: 14px;
+
+            margin: 5px 0px 10px;
         }
 
         &__price {
-            font-size: 18px;
+            font-size: 16px;
         }
     }
 }

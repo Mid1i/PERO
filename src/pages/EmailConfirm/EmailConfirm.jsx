@@ -49,7 +49,7 @@ export default function EmailConfirm() {
             <HeaderTop />
             <SearchBar />
             <Brands />
-            <div className="content">
+            <div className="content content--confirm">
                 {mutation.isSuccess ? (
                     <>
                         <h1 className="content__title">Ваш почтовый адрес успешно подтверждён!</h1>

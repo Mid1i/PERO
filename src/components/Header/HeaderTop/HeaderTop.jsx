@@ -11,7 +11,7 @@ import mainLogo  from "@assets/images/logo/shop-logo.svg";
 
 import "./HeaderTop.style.scss";
 
-
+//TODO: Добавить иконки в меню
 export default function HeaderTop({className='header', pageToLink='/catalog/', pageToLinkName='Каталог'}) {
     const {isMale, isReg, setIsMale, changeRegPopup} = useContext(appContext);
 

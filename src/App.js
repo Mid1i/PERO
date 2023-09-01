@@ -5,7 +5,7 @@ import queryString from "query-string";
 
 import {appContext} from "@services/Context";
 
-import {Home, Catalog, EmailConfirm, Product} from "@pages";
+import {Home, Catalog, Cart, EmailConfirm, Product} from "@pages";
 
 
 export default function App() {
@@ -85,6 +85,7 @@ export default function App() {
             <appContext.Provider value={{...contextData}}>
                 <Routes>
                     <Route path='/' element={<Home />}></Route>
+                    <Route path='/cart' element={<Cart />}></Route>
                     <Route path='/catalog/:filters?' element={<Catalog />}></Route>
                     <Route path='/catalog/product/:id' element={<Product />}></Route>
                     <Route path='/auth/verify/:uuid' element={<EmailConfirm />}></Route>
