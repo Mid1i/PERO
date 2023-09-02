@@ -64,6 +64,14 @@ export default function Catalog() {
     })
 
     useEffect(() => {
+        if (isMale) {
+            document.title = 'Мужские кроссовки и кеды — купить в интернет-магазине PERO';
+        } else {
+            document.title = 'Женские кроссовки и кеды — купить в интернет-магазине PERO';
+        }
+    }, [isMale])
+
+    useEffect(() => {
         if (searchValue === '') {
             onChangeLink('search', '');
         }

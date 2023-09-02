@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 
 // import {installPWA} from "../../serviceWorker";
 import {useRequest, useScroll} from "@hooks";
@@ -33,6 +33,11 @@ export default function Home() {
     const navigate = useNavigate();
 
     useScroll();
+
+    
+    useEffect(() => {
+        document.title = 'Купить мужскую и женскую обувь в интернет-магазине PERO';
+    }, [])
 
 
     const onChooseGender = (gender) => {

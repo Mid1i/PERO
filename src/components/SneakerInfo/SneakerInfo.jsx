@@ -36,6 +36,10 @@ export default function Sneaker({brand, color, description, id, images, name, pr
         setCurrentImage(preview);
     }, [preview])
 
+    useEffect(() => {
+        document.title = `${'кроссовки'.indexOf(name.toLowerCase()) ? 'Кроссовки' : 'Кеды'} ${toFormatBrand(brand).toUpperCase()} — купить в интернет-магазине PERO`;
+    }, [name, brand])
+
     const onBuyItem = () => {
         if (currentSize !== '') {
             onAddToCart(currentSize);

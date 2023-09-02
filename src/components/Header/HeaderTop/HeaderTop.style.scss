@@ -104,12 +104,19 @@
     height: 100%;
 
     &__el {
+        align-items: center;
+        display: flex;
+
         cursor: pointer;
 
         font-size: 20px;
         font-weight: 600;
         
         margin: auto 0px;
+
+        & span {
+            margin-left: 10px;
+        }
 
         & img {
             height: 65px;
