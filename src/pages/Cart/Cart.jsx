@@ -37,11 +37,11 @@ export default function Cart() {
                                     <p className="cart-item__data-article">Арт. 3</p>
                                     <p className="cart-item__data-size">Размер: 42</p>
                                     <div className="cart-item__data-amount amount">
-                                        <button className="amount-substract">
+                                        <button className="amount__substract">
                                             <img src={substractBtn} alt="substract"/>
                                         </button>
-                                        <span className="amount-counter">1</span>
-                                        <button className="amount-add">
+                                        <span className="amount__counter">1</span>
+                                        <button className="amount__add">
                                             <img src={addBtn} alt="add"/>
                                         </button>
                                     </div>
