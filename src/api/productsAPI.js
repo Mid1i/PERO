@@ -15,5 +15,8 @@ export async function fetchRandomProducts() {
 
 export async function fetchCatalogProducts({queryKey, pageParam = 0}) {
     const {data} = await axios.get(`https://java.pero-nn.ru/api/public/get_sneakers?page=${pageParam}&size=4&isMale=${queryKey[1]}${queryKey[2].replace('?', '&')}`);
+    
+    await new Promise(resolve => setTimeout(() => resolve(true), 200));
+    
     return data;
 }

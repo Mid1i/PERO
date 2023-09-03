@@ -1,42 +1,46 @@
-.slick-list {
-    overflow: hidden; 
-}
-    
-.slick-track {
-    display: flex;
-}
-
-.slick-dots {
-    display: flex !important;
-    justify-content: center;
-
-    margin: 10px 0px;
-
-    & li button {
-        background: #E5E3E0;
-        border-radius: 50px;
-        color: transparent;
-        margin: 0px 5px;
-        height: 10px;
-        width: 60px;
-
-        transition: background 0.3s ease-out;
-    }
-
-    & li.slick-active button {
-        background: #212121;
-    }
-}
-
 .slider {
     margin-top: -10px;
 
     position: relative;
+    pointer-events: none;
     overflow: hidden;
     
     max-width: 1600px;
     height: 380px;
     width: 100%;
+
+    & .slick-list {
+        overflow: hidden;
+    }
+
+    & .slick-track {
+        display: flex;
+    }
+
+    & .slick-dots {
+        display: flex !important;
+        justify-content: center;
+
+        margin: 10px 0px;
+
+        & li button {
+            background: #E5E3E0;
+            border-radius: 50px;
+            
+            color: transparent;
+            
+            margin: 0px 5px;
+            pointer-events: auto;
+            
+            transition: all 0.2s linear;
+            height: 10px;
+            width: 60px;
+        }
+
+        & li.slick-active button {
+            background: #212121;
+        }
+    }
 
     &__section {
         position: relative;
@@ -81,6 +85,16 @@
             height: 24px;
             width: 70px;
         }
+    }
+}
+
+@media(hover: hover) {
+    .slick-dots li button:hover {
+        background: #3F3F3F;
+    }
+
+    & li.slick-active button:hover {
+        background: #212121;
     }
 }
 

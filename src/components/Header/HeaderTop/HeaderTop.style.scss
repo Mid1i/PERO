@@ -30,19 +30,15 @@
                 font-size: 18px;
                 font-weight: 500;
 
-                transition: transform 0.1s ease-in-out;
+                transition: transform 0.1s linear;
 
                 &:nth-child(2) {
-                    margin: 0px 10px;
+                    margin: 0px 5px;
                     pointer-events: none;
                 }
 
                 &.active {
                     text-decoration: underline;
-
-                    &:hover {
-                        color: #E47F46;
-                    }
                 }
             }
         }
@@ -133,9 +129,11 @@
 
     font-size: 18px;
 
+    position: relative;
+
     margin-left: 27px;
 
-    transition: transform 0.1s ease-in-out;
+    transition: all 0.1s linear;
 
     &:first-child {
         margin-left: 0px;
@@ -143,19 +141,51 @@
 
     & span {
         margin-left: 10px;
-    }
+    }   
 
-    &:hover svg path {
-        fill: #E47F46;
-    }    
+    & svg {
+        transition: all 0.3s linear;
+        transform: rotate3d(0, 1, 0, 0deg);
+    }
 }
 
-.nav-list__el:hover,
-.header__left-gender span:hover {
-    color: #E47F46;
+.nav-list__el::after {
+    background: #E47F46;
 
-    transform: scale(1.02);
-    text-decoration: underline;
+    content: '';
+
+    position: absolute;
+    bottom: -4px;
+    left: 0px;
+
+    transition: all 0.1s linear;
+    height: 1px;
+    width: 0px;
+}
+
+@media(hover: hover) {
+    .nav-list__el:hover {
+        color: #E47F46;
+
+        transform: scale(1.02);
+
+        &::after {
+            width: 100%;
+        }
+
+        & svg {
+            transform: rotate3d(0, 1, 0, 180deg);
+
+            & path {
+                fill:#E47F46;
+            }
+        }
+    }
+
+    .header__left-gender span:hover {
+        color:#E47F46;
+        text-decoration: underline;
+    }
 }
 
 @media(max-width: 1200px) {

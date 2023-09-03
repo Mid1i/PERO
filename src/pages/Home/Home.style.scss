@@ -26,7 +26,7 @@
         &-right {
             color: #E47F46;
             font-size: 24px;
-            font-weight: 500;
+            font-weight: 600;
 
             cursor: pointer;
 
@@ -36,6 +36,24 @@
                 visibility: hidden;
                 opacity: 0;
                 transition: all 0.1s linear; 
+            }
+
+            & span {
+                position: relative;
+
+                &::after {
+                    background: #F47E46;
+    
+                    content: '';
+    
+                    position: absolute;
+                    bottom: -2px;
+                    left: 0px;
+                    
+                    transition: all 0.1s linear;
+                    height: 2px;
+                    width: 0px;
+                }
             }
         }
     }
@@ -70,7 +88,7 @@
         height: 800px;
         width: 600px;
 
-        & img {
+        &-image {
             pointer-events: none;
 
             transition: all 0.1s linear; 
@@ -80,13 +98,30 @@
         }
 
         &-title {
+            align-items: center;
+            display: flex;
+
             color: #FFFFFF;
             font-size: 30px;
-            font-weight: 700;
+            font-weight: 600;
 
             position: absolute;
 
             z-index: 2;
+
+            & svg {
+                transition: all 0.1s linear;
+                height: 8px;
+                width: 100px;
+
+                &:first-child {
+                    margin-right: 15px;
+                }
+
+                &:last-child {
+                    margin-left: 15px;
+                }
+            }
         } 
     }
 
@@ -114,13 +149,21 @@
             opacity: 1;
             transform: translateX(10px);
         }
+
+        & span::after {
+            width: 100%;
+        }
     }
 
-    .gender__male:hover,
-    .gender__female:hover {
-        & img {
-            transform: scale(1.1);
-        }
+    .gender__male:hover .gender__male-image,
+    .gender__female:hover .gender__female-image {
+        transform: scale(1.1);
+    }
+
+    .gender__male:hover .gender__male-title svg,
+    .gender__female:hover .gender__female-title svg {
+        height: 15px;
+        width: 300px;
     }
 }
 
@@ -133,6 +176,11 @@
         width: 49%;
     }
 
+    .gender__male:hover .gender__male-title svg,
+    .gender__female:hover .gender__female-title svg {
+        width: 200px;
+    }
+
     .gender__male {
         margin-right: 5px;
     }
@@ -141,6 +189,13 @@
 @media(max-width: 1100px) {
     .goods {
         padding: 0px 20px;
+    }
+}
+
+@media(max-width: 830px) {
+    .gender__male-title img,
+    .gender__female-title img {
+        display: none;
     }
 }
 

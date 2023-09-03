@@ -18,7 +18,7 @@ export default function Brands({className='brands'}) {
                         className="brands__item" 
                         onClick={() => navigate(`/catalog/?brands=${toFormatBrandForRequest(brand)}`)} 
                         key={id}
-                        title={brand}
+                        title={toFormatBrand(brand).toUpperCase()}
                     >
                         <div className="brands__item-image">
                             <img src={images.filter(obj => obj.includes(brand))} alt={brand}/>

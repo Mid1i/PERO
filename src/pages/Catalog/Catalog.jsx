@@ -1,5 +1,6 @@
 import {useLocation, useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
+import {useInView} from "react-intersection-observer";
 import {TailSpin} from "react-loader-spinner";
 import queryString from "query-string";
 import classNames from "classnames";
@@ -51,17 +52,16 @@ export default function Catalog() {
 
     const {data: colors, isError: isErrorColors, isLoading: isLoadingColors} = useRequest(fetchColors, 'colors');
 
+    const {ref, inView} = useInView({threshold: 0.5})
+
     useScroll();
     useNoScroll(isOpen);
-    
 
     useEffect(() => {
-        window.addEventListener('scroll', scrollHandler);
- 
-        return function() {
-            window.removeEventListener('scroll', scrollHandler);
+        if (inView) {
+            fetchNextPage();
         }
-    })
+    }, [inView]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         if (isMale) {
@@ -88,7 +88,7 @@ export default function Catalog() {
         }
     }, [search]) // eslint-disable-line react-hooks/exhaustive-deps
 
-
+    
     const formLink = () => {
         let stringLink = '';
 
@@ -164,12 +164,6 @@ export default function Catalog() {
                 <PriceFilters />
             </>
         );
-    }
-
-    const scrollHandler = () => {
-        if (document.documentElement.scrollHeight - (document.documentElement.scrollTop + window.innerHeight) < 200 && !isLoading) {
-            fetchNextPage();
-        }
     }
 
     const contextData = {
@@ -265,7 +259,8 @@ export default function Catalog() {
                     }
                 </div>
             </div>
-            <Footer activePage='catalog'/>
+
+            <Footer activePage='catalog' footerRef={ref}/>
 
             <SignPopup />
         </catalogContext.Provider>
