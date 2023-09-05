@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&display=swap&family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;700&family=Raleway:wght@400;500;600;700&display=swap&family=Roboto&display=swap');
 
 body {
     background: #E5E3E0;
@@ -55,12 +55,11 @@ body {
 
 .btn {
     background: #E47F46;
-    border-radius: 50px;
 
     color: #FFFFFF;
     font-weight: 700;
 
-    transition: background 0.2s ease-in-out;
+    transition: all 0.2s linear;
 
     &:hover {
         background: lighten(#E47F46, 5%);
@@ -123,6 +122,14 @@ body {
     height: 100%;
     width: 100%;
     z-index: -1;
+}
+
+.slick-list {
+    overflow: hidden;
+}
+
+.slick-track {
+    display: flex;
 }
 
 @media(max-width: 767px) {

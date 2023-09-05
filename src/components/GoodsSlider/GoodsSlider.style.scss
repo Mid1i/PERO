@@ -9,14 +9,6 @@
     height: 380px;
     width: 100%;
 
-    & .slick-list {
-        overflow: hidden;
-    }
-
-    & .slick-track {
-        display: flex;
-    }
-
     & .slick-dots {
         display: flex !important;
         justify-content: center;
@@ -73,6 +65,8 @@
         }
     
         &__sign {
+            border-radius: 50px;
+            
             font-size: 14px;
             text-transform: uppercase;
     

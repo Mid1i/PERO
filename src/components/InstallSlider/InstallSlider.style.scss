@@ -1,0 +1,154 @@
+.install-popup {
+    background: #212121;
+
+    font-family: "Inter", sans-serif;
+
+    padding: 90px 30px 10px;
+
+    position: fixed;
+    left: 0px;
+    top: 0px;
+
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+
+    &__title {
+        color: #FFFFFF;
+        font-size: 22px;
+        font-weight: 700;
+
+        margin-bottom: 10px;
+
+        text-align: center;
+    }
+
+    &__subtitle {
+        color: #FFFFFF;
+        line-height: 16px;
+
+        margin-bottom: 30px;
+
+        text-align: center;
+    }
+
+    &__slider {
+        position: relative;
+
+        max-height: 300px;
+        height: auto;
+        width: 100%;
+
+        &-item {
+            height: 300px;
+            width: 100%;
+        }
+
+        & .slick-arrow {
+            border-radius: 5px;
+
+            font-size: 0px;
+
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+
+            height: 30px;
+            width: 30px;
+        }
+
+        & .slick-prev {
+            background: url("../../assets/images/icons/slider-prev-arrow.svg") center center no-repeat, #E47F46;
+
+            transform: translate(calc(-50% - 20px));
+        }
+
+        & .slick-next {
+            background: url("../../assets/images/icons/slider-next-arrow.svg") center center no-repeat, #E47F46;
+
+            transform: translate(calc(-50% + 20px));
+        }
+
+        & .slick-dots {
+            align-items: center;
+            display: flex !important;
+
+            position: fixed;
+            left: 50%;
+            top: 40px;
+
+            transform: translate(-50%);
+
+            & li button {
+                background: #F3F3F3;
+                border-radius: 1px;
+
+                font-size: 0px;
+
+                margin: 0px 3px;
+
+                transition: all 0.1s linear;
+                height: 3px;
+                width: 20px;
+            }
+
+            & li.slick-active button {
+                background: #E47F46;
+            }
+        }
+    }
+}
+
+.install-item {
+    align-items: center;
+    display: flex !important;
+    flex-direction: column;
+
+    position: relative;
+
+    &__image {
+        max-width: 280px;
+        height: 245px;
+        width: 100%;
+    }
+
+    &__step {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+
+        background: #121212;
+        border-radius: 10px;
+
+        filter: drop-shadow(0px -10px 20px rgba(228, 127, 70, 0.21));
+
+        padding: 17px;
+
+        position: absolute;
+        bottom: 20px;
+
+        height: 160px;
+        width: 180px;
+
+        &-image {
+            margin-bottom: 20px;
+    
+            &--square {
+                margin-bottom: 10px;
+            }
+        }
+    
+        &-text {
+            color: #FFFFFF;
+            line-height: 16px;
+    
+            text-align: center;
+        }
+    }
+
+    &__text {
+        color: #E47F46;
+
+        margin-top: 30px;
+    }
+}

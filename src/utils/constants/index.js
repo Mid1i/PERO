@@ -1,3 +1,4 @@
+import {installSliderData, installSliderSettings} from "./installSlider";
 import {goodsSliderData, goodsSliderSettings} from "./slider";
 import {footerTitles , footerElements} from "./footer";
 import {filters, sorting} from "./filters";
@@ -12,6 +13,8 @@ export {
     footerElements, 
     goodsSliderData, 
     goodsSliderSettings,
+    installSliderData,
+    installSliderSettings,
     reg,
     sign,
     sorting, 

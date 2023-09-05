@@ -11,7 +11,8 @@ import {
     Brands, 
     EmptyContent, 
     Footer, 
-    GoodsSlider, 
+    GoodsSlider,
+    InstallSlider, 
     HeaderTop, 
     LoadingCard, 
     SearchBar, 
@@ -107,6 +108,7 @@ export default function Home() {
             <Footer />
 
             <SignPopup />
+            <InstallSlider />
         </>
     );
 }
