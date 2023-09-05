@@ -16,7 +16,8 @@ import {
     HeaderTop, 
     LoadingCard,
     LoadingFilters, 
-    MainFilters, 
+    MainFilters,
+    InstallSlider, 
     PriceFilters, 
     SearchBar,
     SignPopup, 
@@ -261,7 +262,8 @@ export default function Catalog() {
             </div>
 
             <Footer activePage='catalog' footerRef={ref}/>
-
+            
+            <InstallSlider />
             <SignPopup />
         </catalogContext.Provider>
     );

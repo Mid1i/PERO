@@ -3,8 +3,10 @@ import {useEffect} from "react";
 import {isPWA} from "@utils/helpers";
 import {
     Footer,
+    InstallSlider,
     HeaderTop,
     SearchBar,
+    SignPopup,
     SneakerCart,
     SneakerSlider
 } from "@components";
@@ -49,6 +51,9 @@ export default function Cart() {
                 <SneakerSlider title='Рекомендуем:' mobileDevice={isPWA() ? true : false}/>
             </div>
             <Footer />
+
+            <InstallSlider />
+            <SignPopup />
         </>
     );
 }

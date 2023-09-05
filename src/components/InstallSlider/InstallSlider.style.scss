@@ -1,17 +1,45 @@
 .install-popup {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
     background: #212121;
 
     font-family: "Inter", sans-serif;
 
+    opacity: 0;
+
     padding: 90px 30px 10px;
 
+    pointer-events: none;
     position: fixed;
     left: 0px;
     top: 0px;
 
+    transition: all 0.1s linear;
     height: 100%;
     width: 100%;
     z-index: 10;
+
+    &.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    &__wrapper {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+
+        border: 1px solid #FFFFFF;
+        border-radius: 100px;
+
+        padding: 5px;
+
+        position: fixed;
+        top: 40px;
+        right: 30px;
+    }
 
     &__title {
         color: #FFFFFF;
@@ -96,6 +124,22 @@
                 background: #E47F46;
             }
         }
+    }
+
+    &__image {
+        margin: 50px 0px 60px;
+
+        height: 130px;
+        width: 130px;
+    }
+
+    &__btn {
+        border-radius: 50px;
+
+        font-size: 16px;
+
+        height: 40px;
+        width: 260px;
     }
 }
 

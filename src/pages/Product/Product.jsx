@@ -7,6 +7,7 @@ import {
     Brands, 
     EmptyContent, 
     Footer, 
+    InstallSlider,
     HeaderTop, 
     SearchBar,
     SignPopup,
@@ -49,6 +50,7 @@ export default function Product() {
             </div>
             <Footer className='footer mobile-off'/>
 
+            <InstallSlider />
             <SignPopup />
         </>
     );

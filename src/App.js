@@ -1,16 +1,19 @@
 import {QueryClient, QueryClientProvider} from "react-query";
 import {Route, Routes, useLocation} from "react-router-dom";
 import {useState, useEffect, useReducer} from "react";
+import {isMobile} from "react-device-detect";
 import queryString from "query-string";
 
 import {appContext} from "@services/Context";
 
 import {Home, Catalog, Cart, EmailConfirm, Product} from "@pages";
+import {isPWA} from "@utils/helpers";
 
 
 export default function App() {
     const [isMale, setIsMale] = useState(true);
     const [isReg, setIsReg] = useReducer(prev => !prev, false);
+    const [installPopup, setInstallPopup] = useReducer(prev => !prev, true);
     const [regPopup, changeRegPopup] = useReducer(prev => !prev, false);
     
     const [searchValue, setSearchValue] = useState('');
@@ -32,6 +35,11 @@ export default function App() {
 
         if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) {
             setIsReg();
+        }
+
+        setInstallPopup();
+        if (isPWA() || !isMobile) {
+            setInstallPopup();
         }
     }, [])
 
@@ -68,6 +76,7 @@ export default function App() {
     
     const contextData = {
         changeRegPopup,
+        installPopup,
         isMale, 
         isReg,
         isInFavorites, 
@@ -76,6 +85,7 @@ export default function App() {
         regPopup,
         setIsMale,
         searchValue, 
+        setInstallPopup,
         setSearchValue,
     };
 
