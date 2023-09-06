@@ -4,17 +4,16 @@ import classNames from "classnames";
 import {useRef} from "react";
 
 import {LoadingCard, SneakerCard} from "@components";
-import {fetchRandomProducts} from "@api";
 import {useRequest} from "@hooks";
 
 import "./SneakerSlider.style.scss";
 
 
-export default function SneakerSlider({id = -1, title, mobileDevice = true}) {
+export default function SneakerSlider({id = -1, title, mobileDevice = true, male, func}) {
     const params = useParams();
     const slider = useRef(null);
 
-    const {data: items, isError: isErrorItems, isLoading: isLoadingItems} = useRequest(fetchRandomProducts, ['items', params.id])
+    const {data: items, isError: isErrorItems, isLoading: isLoadingItems} = useRequest(func, ['items', params.id, male])
 
     const {onMouseDown} = useDraggableScroll(slider);
 
@@ -22,7 +21,7 @@ export default function SneakerSlider({id = -1, title, mobileDevice = true}) {
     return (
         !isErrorItems && (
             <div className={classNames("extra-goods", mobileDevice && "extra-goods--mobile")}>
-                <h4 className="extra-goods__title">{title}</h4>
+                <h4 className="extra-goods__title">{(!isLoadingItems && items?.length !== 0) && title}</h4>
                 <div className="extra-goods__slider" ref={slider} onMouseDown={onMouseDown}>
                     {isLoadingItems ? (
                         <LoadingCard />

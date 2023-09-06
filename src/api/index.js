@@ -1,6 +1,6 @@
 import {fetchColors} from "./colorsAPI";
 import {fetchCurrentProduct} from "./currentProductAPI";
-import {fetchCatalogProducts, fetchProducts, fetchRandomProducts} from "./productsAPI";
+import {fetchCatalogProducts, fetchProducts, fetchRandomProducts, fetchRandomGenderProducts} from "./productsAPI";
 import {fetchRegUser, fetchEmail, fetchTokens, fetchSignUser} from "./signAPI";
 
 export {
@@ -10,6 +10,7 @@ export {
     fetchEmail,
     fetchProducts,
     fetchRandomProducts,
+    fetchRandomGenderProducts,
     fetchRegUser,
     fetchTokens,
     fetchSignUser,

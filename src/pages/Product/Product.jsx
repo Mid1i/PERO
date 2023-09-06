@@ -1,8 +1,8 @@
 import {TailSpin} from "react-loader-spinner";
 import {useParams} from "react-router-dom";
 
+import {fetchCurrentProduct, fetchRandomGenderProducts} from "@api";
 import {useRequest, useScroll} from "@hooks";
-import {fetchCurrentProduct} from "@api";
 import { 
     Brands, 
     EmptyContent, 
@@ -44,7 +44,7 @@ export default function Product() {
                 ) : (
                     <>
                         <SneakerInfo {...currentItem}/> 
-                        <SneakerSlider id={currentItem.id} title='Смотрите также:'/>
+                        <SneakerSlider id={currentItem.id} title='Смотрите также:' male={currentItem.male} func={fetchRandomGenderProducts}/>
                     </>
                 ))}
             </div>

@@ -1,5 +1,6 @@
 import {useEffect} from "react";
 
+import {fetchRandomProducts} from "@api";
 import {isPWA} from "@utils/helpers";
 import {
     Footer,
@@ -48,7 +49,7 @@ export default function Cart() {
                         </div>
                     </div>
                 </div>
-                <SneakerSlider title='Рекомендуем:' mobileDevice={isPWA() ? true : false}/>
+                <SneakerSlider title='Рекомендуем:' mobileDevice={isPWA() ? true : false} func={fetchRandomProducts}/>
             </div>
             <Footer />
 

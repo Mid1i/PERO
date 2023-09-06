@@ -195,13 +195,24 @@
         }
     }
 
-    &__image {
+    &__wrapper {
+        overflow: hidden;
+
         position: absolute;
         right: 20px;
         top: -20%;
 
         height: 305px;
         width: 150px;
+
+        &-image {
+            position: absolute;
+            right: 0px;
+            top: 0px;
+
+            height: 100%;
+            width: 100%;
+        }
     }
 }
 
@@ -352,7 +363,7 @@
             bottom: 10px;
         }
 
-        &__image {
+        &__wrapper {
             right: 10px;
         }
     }
@@ -408,8 +419,12 @@
 }
 
 @media(max-width: 380px) {
-    .download__image {
-        right: -50px;
+    .download__wrapper {
+        right: 0px;
+
+        &-image {
+            right: -50px;
+        }
     }
 
     .download__click {

@@ -245,7 +245,6 @@ export default function SignPopup() {
         <div className={classNames("blackout sign-popup__blackout", regPopup && "active")}>
             <div className={classNames("sign-popup", regPopup && "active")}>
                 <div className="sign-popup__wrapper">
-                    <div className="effect"></div>
                     <div className="sign-popup__top">
                         <img src={peroLogo} alt="peroID" width={45} height={30}/>
                         <img src={blackCross} alt="close" width={28} height={28} onClick={() => onCloseRegPopup()}/>

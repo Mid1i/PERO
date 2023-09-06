@@ -80,6 +80,7 @@ export default function Sneaker({brand, color, description, id, images, name, pr
         )
     }
     
+
     return (
         <>
             <div className="product">

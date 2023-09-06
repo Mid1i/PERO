@@ -13,7 +13,7 @@ import {isPWA} from "@utils/helpers";
 export default function App() {
     const [isMale, setIsMale] = useState(true);
     const [isReg, setIsReg] = useReducer(prev => !prev, false);
-    const [installPopup, setInstallPopup] = useReducer(prev => !prev, true);
+    const [installPopup, setInstallPopup] = useReducer(prev => !prev, false);
     const [regPopup, changeRegPopup] = useReducer(prev => !prev, false);
     
     const [searchValue, setSearchValue] = useState('');
@@ -37,9 +37,10 @@ export default function App() {
             setIsReg();
         }
 
-        setInstallPopup();
-        if (isPWA() || !isMobile) {
+        if (!isPWA() && isMobile && !(localStorage.getItem('showInstall'))) {
             setInstallPopup();
+
+            localStorage.setItem('showInstall', 'false');
         }
     }, [])
 
