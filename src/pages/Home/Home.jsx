@@ -8,7 +8,7 @@ import {isPWA} from "@utils/helpers";
 import {fetchProducts} from "@api";
 import { 
     Brands, 
-    EmptyContent, 
+    EmptyContent,
     Footer, 
     GoodsSlider,
     InstallSlider, 
@@ -39,7 +39,6 @@ export default function Home() {
     useEffect(() => {
         document.title = 'Купить мужскую и женскую обувь в интернет-магазине PERO';
     }, [])
-
 
     const onChooseGender = (gender) => {
         setIsMale(gender);
