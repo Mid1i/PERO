@@ -1,4 +1,5 @@
 import EmptyContent from "./EmptyContent/EmptyContent";
+import Error from "./Error/Error";
 import {LoadingFilters, MainFilters, PriceFilters, Sorting} from "./Filters";
 import Footer from "./Footer/Footer";
 import GoodsSlider from "./GoodsSlider/GoodsSlider";
@@ -15,6 +16,7 @@ import SneakerInfo from "./SneakerInfo/SneakerInfo";
 export { 
     Brands, 
     EmptyContent, 
+    Error,
     Footer, 
     GoodsSlider, 
     InstallSlider,

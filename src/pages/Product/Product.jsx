@@ -5,7 +5,7 @@ import {fetchCurrentProduct, fetchRandomGenderProducts} from "@api";
 import {useRequest, useScroll} from "@hooks";
 import { 
     Brands, 
-    EmptyContent, 
+    Error,
     Footer, 
     InstallSlider,
     HeaderTop, 
@@ -21,7 +21,7 @@ import "./Product.style.scss";
 export default function Product() {
     const params = useParams();
     
-    const {data: currentItem, isError, isLoading} = useRequest(fetchCurrentProduct, ['currentItem', params.id]);
+    const {data: currentItem, error, isError, isLoading} = useRequest(fetchCurrentProduct, ['currentItem', params.id]);
 
     useScroll();
 
@@ -32,21 +32,16 @@ export default function Product() {
             <SearchBar className='search-bar mobile-off'/>
             <Brands className='brands mobile-off'/>
             <div className="content content--product">
-                {isLoading ? (
+                {(isLoading || (!isError)) ? (isLoading) ? (
                     <div className="loader">
                         <TailSpin ariaLabel='loading' color="#E47F46" height={100} width={100}/>
                     </div>
-                ) : ((isError) ? (
-                    <EmptyContent 
-                        title='Товар не найден'
-                        btn={true}
-                    />
                 ) : (
                     <>
                         <SneakerInfo {...currentItem}/> 
                         <SneakerSlider id={currentItem.id} title='Смотрите также:' male={currentItem.male} func={fetchRandomGenderProducts}/>
                     </>
-                ))}
+                ) : <Error status={error.response.status}/>}
             </div>
             <Footer className='footer mobile-off'/>
 
