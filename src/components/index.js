@@ -11,6 +11,7 @@ import SneakerCard from "./SneakerCard/SneakerCard";
 import SneakerCart from "./SneakerCart/SneakerCart";
 import SneakerSlider from "./SneakerSlider/SneakerSlider";
 import SneakerInfo from "./SneakerInfo/SneakerInfo";
+import UserData from "./UserData/UserData";
 
 
 export { 
@@ -32,4 +33,5 @@ export {
     SignPopup,
     SneakerSlider,
     SneakerInfo,
+    UserData,
 };

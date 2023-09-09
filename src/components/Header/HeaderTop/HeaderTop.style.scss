@@ -30,6 +30,8 @@
                 font-size: 18px;
                 font-weight: 500;
 
+                position: relative;
+
                 transition: transform 0.1s linear;
 
                 &:nth-child(2) {
@@ -149,7 +151,8 @@
     }
 }
 
-.nav-list__el::after {
+.nav-list__el::after,
+.header__left-gender span::after {
     background: #E47F46;
 
     content: '';
@@ -161,6 +164,10 @@
     transition: all 0.1s linear;
     height: 1px;
     width: 0px;
+}
+
+.header__left-gender span::after {
+    bottom: 0px;
 }
 
 @media(hover: hover) {
@@ -184,7 +191,15 @@
 
     .header__left-gender span:hover {
         color:#E47F46;
-        text-decoration: underline;
+        
+        &::after {
+            width: 100%;
+        }
+
+        &:nth-child(2)::after,
+        &.active::after {
+            width: 0px;
+        }
     }
 }
 

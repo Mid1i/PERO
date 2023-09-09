@@ -140,7 +140,8 @@ body {
             padding: 0px;
         }
         
-        &--home {
+        &--home,
+        &--account {
             margin-top: 15px;
         }
     }
@@ -151,10 +152,6 @@ body {
 }
 
 @media(max-width: 400px) {
-    .content-home {
-        margin-top: 15px;
-    }
-
     .loader--catalog {
         margin: 15px 0px;
         
