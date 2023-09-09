@@ -13,8 +13,17 @@ import telegramLogo from "@assets/images/social-media/telegram.svg";
 
 
 export default function Footer({className='footer', activePage, footerRef}) {
-    const {changeRegPopup} = useContext(appContext);
+    const {changeRegPopup, isReg} = useContext(appContext);
     const navigate = useNavigate();
+
+    
+    const onClickAccount = () => {
+        if (isReg) {
+            navigate('/customer/account');
+        } else {
+            changeRegPopup();
+        }
+    }
 
 
     const footerMobileRender = () => {
@@ -70,7 +79,7 @@ export default function Footer({className='footer', activePage, footerRef}) {
                         className={classNames(activePage === 'profile' && "active")} 
                         fill="none"
                         height="40" 
-                        onClick={changeRegPopup} 
+                        onClick={onClickAccount} 
                         viewBox="0 0 35 40" 
                         width="35" 
                     >

@@ -2,7 +2,10 @@ import addBtn from "./icons/add.svg";
 import backArrow from "./icons/back-arrow.svg";
 import blackCross from "./icons/black-cross.svg";
 import checkIcon from "./icons/check-icon.svg";
+import changePassword from "./icons/change-password-icon.svg";
+import emailIcon from "./icons/email-icon.svg";
 import filtersIcon from "./icons/filters-icon.svg";
+import greenCheckIcon from "./icons/green-check.svg";
 import listArrow from "./icons/list-arrow.svg";
 import shareIcon from "./icons/share-icon.svg";
 import sneakerHeartDefault from "./icons/sneaker-heart-default.svg";
@@ -17,7 +20,10 @@ export {
     backArrow,
     blackCross,
     checkIcon,
+    changePassword,
+    emailIcon,
     filtersIcon,
+    greenCheckIcon,
     listArrow,
     shareIcon,
     sneakerHeartDefault,
