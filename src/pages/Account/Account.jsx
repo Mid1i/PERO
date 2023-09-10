@@ -1,5 +1,7 @@
+import classNames from "classnames";
 import {useEffect} from "react";
 
+import {isPWA} from "@utils/helpers";
 import {
     Brands,
     Footer,
@@ -24,7 +26,7 @@ export default function Account() {
             <SearchBar />
             <Brands />
             <div className="content content--account">
-                <div className="account">
+                <div className={classNames("account", isPWA() && "account--mobile")}>
                     <div className="account__panel">
                         <h6 className="account__panel-title active">Мои данные</h6>
                         <h6 className="account__panel-title">Мои заказы</h6>

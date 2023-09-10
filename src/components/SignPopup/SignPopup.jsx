@@ -15,8 +15,6 @@ import peroLogo from "@assets/images/logo/peroID-logo.svg";
 import "./SignPopup.style.scss";
 
 
-//TODO: баг при неправильном пароле и подтверждении почты при входе
-
 export default function SignPopup() {
     const {regPopup, changeRegPopup} = useContext(appContext);
 

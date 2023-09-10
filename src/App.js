@@ -6,7 +6,7 @@ import queryString from "query-string";
 
 import {appContext} from "@services/Context";
 
-import {Account, Catalog, Cart, EmailConfirm, Home, Product} from "@pages";
+import {Account, Catalog, Cart, EmailConfirm, NotFound, Home, Product} from "@pages";
 import {isPWA} from "@utils/helpers";
 
 
@@ -101,6 +101,7 @@ export default function App() {
                     <Route path='/catalog/product/:id' element={<Product />}></Route>
                     <Route path='/auth/verify/:uuid' element={<EmailConfirm />}></Route>
                     <Route path='/customer/account' element={<Account />}></Route>
+                    <Route path='*' element={<NotFound />}></Route>
                 </Routes>
             </appContext.Provider>
         </QueryClientProvider>

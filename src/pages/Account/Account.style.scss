@@ -14,6 +14,12 @@
         padding-top: 10px;
         padding-right: 50px;
 
+        position: sticky;
+        top: 0px;
+        left: 0px;
+
+        height: 130px;
+
         &-title {
             cursor: pointer;
 
@@ -92,6 +98,10 @@
 
         padding: 10px 10px;
 
+        &--mobile {
+            margin-bottom: 130px;
+        }
+
         &__panel {
             border-bottom: 2px solid #CFCCC7;
 
@@ -99,6 +109,10 @@
             justify-content: space-between;
 
             padding: 0px 10px;
+
+            position: static;
+
+            height: auto;
 
             &-title {
                 margin-bottom: 10px;
@@ -119,6 +133,10 @@
 }
 
 @media(max-width: 500px) {
+    .account--mobile {
+        margin-bottom: 100px;
+    }
+
     .account__panel-title {
         font-size: 16px;
     }
