@@ -1,0 +1,44 @@
+.left-panel {
+    display: flex;
+    flex-direction: column;
+
+    margin-right: 50px;
+    padding: 10px 0px;
+
+    &__title {
+        font-size: 18px;
+        font-weight: 700;
+
+        &:first-child {
+            text-transform: uppercase;
+        }
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+
+        margin-top: 20px;
+        margin-bottom: 30px;
+
+        &-el {
+            cursor: pointer;
+
+            font-size: 16px;
+            font-weight: 400;
+
+            margin-bottom: 20px;
+
+            transition: all 0.1s linear;
+            max-width: 80px;
+
+            &:last-child {
+                margin-bottom: 0px;
+            }
+
+            &:hover {
+                color: #E47F46;
+            }
+        }
+    }
+}

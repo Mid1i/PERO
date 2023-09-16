@@ -5,6 +5,7 @@ import Footer from "./Footer/Footer";
 import GoodsSlider from "./GoodsSlider/GoodsSlider";
 import InstallSlider from "./InstallSlider/InstallSlider";
 import {HeaderTop, SearchBar, Brands} from "./Header";
+import LeftNavPanel from "./LeftNavPanel/LeftNavPanel";
 import LoadingCard from "./SneakerCard/LoadingCard";
 import SignPopup from "./SignPopup/SignPopup";
 import SneakerCard from "./SneakerCard/SneakerCard";
@@ -22,6 +23,7 @@ export {
     GoodsSlider, 
     InstallSlider,
     HeaderTop,
+    LeftNavPanel,
     LoadingCard,
     LoadingFilters,
     MainFilters, 
