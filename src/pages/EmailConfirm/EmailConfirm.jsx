@@ -14,7 +14,7 @@ import {
 
 import "./EmailConfirm.style.scss";
 
-import emailConfirm from "@assets/images/content-images/email-confirm--success.jpg";
+import emailConfirm from "@assets/images/content-images/email-success.jpg";
 
 
 export default function EmailConfirm() {

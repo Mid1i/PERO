@@ -20,6 +20,7 @@ export const footerElements = [
     {
         id: 1,
         elements: ['контакты', 'магазины', 'о нас'],
+        links: ['/contacts', '/shops', '/about'],
     },
     {
         id: 2,
@@ -28,5 +29,6 @@ export const footerElements = [
     {
         id: 3,
         elements: ['доставка и оплата', 'обмен и возврат', 'уход за обувью'],
+        links: ['/delivery-and-payment', '/exchange-and-return', '/care-of-shoes'],
     },
 ];

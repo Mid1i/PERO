@@ -25,6 +25,15 @@ export default function Footer({className='footer', activePage, footerRef}) {
         }
     }
 
+    const onClickFooterElement = (id, element, elementId) => {
+        if (id === 2) {
+            navigate(`/catalog/?brands=${toFormatBrandForRequest(element)}`);
+        } else {
+            const link = footerElements[id - 1].links[elementId];
+            navigate(link);
+        }
+    }
+
 
     const footerMobileRender = () => {
         return (
@@ -104,7 +113,7 @@ export default function Footer({className='footer', activePage, footerRef}) {
                                             {footerElements[id - 1].elements.map((element, index) => (
                                                 <li 
                                                     className="footer-block__list-el" 
-                                                    onClick={() => id === 2 && navigate(`/catalog/?brands=${toFormatBrandForRequest(element)}`)} 
+                                                    onClick={() => onClickFooterElement(id, element, index)} 
                                                     key={index}
                                                 >
                                                     {element}</li>

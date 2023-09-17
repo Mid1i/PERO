@@ -23,7 +23,7 @@ import "./Home.style.scss";
 
 import maleImage from "@assets/images/gender-images/1.jpg";
 import femaleImage from "@assets/images/gender-images/2.jpg";
-import phoneImage from "@assets/images/content-images/pero-mobile.png";
+import phoneImage from "@assets/images/content-images/main-page/pero-mobile.png";
 
 
 export default function Home() {

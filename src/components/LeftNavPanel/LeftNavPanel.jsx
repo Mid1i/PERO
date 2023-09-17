@@ -1,16 +1,14 @@
-import classNames from "classnames";
-
 import "./LeftNavPanel.style.scss";
 
 
-export default function LeftNavPanel({activeElement='about'}) {
+export default function LeftNavPanel() {
     return (
         <div className="info__left-panel left-panel">
             <h6 className="left-panel__title">Pero</h6>
             <ul className="left-panel__list">
-                <li className={classNames("left-panel__list-el", activeElement === 'contacts' && "active")}>Контакты</li>
-                <li className={classNames("left-panel__list-el", activeElement === 'shops' && "active")}>Магазины</li>
-                <li className={classNames("left-panel__list-el", activeElement === 'about' && "active")}>О нас</li>
+                <li className="left-panel__list-el">Контакты</li>
+                <li className="left-panel__list-el">Магазины</li>
+                <li className="left-panel__list-el">О нас</li>
             </ul>
             <h6 className="left-panel__title">Помощь</h6>
             <ul className="left-panel__list">

@@ -14,12 +14,6 @@
         padding-top: 10px;
         padding-right: 50px;
 
-        position: sticky;
-        top: 0px;
-        left: 0px;
-
-        height: 130px;
-
         &-title {
             cursor: pointer;
 
@@ -109,10 +103,6 @@
             justify-content: space-between;
 
             padding: 0px 10px;
-
-            position: static;
-
-            height: auto;
 
             &-title {
                 margin-bottom: 10px;

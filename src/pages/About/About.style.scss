@@ -1,14 +1,62 @@
-.content__banner {
-    object-fit: cover;
-
-    margin: 20px 0px; 
-
-    height: 210px;
-    width: 100%;
-}
-
 .about {
     display: flex;
 
-    padding: 0px 30px;
+    padding: 20px 30px;
+
+    max-width: 1600px;
+    height: 100%;
+    width: 100%;
+
+    &__right {
+        border-left: 2px solid #CFCCC7;
+
+        display: flex;
+        flex: 1 0 auto;
+        flex-direction: column;
+
+        padding-left: 40px;
+
+        &-title {
+            font-size: 22px;
+            font-weight: 700;
+
+            margin-bottom: 20px;
+        }
+
+        &-text {
+            line-height: 18px;
+
+            margin-bottom: 10px;
+
+            max-width: 740px;
+        }
+    }
+}
+
+.image-block {
+    display: flex;
+    flex-wrap: wrap;
+
+    margin-top: 10px;
+
+    height: 450px;
+
+    &__image {
+        pointer-events: none;
+
+        &--first,
+        &--second {
+            height: 100%;
+            width: 300px;    
+        }
+
+        &--second {
+            margin: 0px 20px;
+        }
+
+        &--third {
+            height: 100%;
+            width: 720px;
+        }
+    }
 }
