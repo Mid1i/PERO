@@ -124,7 +124,7 @@ export default function Footer({className='footer', activePage, footerRef}) {
                                 )
                             )}
                             <div className="footer__top-block footer-block footer-block--last">
-                                <h5 className="footer-block__title">Остались вопросы ?</h5>
+                                <h5 className="footer-block__title">Остались вопросы?</h5>
                                 <p className="footer-block__text">Мы с радостью на них ответим</p>
                                 <Link to='https://t.me/pero_nn_bot'>
                                     <button className="footer-block__btn btn">Задать вопрос</button>

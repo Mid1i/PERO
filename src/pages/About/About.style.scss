@@ -11,7 +11,6 @@
         border-left: 2px solid #CFCCC7;
 
         display: flex;
-        flex: 1 0 auto;
         flex-direction: column;
 
         padding-left: 40px;
@@ -39,24 +38,49 @@
 
     margin-top: 10px;
 
-    height: 450px;
+    &__left {
+        display: flex;
+        flex-direction: column;
 
-    &__image {
+        margin-right: 25px;
+
+        &-image {
+            pointer-events: none;
+            width: 380px;
+
+            &:first-child {
+                margin-bottom: 25px;
+                height: 230px;
+            }
+
+            &:last-child {
+                height: 315px;
+            }
+        }
+    }
+
+    &__right-image {
         pointer-events: none;
+        height: 570px;
+        width: 380px;
+    }
+}
 
-        &--first,
-        &--second {
-            height: 100%;
-            width: 300px;    
+@media(max-width: 1030px) {
+    .image-block__left-image {
+        width: 320px;
+
+        &:first-child {
+            height: 190px;
         }
 
-        &--second {
-            margin: 0px 20px;
+        &:last-child {
+            height: 280px;
         }
+    }
 
-        &--third {
-            height: 100%;
-            width: 720px;
-        }
+    .image-block__right-image {
+        height: 495px;
+        width: 335px;
     }
 }
