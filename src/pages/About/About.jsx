@@ -1,5 +1,6 @@
 import {useEffect} from "react";
 
+import {useScroll} from "@hooks";
 import {
     Footer, 
     LeftNavPanel,
@@ -14,8 +15,12 @@ import image1 from "@assets/images/content-images/about-page/about-image-1.jpg";
 import image2 from "@assets/images/content-images/about-page/about-image-2.jpg";
 import image3 from "@assets/images/content-images/about-page/about-image-3.jpg";
 
+import banner from "@assets/images/content-images/info-page/banner-image.jpg";
+
 
 export default function About() {
+    useScroll();
+    
     useEffect(() => {
         document.title = 'О нас - PERO';
     }, [])
@@ -26,6 +31,7 @@ export default function About() {
             <HeaderTop />
             <SearchBar />
             <div className="content content--about">
+                <img src={banner} alt="banner" className="content__banner"/>
                 <div className="about">
                     <LeftNavPanel />
                     <div className="about__right">

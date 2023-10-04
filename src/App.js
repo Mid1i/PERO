@@ -6,7 +6,7 @@ import queryString from "query-string";
 
 import {appContext} from "@services/Context";
 
-import {About, Account, Catalog, Cart, EmailConfirm, NotFound, Home, Product} from "@pages";
+import {About, Account, Catalog, Cart, Contacts, EmailConfirm, NotFound, Home, Product} from "@pages";
 import {isPWA} from "@utils/helpers";
 
 
@@ -24,8 +24,7 @@ export default function App() {
     const {search} = useLocation();
 
     const queryClient = new QueryClient();
-
-
+    
     useEffect(() => {
         const favourites = JSON.parse(localStorage.getItem('favorites'));
         const cart = JSON.parse(localStorage.getItem('cart'));
@@ -99,6 +98,7 @@ export default function App() {
                     <Route path='/cart' element={<Cart />}></Route>
                     <Route path='/about' element={<About />}></Route>
                     <Route path='/catalog/:filters?' element={<Catalog />}></Route>
+                    <Route path='/contacts' element={<Contacts />}></Route>
                     <Route path='/catalog/product/:id' element={<Product />}></Route>
                     <Route path='/auth/verify/:uuid' element={<EmailConfirm />}></Route>
                     <Route path='/customer/account' element={<Account />}></Route>

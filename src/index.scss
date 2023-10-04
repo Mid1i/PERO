@@ -51,6 +51,15 @@ body {
     margin-top: 20px;
 
     width: 100%;
+
+    &__banner {
+        pointer-events: none;
+        
+        margin-top: 5px;
+        
+        height: auto;
+        width: 100%;
+    }
 }
 
 .btn {
@@ -141,7 +150,6 @@ body {
         }
         
         &--home,
-        &--about,
         &--account {
             margin-top: 15px;
         }

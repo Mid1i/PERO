@@ -1,7 +1,7 @@
 import {BrowserRouter as Router} from "react-router-dom";
 import ReactDOM from "react-dom/client";
-import React from "react";
 import "@services/serviceWorker";
+import React from "react";
 
 import App from "./App";
 

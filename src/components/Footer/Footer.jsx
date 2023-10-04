@@ -34,6 +34,16 @@ export default function Footer({className='footer', activePage, footerRef}) {
         }
     }
 
+    const onClickFooterTitle = (title) => {
+        const links = {
+            'О магазине': '/about',
+            'Бренды': '/brands',
+            'Помощь': '/help'
+        };
+        
+        navigate(links[title]);
+    }
+
 
     const footerMobileRender = () => {
         return (
@@ -108,7 +118,7 @@ export default function Footer({className='footer', activePage, footerRef}) {
                         <div className="footer__top">
                             {titles.map(({id, title}) => (
                                     <div className="footer__top-block footer-block" key={id}>
-                                        <h5 className="footer-block__title">{title}</h5>
+                                        <h5 className="footer-block__title" onClick={() => onClickFooterTitle(title)}>{title}</h5>
                                         <ul className="footer-block__list">
                                             {footerElements[id - 1].elements.map((element, index) => (
                                                 <li 
