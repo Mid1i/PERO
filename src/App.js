@@ -25,8 +25,8 @@ export default function App() {
         const favourites = JSON.parse(localStorage.getItem('favorites'));
         const cart = JSON.parse(localStorage.getItem('cart'));
 
-        Array.isArray(favourites) && setLikedItems(favourites);
-        Array.isArray(cart) && setCartItems(cart);
+        if (Array.isArray(favourites)) setLikedItems(favourites);
+        if (Array.isArray(cart)) setCartItems(cart);
 
         if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) setIsRegisteredUser();
 
@@ -65,6 +65,7 @@ export default function App() {
     }
     
     const isInFavorites = (id) => likedItems.includes(id);
+    
     
     const contextData = {
         authPopup,

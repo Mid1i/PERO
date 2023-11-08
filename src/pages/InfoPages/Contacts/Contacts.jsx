@@ -15,7 +15,6 @@ import "./Contacts.style.scss";
 
 import tgIcon from "@assets/images/social-media/telegram.svg";
 import gitIcon from "@assets/images/social-media/github.svg";
-import peroIcon from "@assets/images/logo/pero-logo.svg";
 
 import banner from "@assets/images/content-images/info-page/banner-image.jpg";
 
@@ -63,11 +62,6 @@ export default function About() {
                             <div className="contacts__blocks-item links-item">
                                 <h6 className="links-item__title">PERO</h6>
                                 <p className="links-item__text">Лендинг франшизы PERO.</p>
-                                <div className="links-item__hrefs">
-                                    <Link to=''>
-                                        <img src={peroIcon} className="links-item__hrefs-pero" alt="site:pero"/>
-                                    </Link>
-                                </div>
                             </div>
                             <div className="contacts__blocks-item links-item">
                                 <h6 className="links-item__title">Служба поддержки клиентов</h6>

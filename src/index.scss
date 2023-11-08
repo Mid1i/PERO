@@ -31,7 +31,7 @@
 
 body {
     background: #E5E3E0;
-    color: #000000;
+    color: #1F1F21;
 
     font-family: "San Francisco", sans-serif;
     font-size: 14px;
@@ -64,13 +64,13 @@ body {
     align-items: center;
     display: flex;
     flex-direction: column;
-
     height: 100%;
     width: 100%;
 }
 
+
 .content {
-    background: #F3F3F3;
+    background: #F7F7F7;
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -87,22 +87,6 @@ body {
     }
 }
 
-.btn {
-    background: #E47F46;
-
-    color: #FFFFFF;
-    font-weight: 700;
-
-    transition: all 0.2s linear;
-
-    &:hover {
-        background: lighten(#E47F46, 5%);
-    }
-
-    &:active {
-        background: darken(#E47F46, 5%);
-    }
-}
 
 .loader {
     align-items: center;
@@ -123,6 +107,7 @@ body {
     }
 }
 
+
 .blackout {
     background: rgba(0, 0, 0, 0.8);
     position: fixed;
@@ -142,6 +127,7 @@ body {
         visibility: visible;
     }
 }
+
 
 .slick-list {
     overflow: hidden;

@@ -43,12 +43,12 @@ export default function Sorting() {
                         >
                             {currentSorting === value ? (
                                 <svg className="sort-list__el-icon" fill="none" height="16" viewBox="0 0 16 16" width="16">
-                                    <circle cx="8" cy="8" r="7.5" stroke="#000000"/>
-                                    <circle cx="7.99999" cy="7.99999" r="4.44444" fill="#000000"/>
+                                    <circle cx="8" cy="8" r="7.5" stroke="#1F1F21"/>
+                                    <circle cx="7.99999" cy="7.99999" r="4.44444" fill="#1F1F21"/>
                                 </svg>
                             ) : (
                                 <svg className="sort-list__el-icon" fill="none" height="16" viewBox="0 0 16 16" width="16">
-                                    <circle cx="8" cy="8" r="7.5" stroke="#000000"/>
+                                    <circle cx="8" cy="8" r="7.5" stroke="#1F1F21"/>
                                 </svg>
                             )}
                             <p className="sort-list__el-text">{sortingData.elements[index]}</p>

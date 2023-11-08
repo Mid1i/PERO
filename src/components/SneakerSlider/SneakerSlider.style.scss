@@ -3,7 +3,7 @@
     width: 100%;
 
     &.mobile {
-        margin-bottom: 150px;
+        margin-bottom: 60px;
     }
 
     &__title {
@@ -30,7 +30,7 @@
         margin-bottom: 20px;
 
         &.mobile {
-            margin-bottom: 100px;
+            margin-bottom: 45px;
         }
 
         &__title {
@@ -51,10 +51,6 @@
 @media(max-width: 500px) {
     .similar-goods {
         margin-bottom: 10px;
-
-        &.mobile {
-            margin-bottom: 90px;
-        }
 
         &__title {
             font-size: 14px;

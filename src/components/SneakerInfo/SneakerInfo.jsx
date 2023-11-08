@@ -61,7 +61,7 @@ export default function Sneaker({brand, color, description, id, images, name, ma
             setChooseSize(false);
             setPopupSuccess();
 
-            if (isMobile) window.setTimeout(() => {setPopupSuccess();}, 3000);
+            if (isMobile) window.setTimeout(() => {setPopupSuccess();}, 2000);
         } else {
             setChooseSize(true);
         }
@@ -119,13 +119,6 @@ export default function Sneaker({brand, color, description, id, images, name, ma
                                 <path d="M17.3595 12.0614V12.1435C17.3455 12.157 17.3311 12.1709 17.3164 12.1852C17.1609 12.3359 16.9501 12.5449 16.6991 12.7959C16.1964 13.2987 15.5231 13.9799 14.7894 14.7237C14.5543 14.9621 14.3129 15.2069 14.0689 15.4544C12.7901 16.7515 11.4381 18.1229 10.5217 19.0333C10.2164 19.3222 9.78364 19.3222 9.47832 19.0333C8.38513 17.9473 6.64849 16.2066 5.17101 14.7214C4.43121 13.9777 3.75686 13.2986 3.2614 12.7984C3.0136 12.5482 2.81092 12.3432 2.66729 12.1973C2.65804 12.1879 2.64913 12.1789 2.64055 12.1701V12.0801L2.45655 11.8684C1.38323 10.6339 0.75 8.97826 0.75 7.2103V7.09585V6.99152C0.845755 3.53047 3.38374 0.864447 6.16916 0.864447C6.59028 0.864447 7.15113 1.03258 7.71455 1.38153C8.25273 1.71485 8.74106 2.18156 9.06933 2.72379C9.22657 3.11563 9.58858 3.41094 10.0498 3.41094C10.5262 3.41094 10.8969 3.0957 11.0451 2.68446C11.3242 2.11042 11.803 1.62291 12.3452 1.27506C12.9088 0.913557 13.4661 0.75 13.8308 0.75C16.7016 0.75 19.154 3.39976 19.25 6.99116V7.2103C19.25 9.10564 18.6095 10.7434 17.5653 11.8444L17.3595 12.0614Z" fill="none" stroke="white" strokeWidth="1.5"/>
                             </svg>
                         </span>
-                        {isPWA() && (
-                            <span className="product-left__home">
-                                <svg className="product-left__home-icon" fill="none" height="24" viewBox="0 0 23 24" width="23">
-                                    <path d="M22 18.9611V11.4927C22 10.7734 21.9994 10.4135 21.9141 10.0788C21.8386 9.78219 21.7145 9.5015 21.5466 9.24784C21.3572 8.96161 21.0938 8.72425 20.566 8.25058L14.266 2.5967C13.2861 1.71727 12.7961 1.27778 12.2447 1.11053C11.7588 0.963157 11.2409 0.963157 10.7551 1.11053C10.2041 1.27765 9.7148 1.71673 8.73635 2.59483L2.43427 8.25058C1.90647 8.72425 1.64318 8.96161 1.45374 9.24784C1.28585 9.5015 1.16084 9.78219 1.08527 10.0788C1 10.4135 1 10.7734 1 11.4927V18.9611C1 20.2156 1 20.8426 1.19982 21.3373C1.46624 21.997 1.97692 22.5218 2.62012 22.7951C3.10252 23 3.71406 23 4.93716 23C6.16026 23 6.77248 23 7.25488 22.7951C7.89808 22.5218 8.40863 21.9972 8.67505 21.3375C8.87486 20.8427 8.875 20.2155 8.875 18.961V17.6148C8.875 16.1279 10.0503 14.9225 11.5 14.9225C12.9497 14.9225 14.125 16.1279 14.125 17.6148V18.961C14.125 20.2155 14.125 20.8427 14.3248 21.3375C14.5912 21.9972 15.1019 22.5218 15.7451 22.7951C16.2275 23 16.8391 23 18.0622 23C19.2853 23 19.8975 23 20.3799 22.7951C21.0231 22.5218 21.5336 21.997 21.8 21.3373C21.9999 20.8426 22 20.2156 22 18.9611Z" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                </svg>
-                            </span>
-                        )}
                         <img 
                             alt={name} 
                             className="product-left__image"
@@ -202,10 +195,17 @@ export default function Sneaker({brand, color, description, id, images, name, ma
                                 </>
                             )}
                         </div>
-                        <div className={classNames("product-right__price", isPWA() && "mobile")}>
-                            <p className="product-right__price-text">{`${toFormatPrice(price)} ₽`}</p>
-                            <button className="product-right__price-btn" onClick={onBuyItem}>Купить</button>
-                        </div>
+                        {isPWA() ? (
+                            <>
+                                <p className="product-right__mobile-text">{`${toFormatPrice(price)} ₽`}</p>
+                                <button className="product-right__mobile-btn" onClick={onBuyItem}>Купить</button>
+                            </>
+                        ) : (
+                            <div className="product-right__price">
+                                <p className="product-right__price-text">{`${toFormatPrice(price)} ₽`}</p>
+                                <button className="product-right__price-btn" onClick={onBuyItem}>Купить</button>
+                            </div>
+                        )}
                         <div className="product-right__nav">
                             <p className="product-right__nav-text" onClick={onClickGenderText}>{`${male ? 'Мужские' : 'Женские'} кроссовки`}</p>
                             <p className="product-right__nav-text" onClick={() => navigate(`/catalog/?brands=${brand}`)}>{`Кроссовки ${toFormatTitle(brand)}`}</p>

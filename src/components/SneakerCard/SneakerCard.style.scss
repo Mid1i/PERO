@@ -19,7 +19,7 @@
         align-items: center;
         display: flex;
         justify-content: center;
-        background: #000000;
+        background: #1F1F21;
         border-radius: 100px;
         position: absolute;
         right: 25px;
@@ -37,8 +37,8 @@
             }
 
             &.liked path {
-                fill: #FE7575;
-                stroke: #FE7575;
+                fill: #FF2D55;
+                stroke: #FF2D55;
             }
         }
     }

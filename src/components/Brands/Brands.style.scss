@@ -24,12 +24,12 @@
         z-index: 1;
 
         &.slick-prev {
-            background: #000000 url('../../assets/images/icons/slider-prev-arrow.svg') center center no-repeat;
+            background: #1F1F21 url('../../assets/images/icons/slider-prev-arrow.svg') center center no-repeat;
             left: 60px;
         }
 
         &.slick-next {
-            background: #000000 url('../../assets/images/icons/slider-next-arrow.svg') center center no-repeat;
+            background: #1F1F21 url('../../assets/images/icons/slider-next-arrow.svg') center center no-repeat;
             right: 60px;
         }
     }

@@ -62,7 +62,7 @@ export default function Product() {
                     </>
                 ) : <Error status={error.response?.status || 404}/>}
             </div>
-            {!isPWA() && <Footer/>}
+            <Footer/>
 
             <AuthPopup/>
         </>

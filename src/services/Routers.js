@@ -4,18 +4,55 @@ import {About, Account, AuthEmail, Catalog, Cart, Contacts, NotFound, Home, Prod
 
 
 export default function Routers() {
+    const routers = [
+        {
+            path: '/',
+            element: <Home/>
+        },
+        {
+            path: '/catalog/:filters?',
+            element: <Catalog/>
+        },
+        {
+            path: '/catalog/product/:id',
+            element: <Product/>
+        },
+        {
+            path: '/auth/verify/:uuid',
+            element: <AuthEmail/>
+        },
+        {
+            path: '/customer/account',
+            element: <Account/>
+        },
+        {
+            path: '/cart',
+            element: <Cart/>
+        },
+        {
+            path: '/about',
+            element: <About/>
+        },
+        {
+            path: '/contacts',
+            element: <Contacts/>
+        },
+        {
+            path: '/shops',
+            element: <Shops/>
+        },
+        {
+            path: '*',
+            element: <NotFound/>
+        },
+    ]
+
+
     return (
         <Routes>
-            <Route path='/' element={<Home/>}></Route>
-            <Route path='/cart' element={<Cart/>}></Route>
-            <Route path='/about' element={<About/>}></Route>
-            <Route path='/catalog/:filters?' element={<Catalog/>}></Route>
-            <Route path='/contacts' element={<Contacts/>}></Route>
-            <Route path='/shops' element={<Shops/>}></Route>
-            <Route path='/catalog/product/:id' element={<Product/>}></Route>
-            <Route path='/auth/verify/:uuid' element={<AuthEmail/>}></Route>
-            <Route path='/customer/account' element={<Account/>}></Route>
-            <Route path='*' element={<NotFound/>}></Route>
+            {routers.map(({path, element}, index) => (
+                <Route path={path} element={element} key={index}></Route>
+            ))}
         </Routes>
     );
 }
