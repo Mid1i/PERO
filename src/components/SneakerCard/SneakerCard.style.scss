@@ -1,35 +1,32 @@
 .goods-item {
     background: #FFFFFF;
     border-radius: 50px;
-
     cursor: pointer;
-
     display: flex;
     flex-direction: column;
-
-    margin: 0px 15px 20px;
-    padding: 10px;
-
+    margin-right: 45px;
+    padding: 10px 10px 30px;
     position: relative;
     transition: all 0.1s linear;
+    width: 225px;
 
-    max-width: 280px;
+    &--catalog {
+        box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.20);
+        margin: 0px 10px 20px;
+    }
 
     &__icon {
         align-items: center;
         display: flex;
         justify-content: center;
-
-        background: #212121;
+        background: #000000;
         border-radius: 100px;
-
         position: absolute;
         right: 25px;
         top: 25px;
-
         height: 40px;
         width: 40px;
-        z-index: 2;
+        z-index: 1;
 
         & svg {
             height: 50%;
@@ -38,19 +35,22 @@
             & path {
                 transition: all 0.1s linear;
             }
+
+            &.liked path {
+                fill: #FE7575;
+                stroke: #FE7575;
+            }
         }
     }
 
-    &__wrapper {
+    &__image {
         border-radius: 50px;
-
         pointer-events: none;
-
         overflow: hidden;
-        height: 282px;
-        width: 100%;
-
-        &-image {
+        height: 205px;
+        width: 205px;
+        
+        &-preview {
             transition: all 0.1s linear;
             height: 100%;
             width: 100%;
@@ -58,64 +58,55 @@
     }
 
     &__title {
-        color: #828282;
-        font-size: 20px;
-        font-weight: 600;
-
-        margin: 20px 0px;
-
+        font-size: 24px;
+        margin-top: 5px;
+        margin-bottom: 60px;
         overflow: hidden;
+        text-align: center;
         text-overflow: ellipsis;
+        text-transform: capitalize;
         white-space: nowrap;
     }
 
     &__price {
-        font-family: "Oswald", sans-serif;
-        font-size: 24px;
+        font-size: 28px;
         font-weight: 700;
-
         text-align: center;
     }
 }
 
-@media(hover: hover) {
-    .goods-item:hover {
-        box-shadow: 2px 0px 44px 5px rgba(171, 171, 171, 0.2);
-        transform: scale(1.01);
-        z-index: 1;
 
-        & .goods-item__wrapper-image {
-            transform: scale(1.1);
-        } 
+@media(hover: hover) {
+    .goods-item:hover .goods-item__image-preview {
+        transform: scale(1.1);
+    }
+
+    .goods-item--catalog:hover {
+        transform: scale(1.03);
+        z-index: 2;
     }
 }
 
-@media(max-width: 767px) {
+@media(max-width: 1024px) {
     .goods-item {
-        border-radius: 20px;
-
-        margin: 0px 10px 15px;
-
+        padding: 5px 5px 20px;
         width: 200px;
 
         &__icon {
             top: 20px;
             right: 20px;
-
             height: 30px;
             width: 30px;
         }
 
-        &__wrapper {
-            border-radius: 20px;
-
+        &__image {
             height: 190px;
+            width: 190px;
         }
 
         &__title {
-            font-size: 16px;
-
-            margin: 10px 0px 15px;
+            font-size: 18px;
+            margin-bottom: 40px;
         }
 
         &__price {
@@ -126,32 +117,31 @@
 
 @media(max-width: 500px) {
     .goods-item {
-        border-radius: 10px;
+        border-radius: 30px;
+        padding: 5px 5px 15px;
+        margin-right: 25px;
+        width: 150px;
 
-        margin: 0px 5px 10px;
-
-        padding: 5px;
-
-        width: 145px;
+        &--catalog {
+            margin-right: 10px;
+        }
 
         &__icon {
-            top: 10px;
-            right: 10px;
-
+            top: 15px;
+            right: 15px;
             height: 25px;
             width: 25px;
         }
 
-        &__wrapper {
-            border-radius: 10px;
-
+        &__image {
+            border-radius: 30px;
             height: 140px;
+            width: 140px;
         }
 
         &__title {
             font-size: 14px;
-
-            margin: 5px 0px 10px;
+            margin-bottom: 30px;
         }
 
         &__price {

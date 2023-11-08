@@ -1,0 +1,50 @@
+.auth-popup {
+    background: #F3F3F3;
+    border-radius: 60px;
+    padding: 30px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.1s linear;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    z-index: 4;
+
+    &.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    &__top {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+
+        &-icon, &-logo {
+            cursor: pointer;
+        }
+    }
+}
+
+
+@media(max-width: 500px) {
+    .auth-popup {
+        border-radius: 0px;
+        top: -100%;
+        left: 0px;
+        opacity: 1;
+        pointer-events: auto;
+        transition: all 0.2s linear;
+        transform: none;
+        height: 100%;
+        width: 100%;
+
+        &.active,
+        &--mobile {
+            top: 0px;
+        }
+    }
+}

@@ -19,8 +19,8 @@ export const footerTitles = [
 export const footerElements = [
     {
         id: 1,
-        elements: ['контакты', 'магазины', 'о нас'],
-        links: ['/contacts', '/shops', '/about'],
+        elements: ['контакты', 'магазины', 'о нас', 'о разработке'],
+        links: ['/contacts', '/shops', '/about', '/development'],
     },
     {
         id: 2,

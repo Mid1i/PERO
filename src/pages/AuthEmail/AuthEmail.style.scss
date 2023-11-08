@@ -1,0 +1,51 @@
+.content__email {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 1440px;
+    padding: 0px 60px;
+    height: 100%;
+    width: 100%;
+
+    &-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-top: 40px;
+        text-align: center;
+
+        &--empty {
+            margin-bottom: 15px;
+        }
+    }
+
+    &-image {
+        margin: 20px 0px;
+        max-width: 500px;
+    }
+
+    &-text {
+        font-size: 16px;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+}
+
+
+@media(max-width: 1024px) {
+    .content__email {
+        padding: 0px 30px;
+
+        &-title {
+            font-size: 16px;
+        }
+
+        &-image {
+            width: 80%;
+        }
+
+        &-text {
+            font-size: 14px;
+        }
+    }
+}

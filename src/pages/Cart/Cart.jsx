@@ -3,11 +3,11 @@ import {useEffect} from "react";
 import {fetchRandomProducts} from "@api";
 import {isPWA} from "@utils/helpers";
 import {
+    AuthPopup,
     Footer,
     InstallSlider,
-    HeaderTop,
+    Header,
     SearchBar,
-    SignPopup,
     SneakerCart,
     SneakerSlider
 } from "@components";
@@ -16,15 +16,13 @@ import "./Cart.style.scss";
 
 
 export default function Cart() {
-    useEffect(() => {
-        document.title = 'Оформление заказа';
-    }, [])
+    useEffect(() => {document.title = 'Оформление заказа';}, [])
 
     
     return (
         <>
-            <HeaderTop />
-            <SearchBar />
+            <Header/>
+            <SearchBar/>
             <div className="content">
                 <div className="cart">
                     <h4 className="cart__title">
@@ -33,7 +31,7 @@ export default function Cart() {
                     </h4>
                     <div className="cart__sections">
                         <div className="cart__sections-items items">
-                            <SneakerCart />
+                            <SneakerCart/>
                         </div>
                         <div className="cart__sections-order order">
                             <h4 className="order__title">Сумма заказа</h4>
@@ -51,10 +49,10 @@ export default function Cart() {
                 </div>
                 <SneakerSlider title='Рекомендуем:' mobileDevice={isPWA() ? true : false} func={fetchRandomProducts}/>
             </div>
-            <Footer />
+            <Footer/>
 
-            <InstallSlider />
-            <SignPopup />
+            <InstallSlider/>
+            <AuthPopup/>
         </>
     );
 }

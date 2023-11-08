@@ -1,0 +1,46 @@
+.auth-popup__title--success {
+    align-items: center;
+    display: flex;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.auth-popup__text {
+    line-height: 18px;
+    margin-bottom: 30px;
+
+    & span {
+        font-weight: 700;
+    }
+}
+
+.auth-popup__btn {
+    background: #E47F46;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    color: #FFFFFF;
+    transition: all 0.1s linear;
+    width: 100%;
+    height: 40px;
+
+    &:disabled {
+        background: #E5E3E0;
+        color: #000000;
+        pointer-events: none;
+    }
+}
+
+
+@media(hover: hover) {
+    .auth-popup__btn:hover {
+        background: transparent;
+        border: 2px solid #E47F46;
+        color: #E47F46;
+    }
+
+    .auth-popup__btn:active {
+        background: transparent;
+        border: 2px solid darken(#E47F46, 20%);
+        color: darken(#E47F46, 20%);
+    }
+}

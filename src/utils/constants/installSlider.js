@@ -2,8 +2,8 @@ import back1 from "@assets/images/slider-install-images/backgrounds/1.png";
 import back2 from "@assets/images/slider-install-images/backgrounds/2.png"; 
 import back3 from "@assets/images/slider-install-images/backgrounds/3.png"; 
 
-import bottomPanel from "@assets/images/slider-install-images/steps/bottom-panel.png"; 
-import homeButton from "@assets/images/slider-install-images/steps/home-button.png"; 
+import bottomPanel from "@assets/images/slider-install-images/steps/bottom-panel.jpg"; 
+import homeButton from "@assets/images/slider-install-images/steps/home-button.jpg"; 
 import peroLogoIcon from "@assets/images/slider-install-images/steps/pero-logo-icon.png"; 
 import safariIcon from "@assets/images/slider-install-images/steps/safari-icon.png"; 
 

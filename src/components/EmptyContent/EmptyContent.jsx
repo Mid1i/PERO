@@ -10,13 +10,7 @@ export default function EmptyContent({title, text=false, btn=false}) {
             {!!text && <p className="empty__text">{text}</p>}
             {!!btn && (
                 <Link to="/">
-                    <button className="empty__btn btn">
-                        <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
-                            <path d="M14.7144 7L1.00007 7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            <path d="M7 13L1 7L7 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                        <span>На главную</span>
-                    </button>
+                    <button className="empty__btn btn">На главную</button>
                 </Link>
             )}
         </div>

@@ -1,9 +1,9 @@
 import {
+    AuthPopup,
     Error,
     Footer,
-    HeaderTop,
+    Header,
     SearchBar,
-    SignPopup
 } from "@components";
 
 import "./NotFound.style.scss";
@@ -12,14 +12,14 @@ import "./NotFound.style.scss";
 export default function NotFound() {
     return (
         <>
-            <HeaderTop />
-            <SearchBar />
+            <Header/>
+            <SearchBar/>
             <div className="content">
                 <Error status={404}/>
             </div>
-            <Footer />
+            <Footer/>
 
-            <SignPopup />
+            <AuthPopup/>
         </>
     );
 }

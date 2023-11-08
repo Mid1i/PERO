@@ -10,6 +10,24 @@ import errorImage from "@assets/images/content-images/error-image.png";
 export default function Error({status}) {
     const navigate = useNavigate();
 
+    const findErrorTitle = () => errors.find(error => error.id === status);
+
+    const onClickBackButton = () => {
+        if (window.history.length !== 1) {
+            navigate(-1);
+        } else {
+            navigate('/');
+        }
+    }
+
+    const setErrorTitle = () => {
+        if (findErrorTitle()) {
+            return errors.find(error => error.id === status).title;
+        } else {
+            return 'Сервер не отвечает.';
+        }
+    }
+
 
     return (
         <>
@@ -20,11 +38,11 @@ export default function Error({status}) {
                 </div>
                 <div className="error__right">
                     <h3 className="error__right-title">Ошибка</h3>
-                    <h6 className="error__right-subtitle">{errors.find(error => error.id === status)?.title || 'Сервер не отвечает.'}</h6>
-                    {(errors.find(error => error.id === status)) ? (
+                    <h6 className="error__right-subtitle">{setErrorTitle()}</h6>
+                    {findErrorTitle() ? (
                         <p className="error__right-text">
                             Вы можете вернуться 
-                            <span onClick={() => window.history.length !== 1 ? navigate(-1) : navigate('/')}>назад</span>
+                            <span onClick={() => onClickBackButton()}>назад</span>
                             , воспользоваться меню либо перейти 
                             <span onClick={() => navigate('/')}>на главную</span>.
                         </p>

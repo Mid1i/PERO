@@ -1,1 +1,25 @@
+.content__nav--product {
+    padding: 30px 60px 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
 
+
+@media(max-width: 1024px) {
+    .content__nav--product {
+        padding: 15px 30px;
+    }
+
+    .content__nav-text:last-child {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}
+
+@media(max-width: 500px) {
+    .content__nav--product {
+        padding: 15px 20px;
+    }
+}

@@ -1,0 +1,207 @@
+.auth-popup__title {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 10px;
+
+    & span {
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+}
+
+.auth-popup__subtitle {
+    align-items: center;
+    display: flex;
+    margin-bottom: 30px;
+
+    &-text {
+        font-size: 16px;
+        margin-right: 5px;
+    }
+
+    &-btn {
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500px;
+        transition: all 0.1s linear;
+        text-decoration: underline;
+    }
+}
+
+.auth-popup__form-btn {
+    background: #E47F46;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 700;
+    transition: all 0.1s linear;
+    text-transform: uppercase;
+    height: 40px;
+    width: 100%;
+}
+
+.auth-popup__error {
+    color: #ED0A34;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.auth-form {
+    position: relative;
+    margin-bottom: 20px;
+    height: 40px;
+    width: 100%;
+
+    &__label {
+        background: #F3F3F3;
+        color: #828282;
+        padding: 1px;
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        text-align: center;
+        transition: all 0.1s linear;
+        transform: translateY(-50%);
+
+        &--error {
+            color: #ED0A34;
+        }
+
+        &--error, &--active {
+            font-size: 12px;
+            top: -2px;
+        }
+    }
+
+    &__input {
+        background: #F3F3F3;
+        border: 1px solid #CFCCC7;
+        border-radius: 10px;
+        font-size: 16px;
+        padding: 10px;
+        transition: all 0.1s linear;
+        height: 100%;
+        width: 100%;
+
+        &::placeholder {
+            font-size: 0px;
+        }
+
+        &:focus {
+            box-shadow: 0px 5px 15px 0px rgba(228, 127, 70, 0.35);
+            border: 1px solid #E47F46;
+
+            & + .auth-form__label {
+                font-size: 12px;
+                top: -2px;
+            }
+        }
+    }
+
+    &__icon {
+        cursor: pointer;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+
+.auth-gender {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 100px;
+
+    &__wrapper {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+
+        &-label {
+            margin-bottom: 10px;
+        }
+
+        &-input {
+            appearance: none;
+            background: transparent;
+            border: 1px solid #E47F46;
+            border-radius: 100px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.1s linear;
+            height: 20px;
+            width: 20px;
+            -webkit-appearance: none;
+
+            &::before {
+                border-radius: 100px;
+                content: '';
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transition: all 0.1s linear;
+                transform: translate(-50%, -50%);
+                height: 12px;
+                width: 12px;
+            }
+
+            &:checked::before {
+                background: #E47F46;
+            }
+        }
+    }
+}
+
+
+@media(hover: hover) {
+    .auth-popup__subtitle-btn:hover {
+        color: #E47F46;
+    } 
+
+    .auth-form__input:hover {
+        border: 1px solid #898989;
+
+        & + .auth-form__label {
+            color: #898989;
+
+            &--error {
+                color: #ED0A34;
+            }
+        }
+
+        &:focus {
+            box-shadow: 0px 5px 15px 0px rgba(228, 127, 70, 0.35);
+            border: 1px solid #E47F46;
+
+            & + .auth-form__label {
+                color: #828282;
+
+                &--error {
+                    color: #ED0A34;
+                }
+            }
+        }
+    }
+
+    .auth-gender__wrapper-input:hover {
+        border: 1px solid lighten(#E47F46, 10%);
+
+        &:checked::before {
+            background: lighten(#E47F46, 10%);
+        }
+    }
+
+    .auth-popup__form-btn:hover {
+        background: transparent;
+        border: 2px solid #E47F46;
+        color: #E47F46;
+    }
+
+    .auth-popup__form-btn:active {
+        background: transparent;
+        border: 2px solid darken(#E47F46, 10%);
+        color: darken(#E47F46, 10%);
+    }
+}

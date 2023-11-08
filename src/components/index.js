@@ -1,38 +1,41 @@
-import EmptyContent from "./EmptyContent/EmptyContent";
-import Error from "./Error/Error";
-import {LoadingFilters, MainFilters, PriceFilters, Sorting} from "./Filters";
-import Footer from "./Footer/Footer";
-import GoodsSlider from "./GoodsSlider/GoodsSlider";
+import {MainFilters, PriceFilters, Sorting} from "./Filters";
 import InstallSlider from "./InstallSlider/InstallSlider";
-import {HeaderTop, SearchBar, Brands} from "./Header";
+import SneakerSlider from "./SneakerSlider/SneakerSlider";
+import EmptyContent from "./EmptyContent/EmptyContent";
 import LeftNavPanel from "./LeftNavPanel/LeftNavPanel";
+import GoodsSlider from "./GoodsSlider/GoodsSlider";
 import LoadingCard from "./SneakerCard/LoadingCard";
-import SignPopup from "./SignPopup/SignPopup";
 import SneakerCard from "./SneakerCard/SneakerCard";
 import SneakerCart from "./SneakerCart/SneakerCart";
-import SneakerSlider from "./SneakerSlider/SneakerSlider";
 import SneakerInfo from "./SneakerInfo/SneakerInfo";
+import SearchBar from "./SearchBar/SearchBar"; 
+import AuthPopup from "./AuthPopup/AuthPopup";
 import UserData from "./UserData/UserData";
+import PageUp from "./PageUp/PageUp";
+import Brands from "./Brands/Brands";
+import Footer from "./Footer/Footer";
+import Header from "./Header/Header";
+import Error from "./Error/Error";
 
 
 export { 
+    AuthPopup,
     Brands, 
     EmptyContent, 
     Error,
     Footer, 
     GoodsSlider, 
     InstallSlider,
-    HeaderTop,
+    Header,
     LeftNavPanel,
     LoadingCard,
-    LoadingFilters,
-    MainFilters, 
+    MainFilters,
+    PageUp, 
     PriceFilters, 
     SneakerCard,
     SneakerCart, 
     SearchBar, 
-    Sorting, 
-    SignPopup,
+    Sorting,
     SneakerSlider,
     SneakerInfo,
     UserData,

@@ -1,166 +1,93 @@
 import {useContext, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import classNames from "classnames";
 
 import {validatePriceInput as validateInput} from "@utils/helpers";
 import {catalogContext} from "@services/Context";
 
 import "./PriceFilters.style.scss";
 
-import {listArrow, whiteCross} from "@assets/images";
-
 
 export default function PriceFilters() {
-    const {emptyLink, formLink, onChangeLink, openedFilters, params, setOpenedFilters} = useContext(catalogContext);
-
-    const [endValue, setEndValue] = useState('');
+    const {onFormLink, link, params, setAmount, setLink} = useContext(catalogContext);
     const [startValue, setStartValue] = useState('');
-
-    const navigate = useNavigate();
+    const [endValue, setEndValue] = useState('');
    
 
     useEffect(() => {
-        if (params['fromPrice'] && validateInput(params['fromPrice'])) {
+        if (validateInput(params['fromPrice'])) {
+            setLink({...link, 'fromPrice': params['fromPrice']});
             setStartValue(params['fromPrice']);
-            onChangeLink('fromPrice', params['fromPrice']);
-        } else if (!params['fromPrice']) {
+            setAmount(prev => prev += 1);
+        } else {
             setStartValue('');
-            onChangeLink('fromPrice', '');
         }
             
-        if (params['toPrice'] && validateInput(params['toPrice'])) {
+        if (validateInput(params['toPrice'])) {
+            setLink({...link, 'toPrice': params['toPrice']});
             setEndValue(params['toPrice']);
-            onChangeLink('toPrice', params['toPrice']);
-        } else if (!params['toPrice']) {
+            setAmount(prev => prev += 1);
+        } else {
             setEndValue('');
-            onChangeLink('toPrice', '');
         }
     }, [params]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
-        emptyLink && setStartValue('');
-        emptyLink && setEndValue('');
-    }, [emptyLink])
+        if (onFormLink(link) === '') {
+            setStartValue('');
+            setEndValue('');
+        }
+    }, [link]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
-    const onChangeEndValue = (event) => {
-        setEndValue(event.target.value);
+    const onChangeValue = (event) => {
+        const id = event.target.id;
 
-        if (event.target.value > 50000) {
-            onChangeLink('toPrice', 50000);
+        if (id === 'fromPrice') {
+            setStartValue(event.target.value);
         } else {
-            onChangeLink('toPrice', event.target.value);
+            setEndValue(event.target.value);
         }
 
-        if (startValue === '') {
+        if (validateInput(event.target.value)) {
+            setLink({...link, [id]: event.target.value});
+        }
+
+        if (startValue === '' && id === 'toPrice') {
             setStartValue(3000);
-            onChangeLink('fromPrice', 3000);
+            setLink({...link, 'fromPrice': 3000});
         }
-            
-        if (event.target.value === '' && startValue !== '') {
-            onChangeLink('toPrice', 50000);
-        } else if (event.target.value === '' && endValue === '') {
-            onChangeLink('fromPrice', '');
-            onChangeLink('toPrice', '');
-        }
-    }
 
-    const onChangeStartValue = (event) => {
-        setStartValue(event.target.value);
-
-        if (event.target.value < 3000) {
-            onChangeLink('fromPrice', 3000);
-        } else {
-            onChangeLink('fromPrice', event.target.value);
-        }
-        
-        if (endValue === '') {
+        if (endValue === '' && id === 'fromPrice') {
             setEndValue(50000);
-            onChangeLink('toPrice', 50000);
+            setLink({...link, 'toPrice': 50000});
         }
 
-        if (event.target.value === '' && endValue !== '') {
-            onChangeLink('fromPrice', 50000);
-        } else if (event.target.value === '' && endValue === '') {
-            onChangeLink('fromPrice', '');
-            onChangeLink('toPrice', '');
-        }
-    }
-
-    const onCancelFilters = () => {
-        setOpenedFilters('');
-        
-        setEndValue('');
-        setStartValue('');
-        onChangeLink('fromPrice', '');
-        onChangeLink('toPrice', '');
-
-        const newLink = formLink().split('&').filter(obj => !obj.includes('toPrice') && !obj.includes('fromPrice')).join('&');
-        
-        if (newLink.length > 0) {
-            navigate(`/catalog/?${newLink}`);
-        } else {
-            navigate('/catalog/');
-        }
-        // navigate(`/catalog/?${formLink().split('&').filter(obj => !obj.includes('toPrice') && !obj.includes('fromPrice')).join('&')}`);
-    }
-
-    const setTitle = () => {
-        if (startValue !== '' && endValue !== '') {
-            return 2;
-        } else if (startValue !== '' || endValue !== '') {
-            return 1;
-        } else {
-            return '';
-        }
-    }
-
-    const onCloseFilters = () => {
-        if (formLink().length > 0) {
-            navigate(`/catalog/?${formLink()}`);
+        if (startValue === '' && endValue === '') {
+            setLink({...link, 'fromPrice': 3000, 'toPrice': 50000});
         }
     }
 
 
     return (
-        <div className="filter">
-            <div 
-                className="filter__btn btn" 
-                onClick={() => openedFilters === 'price' ? setOpenedFilters('') : setOpenedFilters('price')}
-            >
-                <h6 className="filter__btn-title filter-title">
-                    <span className="filter-title__left">Цена, ₽</span>
-                    <span className="filter-title__right">{setTitle()}</span>    
-                </h6>
-                <img 
-                    alt={(startValue === '' && endValue === '') ? 'more' : 'cancel'} 
-                    className="filter__icon" 
-                    onClick={() => (startValue !== '' || endValue !== '') && onCancelFilters()}
-                    src={(startValue === '' && endValue === '') ? listArrow : whiteCross} 
+        <div className="filter filter--price">
+            <h6 className="filter__title">Цена, ₽</h6>
+            <div className="filter__price">
+                <input 
+                    className="filter__price-input"
+                    id="fromPrice"
+                    onChange={onChangeValue}
+                    placeholder="От" 
+                    type="number" 
+                    value={startValue} 
                 />
-            </div>
-            
-            <div className={classNames("filter__list filter__list--price", openedFilters === 'price' && "active")}>
-                <div className="filter__price-list price-list">
-                    <input 
-                        className="price-list__input"
-                        onChange={onChangeStartValue}
-                        placeholder="От" 
-                        type="number" 
-                        value={startValue} 
-                    />
-                    <span className="price-list__span">—</span>
-                    <input 
-                        className="price-list__input"
-                        onChange={onChangeEndValue}
-                        placeholder="До" 
-                        type="number" 
-                        value={endValue} 
-                    />
-                </div>
-                <div className="filter__list-link filter__list-link--price" onClick={() => onCloseFilters()}>
-                    <button className="filter__list-btn">Применить</button>
-                </div>
+                <span className="filter__price-span"></span>
+                <input 
+                    className="filter__price-input"
+                    id="toPrice"
+                    onChange={onChangeValue}
+                    placeholder="До" 
+                    type="number" 
+                    value={endValue} 
+                />
             </div>
         </div>
     );

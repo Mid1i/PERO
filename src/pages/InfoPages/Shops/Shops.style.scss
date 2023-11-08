@@ -1,0 +1,37 @@
+.shops__right {
+    width: 100%;
+
+    &-map {
+        height: 500px;
+        width: 100%;
+    }
+
+    &-subtitle {
+        font-size: 16px;
+        font-weight: 600;
+
+        margin: 15px 0px;
+    }
+
+    &-info {
+        margin-bottom: 5px;
+    }
+}
+
+@media(max-width: 767px) {
+    .shops__right-map {
+        height: 400px;
+    }
+
+    .shops__right-subtitle {
+        font-size: 14px;
+
+        margin: 10px 0px;
+    }
+}
+
+@media(max-width: 560px) {
+    .shops__right-title {
+        font-size: 16px !important;
+    }
+}

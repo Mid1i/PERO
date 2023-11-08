@@ -16,7 +16,7 @@ export const filters = [
     },
 ];
 
-export const sorting = {
+export const sortingData = {
     "id": 'sort',
     "title": 'Сортировка',
     "elements": ['По популярности', 'По возрастанию цены', 'По убыванию цены'],

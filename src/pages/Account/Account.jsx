@@ -3,11 +3,11 @@ import {useEffect} from "react";
 
 import {isPWA} from "@utils/helpers";
 import {
+    AuthPopup,
     Brands,
     Footer,
-    HeaderTop,
+    Header,
     SearchBar,
-    SignPopup,
     UserData
 } from "@components";
 
@@ -22,7 +22,7 @@ export default function Account() {
 
     return (
         <>
-            <HeaderTop />
+            <Header/>
             <SearchBar />
             <Brands />
             <div className="content content--account">
@@ -38,7 +38,7 @@ export default function Account() {
             </div>
             <Footer activePage='profile'/>
 
-            <SignPopup />
+            <AuthPopup/>
         </>
     );
 }

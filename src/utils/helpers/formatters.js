@@ -18,12 +18,30 @@ export const toFormatEmail = (email) => {
 
 export const toFormatTime = (time) => {
     if (time > 60 && time - 60 < 10) {
-        return `1:0${time - 60}s`;
+        return `1:0${time - 60}`;
     } else if (time > 60) {
-        return `1:${time - 60}s`;
+        return `1:${time - 60}`;
     } else if (time > 0) {
-        return `${time}s`
+        return `${time}`
+    }
+}
+
+export const toFormatTimeText = (time) => {
+    if (time % 10 === 1 && time !== 11) {
+        return 'секунду';
+    } else if (([2, 3, 4].includes(time % 10)) && ![12, 13, 14].includes(time)) {
+        return 'секунды';
+    } else if (time !== 0) {
+        return 'секунд';
+    }
+}
+
+export const toFormatAmountText = (amount) => {
+    if (String(amount).slice(-1) === '1' && String(amount) !== '11') {
+        return 'товар';
+    } else if (['2', '3', '4'].includes(String(amount).slice(-1)) && !['12', '13', '14'].includes(String(amount))) {
+        return 'товара';
     } else {
-        return ''
+        return 'товаров';
     }
 }

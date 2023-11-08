@@ -1,29 +1,25 @@
 import {QueryClient, QueryClientProvider} from "react-query";
-import {Route, Routes, useLocation} from "react-router-dom";
 import {useState, useEffect, useReducer} from "react";
+import {useLocation} from "react-router-dom";
 import {isMobile} from "react-device-detect";
 import queryString from "query-string";
 
-import {appContext} from "@services/Context";
-
-import {About, Account, Catalog, Cart, Contacts, EmailConfirm, NotFound, Home, Product} from "@pages";
+import {appContext, Routers} from "@services";
 import {isPWA} from "@utils/helpers";
 
 
 export default function App() {
     const [isMale, setIsMale] = useState(true);
-    const [isReg, setIsReg] = useReducer(prev => !prev, false);
+    const [isRegisteredUser, setIsRegisteredUser] = useReducer(prev => !prev, false);
     const [installPopup, setInstallPopup] = useReducer(prev => !prev, false);
-    const [regPopup, changeRegPopup] = useReducer(prev => !prev, false);
-    
+    const [authPopup, setAuthPopup] = useReducer(prev => !prev, false);
     const [searchValue, setSearchValue] = useState('');
-
-    const [cartItems, setCartItems] = useState([]);
     const [likedItems, setLikedItems] = useState([]);
-
-    const {search} = useLocation();
+    const [cartItems, setCartItems] = useState([]);
 
     const queryClient = new QueryClient();
+    const {search} = useLocation();
+    
     
     useEffect(() => {
         const favourites = JSON.parse(localStorage.getItem('favorites'));
@@ -32,21 +28,17 @@ export default function App() {
         Array.isArray(favourites) && setLikedItems(favourites);
         Array.isArray(cart) && setCartItems(cart);
 
-        if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) {
-            setIsReg();
-        }
+        if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) setIsRegisteredUser();
 
         if (!isPWA() && isMobile && !(localStorage.getItem('showInstall'))) {
-            setInstallPopup();
-
             localStorage.setItem('showInstall', 'false');
+            setInstallPopup();
         }
     }, [])
 
     useEffect(() => {
         const paramsSearch = queryString.parse(search)['search'];
-
-        !!paramsSearch && setSearchValue(paramsSearch);
+        if (!!paramsSearch) setSearchValue(paramsSearch);
     }, [search])
     
 
@@ -75,14 +67,15 @@ export default function App() {
     const isInFavorites = (id) => likedItems.includes(id);
     
     const contextData = {
-        changeRegPopup,
+        authPopup,
+        cartItems,
         installPopup,
         isMale, 
-        isReg,
         isInFavorites, 
         onAddToFavorites, 
         onAddToCart,
-        regPopup,
+        isRegisteredUser,
+        setAuthPopup,
         setIsMale,
         searchValue, 
         setInstallPopup,
@@ -93,17 +86,7 @@ export default function App() {
     return (
         <QueryClientProvider client={queryClient}>
             <appContext.Provider value={{...contextData}}>
-                <Routes>
-                    <Route path='/' element={<Home />}></Route>
-                    <Route path='/cart' element={<Cart />}></Route>
-                    <Route path='/about' element={<About />}></Route>
-                    <Route path='/catalog/:filters?' element={<Catalog />}></Route>
-                    <Route path='/contacts' element={<Contacts />}></Route>
-                    <Route path='/catalog/product/:id' element={<Product />}></Route>
-                    <Route path='/auth/verify/:uuid' element={<EmailConfirm />}></Route>
-                    <Route path='/customer/account' element={<Account />}></Route>
-                    <Route path='*' element={<NotFound />}></Route>
-                </Routes>
+                <Routers />
             </appContext.Provider>
         </QueryClientProvider>
     );

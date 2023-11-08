@@ -1,0 +1,87 @@
+.contacts__right-blocks {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.links-item {
+    display: flex;
+    flex-direction: column;
+
+    margin-right: 60px;
+    margin-bottom: 30px;
+
+    &:last-child {
+        margin-bottom: 0px;
+        margin-right: 0px;
+
+        width: 100%;
+    }
+
+    &:nth-child(3) {
+        margin-right: 0px;
+    }
+
+    &__title {
+        font-weight: 600;
+        font-size: 16px;
+
+        margin-bottom: 15px;
+    }
+
+    &__text {
+        line-height: 18px;
+
+        margin-bottom: 15px;
+        max-width: 340px;
+    }
+
+    &__github {
+        margin-bottom: 5px;
+    }
+
+    &__telegram {
+        margin-bottom: 15px;
+    }
+
+    &__hrefs {
+        display: flex;
+
+        &-tg,
+        &-git {
+            cursor: pointer;
+
+            height: 30px;
+            width: 30px;
+        }
+
+        &-git {
+            margin-right: 10px;
+        }
+    }
+}
+
+@media(max-width: 767px) {
+    .links-item {
+        margin-right: 50px;
+        margin-bottom: 40px;
+
+        &__title,
+        &__text,
+        &__telegram {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+@media(max-width: 500px) {
+    .links-item {
+        flex: 1 0 100%;
+
+        margin-right: 0px;
+        margin-bottom: 30px;
+
+        &__title {
+            font-size: 14px;
+        }
+    }
+}

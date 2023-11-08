@@ -1,0 +1,65 @@
+.auth-mobile {
+    background: #000000;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px;
+    position: fixed;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s linear;
+    height: 100%;
+    width: 100%;
+    z-index: 5;
+
+    &.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    &__title {
+        align-items: center;
+        display: flex;
+        margin-bottom: 20px;
+
+        &-text {
+            color: #FFFFFF;
+            font-size: 24px;
+            font-weight: 700;
+            margin-right: 10px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+    }
+
+    &__subtitle {
+        color: #FFFFFF;
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    &__text {
+        color: #FFFFFF;
+        flex: 1 0 auto;
+        text-align: center;
+    }
+
+    &__image {
+        position: fixed;
+        top: -10px;
+        height: 100%;
+        z-index: -1;
+    }
+
+    &__btn {
+        background: #E47F46;
+        border-radius: 30px;
+        color: #FFFFFF;
+        font-size: 16px;
+        margin-bottom: 15px;
+        height: 50px;
+        width: 100%;
+    }
+}

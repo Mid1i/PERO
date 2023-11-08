@@ -1,25 +1,25 @@
 import {installSliderData, installSliderSettings} from "./installSlider";
-import {goodsSliderData, goodsSliderSettings} from "./slider";
 import {footerTitles , footerElements} from "./footer";
-import {filters, sorting} from "./filters";
+import {registrationInputs, loginInputs} from "./auth";
+import {filters, sortingData} from "./filters";
+import {mainURL, authURL} from './api';
 import {account} from "./account";
 import {brands} from "./brands";
 import {errors} from "./errors";
-import {reg, sign} from "./sign";
 
 
 export { 
     account,
+    authURL,
     brands, 
     errors,
     filters, 
     footerTitles, 
-    footerElements, 
-    goodsSliderData, 
-    goodsSliderSettings,
+    footerElements,
     installSliderData,
     installSliderSettings,
-    reg,
-    sign,
-    sorting, 
+    registrationInputs,
+    loginInputs,
+    mainURL,
+    sortingData, 
 };

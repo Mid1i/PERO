@@ -4,8 +4,8 @@ import {useContext} from "react";
 import Slider from "react-slick";
 
 import {installSliderData as slider, installSliderSettings} from "@utils/constants";
-import {installPWA} from "@services/serviceWorker";
 import useNoScroll from "@hooks/useNoScroll";
+import {installPWA} from "@services";
 import {isPWA} from "@utils/helpers";
 
 import {appContext} from "@services/Context";
@@ -37,10 +37,14 @@ export default function InstallSlider() {
                                 <img className="install-item__image" src={slide.back} alt="iPhone"/>
                                 {slide.id > 1 && (
                                     <div className="install-item__step">
-                                        <img className={classNames(
-                                            "install-item__step-image", 
-                                            (slide.id === 2 || slide.id === 5) && "install-item__step-image--square"    
-                                        )}src={slide.image} alt={slide.alt}/>
+                                        <img 
+                                            alt={slide.alt}
+                                            className={classNames(
+                                                "install-item__step-image", 
+                                                (slide.id === 2 || slide.id === 5) && "install-item__step-image--square"    
+                                            )}
+                                            src={slide.image} 
+                                            />
                                         <p className="install-item__step-text">{slide.step}</p>
                                     </div>
                                 )}

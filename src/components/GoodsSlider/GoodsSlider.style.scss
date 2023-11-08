@@ -1,171 +1,115 @@
-.slider {
-    margin-top: -10px;
-
+.banner {
+    flex: 0 0 600px;
     position: relative;
-    pointer-events: none;
     overflow: hidden;
-    
-    max-width: 1600px;
-    height: 380px;
+    height: 600px;
     width: 100%;
 
     & .slick-dots {
+        align-items: flex-end;
         display: flex !important;
-        justify-content: center;
-
-        margin: 10px 0px;
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
 
         & li button {
-            background: #E5E3E0;
-            border-radius: 50px;
-            
+            background: #FFFFFF;
+            border-radius: 10px;
             color: transparent;
-            
-            margin: 0px 5px;
-            pointer-events: auto;
-            
-            transition: all 0.2s linear;
-            height: 10px;
-            width: 60px;
+            margin: 0px 10px;
+            transition: all 0.1s linear;
+            height: 6px;
+            width: 40px;
+            z-index: 2;
         }
 
         & li.slick-active button {
-            background: #212121;
+            background: #E47F46;
         }
     }
 
-    &__section {
-        position: relative;
-
-        &-item {
-            height: 350px;
-            width: 100%;
-        }
+    & .slick-list {
+        overflow: hidden;
+    }
+    
+    & .slick-track {
+        display: flex;
     }
 
-    &-item {
+    & div {
+        height: 100%;
+        width: 100vw;
+    }
+
+    &__item {
         align-items: center;
         display: flex;
         justify-content: center;
-
-        background-position: center center;
         background-size: cover;
-        border: 5px solid #F3F3F3;
-        border-radius: 20px;
-    
+        background-position: center center;
         position: relative;
+        height: 100%;
+        width: 100%;
 
-        &__title {
+        &-title {
+            background: #000000;
+            box-shadow: 0px 8px 16px -8px rgba(0, 0, 0, 0.30), 0px 13px 27px -5px rgba(50, 50, 93, 0.25);
             color: #FFFFFF;
             font-size: 48px;
             font-weight: 700;
-
-            text-shadow: 3px 3px #000000;
-            text-transform: uppercase;
-        }
-    
-        &__sign {
-            border-radius: 50px;
-            
-            font-size: 14px;
-            text-transform: uppercase;
-    
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-    
+            letter-spacing: 5px;
+            padding: 5px 60px;
             text-align: center;
-    
-            height: 24px;
-            width: 70px;
+            text-transform: uppercase;
+            width: 100%;
         }
     }
 }
+
 
 @media(hover: hover) {
     .slick-dots li button:hover {
-        background: #3F3F3F;
+        background: lighten(#E47F46, 20%);
     }
 
     & li.slick-active button:hover {
-        background: #212121;
+        background: #E47F46;
     }
 }
 
-@media(max-width: 1600px) {
-    .slider-item {
-        border-radius: 0px;
-        border: 2px solid #E5E3E0;
-        border-left: none;
-        border-right: none;
-    }
-}
+@media(max-width: 1024px) {
+    .banner {
+        flex: 0 0 500px;
+        height: 500px;
 
-@media(max-width: 1100px) {
-    .slider-item__title {
-        font-size: 38px;
-    }
-}
-
-@media(max-width: 767px) {
-    .slider {
-        height: 280px;
-
-        &__section-item {
-            border: 5px solid #F3F3F3;
-            border-radius: 20px;
-
-            height: 250px;
+        &__item-title {
+            letter-spacing: 3px;
+            padding: 5px 30px;
+            font-size: 32px;
         }
-    }
-
-    .slick-dots {
-        margin: 5px 0px;
-        
-        & li button {
-        width: 50px;
-        }
-    }
-
-    .slider-item__title {
-        font-size: 30px;
-    }
-}
-
-@media(max-width: 600px) {
-    .slider-item__title {
-        font-size: 24px;
     }
 }
 
 @media(max-width: 500px) {
-    .slider {
-        height: 180px;
+    .banner {
+        flex: 0 0 375px;
+        height: 375px;
 
-        &__section-item {
-            height: 150px;
+        & .slick-dots {
+            bottom: 10px;
+
+            & li button {
+                margin: 0px 6px;
+                height: 4px;
+                width: 20px;
+            }
         }
-    }
-}
 
-@media(max-width: 460px) {
-    .slider-item__title {
-        font-size: 18px;
-    }
-
-    .slider-item__sign {
-        font-size: 12px;
-
-        bottom: 10px;
-        right: 10px;
-
-        height: 20px;
-        width: 50px;
-    }
-}
-
-@media(max-width: 400px) {
-    .slider-item__title {
-        font-size: 16px;
+        &__item-title {
+            letter-spacing: 1px;
+            padding: 5px 20px;
+            font-size: 20px;
+        }
     }
 }

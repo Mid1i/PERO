@@ -1,130 +1,142 @@
 import {useNavigate} from "react-router-dom";
+import {isMobile} from "react-device-detect";
 import {useContext, useEffect} from "react";
-import classNames from "classnames";
+import Slider from "react-slick";
 
 import {useRequest, useScroll} from "@hooks";
 import {appContext} from "@services/Context";
 import {isPWA} from "@utils/helpers";
 import {fetchProducts} from "@api";
-import { 
+import {
+    AuthPopup,
     Brands,
     Error,
     Footer, 
     GoodsSlider,
     InstallSlider, 
-    HeaderTop, 
+    Header, 
     LoadingCard, 
+    PageUp,
     SearchBar, 
-    SignPopup,
     SneakerCard 
 } from "@components";
 
 import "./Home.style.scss";
 
-import maleImage from "@assets/images/gender-images/1.jpg";
-import femaleImage from "@assets/images/gender-images/2.jpg";
-import phoneImage from "@assets/images/content-images/main-page/pero-mobile.png";
+import peroIcon from "@assets/images/home-images/pero-icon.png";
+import mobilePhone from "@assets/images/home-images/pero-mobile--phone.png";
 
 
 export default function Home() {
-    const {setIsMale, setInstallPopup} = useContext(appContext);
-    
     const {data: items, error, isError, isLoading} = useRequest(fetchProducts);
-    
+    const {setInstallPopup} = useContext(appContext);
     const navigate = useNavigate();
+    const settings = {
+        arrows: false,
+        centerMode: true,
+        className: "content__goods-slider",
+        dots: false,
+        easing: 'linear',
+        infinite: true,
+        initialSlide: 1,
+        variableWidth: true,
+        swipeToSlide: true,
+        slidesToShow: 4,
+        speed: 600,
+        swipe: true,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: "unslick"
+            }
+        ]
+    }
 
     useScroll();
 
-    
-    useEffect(() => {
-        document.title = 'Купить мужскую и женскую обувь в интернет-магазине PERO';
-    }, [])
+    useEffect(() => {document.title = 'Купить мужскую и женскую обувь в интернет-магазине PERO'}, []);
 
-    const onChooseGender = (gender) => {
-        setIsMale(gender);
-        navigate('/catalog/');
-    }
+    
+    const onClickDownloadBanner = () => {if (isMobile) setInstallPopup();}
 
 
     return (
         <>
-            <HeaderTop />
-            <SearchBar />
-            <Brands />
-            <div className="content content--home">
+            <Header/>
+            <SearchBar/>
+            <GoodsSlider/>
+            <div className="content">
                 {(isLoading || (!isError && items.length !== 0)) ? (
                     <>
-                        <GoodsSlider />
-                        <div className="goods">
-                            <div className="goods__title">
-                                <h4 className="goods__title-left">Наиболее популярные</h4>
-                                <h5 className="goods__title-right" onClick={() => navigate('/catalog/')}>
-                                    <span>Больше кроссовок</span>
-                                    <svg width="24" height="19" viewBox="0 0 24 19" fill="none">
-                                        <path d="M23.5229 10.782C23.7671 10.5284 23.9043 10.1846 23.9043 9.82612C23.9043 9.46763 23.7671 9.12382 23.5229 8.87029L16.154 1.22225C16.0339 1.09312 15.8901 0.990126 15.7312 0.919271C15.5723 0.848416 15.4013 0.81112 15.2284 0.80956C15.0554 0.808 14.8839 0.842208 14.7238 0.910185C14.5637 0.978163 14.4183 1.07855 14.296 1.20549C14.1737 1.33243 14.0769 1.48338 14.0114 1.64953C13.9459 1.81568 13.913 1.99371 13.9145 2.17322C13.916 2.35273 13.9519 2.53013 14.0202 2.69508C14.0885 2.86002 14.1877 3.0092 14.3121 3.13392L19.4574 8.47416H2.20691C1.86144 8.47416 1.53011 8.6166 1.28582 8.87014C1.04154 9.12368 0.904297 9.46756 0.904297 9.82612C0.904297 10.1847 1.04154 10.5286 1.28582 10.7821C1.53011 11.0356 1.86144 11.1781 2.20691 11.1781L19.4574 11.1781L14.3121 16.5183C14.0748 16.7733 13.9435 17.1148 13.9465 17.4693C13.9495 17.8238 14.0865 18.1629 14.328 18.4135C14.5695 18.6642 14.8962 18.8064 15.2378 18.8095C15.5793 18.8125 15.9083 18.6763 16.154 18.43L23.5229 10.782Z" fill="#F47E46"/>
-                                    </svg>
-                                </h5>
-                            </div>
-                            <div className="goods__content">
-                                {isLoading ? <LoadingCard/> : (
-                                    items.map((item) => (
-                                        <SneakerCard
-                                            key={item.id}
-                                            {...item}
-                                        />
-                                    ))
-                                )}
-                            </div>
+                        <div className="content__popular">
+                            <h4 className="content__popular-left">
+                                <span>Наиболее популярные</span>
+                                <svg height="24" viewBox="0 0 18 24" width="18">
+                                    <path d="M9.06412 0L7.3028 3.47531C6.0443 5.95805 4.35742 8.21613 2.31455 10.1529L2.08314 10.3639C0.771152 11.5936 0.0215016 13.2778 0.000417282 15.0431V15.2665C-0.0342948 18.7234 2.09934 21.8573 5.40007 23.1977L5.73433 23.3342C7.89921 24.2219 10.3447 24.2219 12.5096 23.3342H12.5867C15.9122 21.9394 18.0458 18.7541 17.9993 15.2541V9.8674C16.891 12.3107 14.8785 14.2669 12.3553 15.3534C12.3553 15.3534 12.3553 15.3534 12.2782 15.3534C12.2011 15.3534 11.3011 15.7134 10.9154 15.3534C10.571 15.0169 10.538 14.4861 10.8383 14.1122L10.9283 14.0502H10.9926C13.9441 11.8843 14.6322 7.8712 12.561 4.90267C10.8897 2.44513 9.06412 0 9.06412 0Z" fill="#E47F46"/>
+                                </svg>
+                            </h4>
+                            <h5 className="content__popular-right" onClick={() => navigate('/catalog/')}>Больше кроссовок</h5>
                         </div>
-                        <div className="gender">
-                            <div className="gender__male" onClick={() => onChooseGender(true)} title="Мужская спортивная обувь">
-                                <img className="gender__male-image" src={maleImage} alt="male"/>
-                                <h2 className="gender__male-title">
-                                    <span>Для него</span>
-                                    <svg viewBox="0 0 204 12" preserveAspectRatio="none">
-                                        <path d="M199.043 0.500538L199.043 0.500593C198.911 0.610951 198.828 0.76935 198.812 0.940969C198.797 1.11259 198.85 1.28338 198.96 1.41579L198.96 1.41582L202.292 5.41453C202.346 5.48176 202.412 5.53767 202.488 5.57902C202.564 5.62068 202.647 5.64671 202.733 5.65559C202.82 5.66448 202.907 5.65603 202.99 5.63074C203.073 5.60546 203.15 5.56385 203.216 5.50836C203.283 5.45287 203.338 5.38463 203.377 5.30765C203.417 5.23067 203.441 5.1465 203.448 5.06009C203.455 4.97369 203.444 4.8868 203.417 4.80452C203.39 4.72286 203.347 4.6474 203.291 4.58249L199.959 0.583776L199.959 0.583737C199.848 0.451385 199.69 0.368272 199.518 0.352671C199.347 0.337069 199.176 0.390256 199.043 0.500538Z" fill="#FFFFFF" stroke="#FFFFFF" strokeWidth="0.3"/>
-                                        <path d="M199.043 9.50842L199.043 9.50848C199.176 9.61876 199.347 9.67195 199.518 9.65635C199.69 9.64074 199.848 9.55763 199.959 9.42528L199.959 9.42524L203.291 5.42654C203.347 5.36163 203.39 5.28616 203.417 5.20449C203.444 5.12222 203.455 5.03533 203.448 4.94892C203.441 4.86252 203.417 4.77835 203.377 4.70137C203.338 4.62439 203.283 4.55614 203.216 4.50066C203.15 4.44517 203.073 4.40356 202.99 4.37827C202.907 4.35299 202.82 4.34454 202.733 4.35342C202.647 4.3623 202.564 4.38834 202.488 4.43C202.412 4.47135 202.346 4.52726 202.292 4.59449L198.96 8.5932L198.96 8.59322C198.85 8.72564 198.797 8.89643 198.812 9.06805C198.828 9.23967 198.911 9.39807 199.043 9.50842Z" fill="#FFFFFF" stroke="#FFFFFF" strokeWidth="0.3"/>
-                                        <path fillRule="evenodd" clipRule="evenodd" d="M203 5C203 5.26518 203.615 5.81249 201.826 6C199.823 6 195.317 6 192.787 6L11.538 6C9.00801 6 6.50586 6 4.79263 6C3.00364 5.81249 3.00011 5.26532 3.00011 5.00014C3.00011 4.73496 3.00364 4.18799 4.79263 4.00048C6.50586 4.00028 9.00801 4.00028 11.538 4.00028L192.787 4.00028C195.317 4.00028 200.323 3.99965 201.826 4.00028C203.615 4.18779 203 4.73482 203 5Z" fill="#FFFFFF"/>
-                                    </svg>
-                                </h2>
-                            </div>
-                            <div className="gender__female" onClick={() => onChooseGender(false)} title="Женская спортивная обувь">
-                                <img className="gender__female-image" src={femaleImage} alt="female"/>
-                                <h2 className="gender__female-title">
-                                    <svg viewBox="0 0 204 12" preserveAspectRatio="none">
-                                        <path d="M4.95663 11.4995L4.95669 11.4994C5.08905 11.389 5.17216 11.2306 5.18776 11.059C5.20336 10.8874 5.15018 10.7166 5.03989 10.5842L5.03987 10.5842L1.70795 6.58547C1.65428 6.51824 1.5878 6.46233 1.51235 6.42098C1.43635 6.37932 1.35278 6.35329 1.26656 6.34441C1.18035 6.33552 1.09323 6.34397 1.01032 6.36926C0.927423 6.39454 0.850415 6.43615 0.783831 6.49164C0.717247 6.54713 0.662434 6.61537 0.622614 6.69235C0.582794 6.76933 0.558772 6.8535 0.551961 6.93991C0.54515 7.02631 0.555689 7.1132 0.582957 7.19548C0.610022 7.27714 0.653025 7.3526 0.709468 7.41751L4.0414 11.4162L4.04143 11.4163C4.15179 11.5486 4.31019 11.6317 4.4818 11.6473C4.65342 11.6629 4.82421 11.6097 4.95663 11.4995Z" fill="#FFFFFF" stroke="#FFFFFF" strokeWidth="0.3"/>
-                                        <path d="M4.95669 2.49158L4.95663 2.49152C4.82421 2.38124 4.65342 2.32805 4.4818 2.34365C4.31019 2.35926 4.15179 2.44237 4.04143 2.57472L4.0414 2.57476L0.709475 6.57346C0.653029 6.63837 0.610023 6.71384 0.582957 6.79551C0.555689 6.87778 0.54515 6.96467 0.551961 7.05108C0.558772 7.13748 0.582794 7.22165 0.622614 7.29863C0.662434 7.37561 0.717247 7.44386 0.783831 7.49934C0.850415 7.55483 0.927423 7.59644 1.01032 7.62173C1.09323 7.64701 1.18035 7.65546 1.26656 7.64658C1.35278 7.6377 1.43635 7.61166 1.51235 7.57C1.5878 7.52865 1.65428 7.47274 1.70795 7.40551L5.03987 3.4068L5.03989 3.40678C5.15018 3.27436 5.20336 3.10357 5.18776 2.93195C5.17216 2.76033 5.08905 2.60193 4.95669 2.49158Z" fill="#FFFFFF" stroke="#FFFFFF" strokeWidth="0.3"/>
-                                        <path fillRule="evenodd" clipRule="evenodd" d="M1 7C1 6.73482 0.385213 6.18751 2.1742 6C4.17749 6 8.68269 6 11.2127 6L192.462 6C194.992 6 197.494 6 199.207 6C200.996 6.18751 201 6.73468 201 6.99986C201 7.26504 200.996 7.81201 199.207 7.99952C197.494 7.99972 194.992 7.99972 192.462 7.99972L11.2127 7.99972C8.68269 7.99972 3.67673 8.00035 2.1742 7.99972C0.385213 7.81221 1 7.26518 1 7Z" fill="#FFFFFF"/>
-                                    </svg>
-                                    <span>Для неё</span>
-                                </h2>
-                            </div>
+                        <div className="content__goods">
+                            {isLoading ? (
+                                <Slider {...settings}>
+                                    <LoadingCard/>
+                                </Slider>
+                            /* TODO: изменить кол-во предметов на минимум 10 */
+                            ) : ((items.length > 5) ? (
+                                    <>
+                                        <Slider {...settings}>
+                                            {isLoading ? <LoadingCard/> : (
+                                                items.slice(0, items.length / 2).map((item) => (
+                                                    <SneakerCard
+                                                        key={item.id}
+                                                        {...item}
+                                                    />
+                                                ))
+                                            )}
+                                        </Slider>
+                                        <Slider {...settings}>
+                                            {isLoading ? <LoadingCard/> : (
+                                                items.slice(items.length / 2, items.length).map((item) => (
+                                                    <SneakerCard
+                                                        key={item.id}
+                                                        {...item}
+                                                    />
+                                                ))
+                                            )}
+                                        </Slider>
+                                    </>
+                            ) :  (
+                                <div className="content__goods-scroll">
+                                    {items.map((item) => <SneakerCard key={item.id} {...item}/>)}
+                                </div>
+                            ))}
+                            <div className="content__goods-back"></div>
                         </div>
                         {!isPWA() && (
-                            <div className={classNames("download", isPWA() && "download--mobile")}>
-                                <h4 className="download__title">PERO Mobile</h4>
-                                <p className="download__text">Новые возможности в новом приложении</p>
-                                <p className="download__text">Скачивай и заказывай в приложении PERO Mobile</p>
-                                <div className="download__click">
-                                    <p className="download__click-text">Чтобы скачать, нажми сюда</p>
-                                    <svg width="60" height="9" viewBox="0 0 62 9">
-                                        <path fillRule="evenodd" clipRule="evenodd" d="M56.8435 0.115799C56.9453 0.0309661 57.0767 -0.00994647 57.2087 0.00205479C57.3407 0.0140561 57.4626 0.0779885 57.5475 0.179798L60.8805 4.1798C60.9244 4.22998 60.9578 4.28843 60.9788 4.35171C60.9997 4.415 61.0078 4.48184 61.0026 4.54831C60.9974 4.61477 60.9789 4.67952 60.9483 4.73873C60.9176 4.79795 60.8755 4.85045 60.8242 4.89313C60.773 4.93581 60.7138 4.96782 60.65 4.98727C60.5862 5.00672 60.5192 5.01322 60.4529 5.00638C60.3866 4.99955 60.3223 4.97952 60.2638 4.94748C60.2054 4.91544 60.1539 4.87203 60.1125 4.8198L56.7795 0.819799C56.6946 0.71794 56.6537 0.586563 56.6657 0.454549C56.6777 0.322535 56.7417 0.20069 56.8435 0.115799Z" fill="#F8F8F8"/>
-                                        <path fillRule="evenodd" clipRule="evenodd" d="M56.8435 8.88382C56.7417 8.79893 56.6777 8.67708 56.6657 8.54507C56.6537 8.41305 56.6946 8.28168 56.7795 8.17982L60.1125 4.17982C60.1539 4.12759 60.2054 4.08418 60.2638 4.05214C60.3223 4.02009 60.3866 4.00007 60.4529 3.99323C60.5192 3.9864 60.5862 3.9929 60.65 4.01235C60.7138 4.0318 60.773 4.06381 60.8242 4.10649C60.8755 4.14917 60.9176 4.20167 60.9483 4.26088C60.9789 4.3201 60.9974 4.38485 61.0026 4.45131C61.0078 4.51778 60.9997 4.58462 60.9788 4.6479C60.9578 4.71119 60.9244 4.76964 60.8805 4.81982L57.5475 8.81982C57.4626 8.92163 57.3407 8.98556 57.2087 8.99756C57.0767 9.00956 56.9453 8.96865 56.8435 8.88382Z" fill="#F8F8F8"/>
-                                        <path fillRule="evenodd" clipRule="evenodd" d="M60.0005 4.49584C60.0005 4.62845 60.0363 4.90196 59.5005 4.99573C59.0005 4.99573 57.9011 4.99584 57.1433 4.99584L2.85762 4.99584C2.09986 4.99584 1.00049 4.99597 0.500488 4.99584C-0.0353299 4.90208 0.000476837 4.62845 0.000476837 4.49584C0.000476837 4.36324 -0.0353299 4.08972 0.500488 3.99595C1.00049 3.99597 2.09986 3.99584 2.85762 3.99584L57.1433 3.99584C57.9011 3.99584 59.0005 3.99573 59.5005 3.99573C60.0363 4.0895 60.0005 4.36324 60.0005 4.49584Z" fill="#F8F8F8"/>
-                                    </svg>
+                            <div className="content__download" onClick={onClickDownloadBanner}>
+                                <div className="content__download-left download-left">
+                                    <h4 className="download-left__title">
+                                        <span className="download-left__title-text">Pero mobile</span>
+                                        <img alt="Pero" className="download-left__title-image" src={peroIcon}/>
+                                    </h4>    
+                                    <p className="download-left__text download-left__text--first">Новые возможности в <span>новом приложении</span></p>
+                                    <p className="download-left__text download-left__text--second">Скачивай и заказывай в приложении <span>PERO Mobile</span></p>
                                 </div>
-                                <div className="download__wrapper">
-                                    <img className="download__wrapper-image" src={phoneImage} alt="phone" onClick={() => setInstallPopup()}/>
+                                <div className="content__download__right download-right">
+                                    <img alt="Mobile phone" className="download-right__image" src={mobilePhone}/>
                                 </div>
                             </div>
                         )}
+                        <Brands/>
                     </>
-                ) : <Error status={error.response.status}/>}
+                ) : <Error status={error.response?.status || 404}/>}
             </div>
-            <Footer />
-
-            <SignPopup />
-            <InstallSlider />
+            <Footer activePage='home'/>
+            
+            <PageUp/>
+            <AuthPopup/>
+            <InstallSlider/>
         </>
     );
 }
