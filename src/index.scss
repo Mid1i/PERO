@@ -32,14 +32,14 @@
 body {
     background: #E5E3E0;
     color: #1F1F21;
-
     font-family: "San Francisco", sans-serif;
     font-size: 14px;
     font-weight: 400;
-
     overflow-x: hidden;
     overflow-y: scroll;
     pointer-events: auto;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
 
     &.no-scroll {
         overflow-y: hidden !important;
@@ -109,7 +109,7 @@ body {
 
 
 .blackout {
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.5);
     position: fixed;
     top: 0px;
     left: 0px;

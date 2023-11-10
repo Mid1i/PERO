@@ -64,10 +64,10 @@ export default function Home() {
         <>
             <Header/>
             <SearchBar/>
-            <GoodsSlider/>
             <div className="content">
                 {(isLoading || (!isError && items.length !== 0)) ? (
                     <>
+                        <GoodsSlider/>
                         <div className="content__popular">
                             <h4 className="content__popular-left">
                                 <span>Наиболее популярные</span>
@@ -130,7 +130,7 @@ export default function Home() {
                         )}
                         <Brands/>
                     </>
-                ) : <Error status={error.response?.status || 404}/>}
+                ) : <Error status={error.response?.status || 502}/>}
             </div>
             <Footer activePage='home'/>
             

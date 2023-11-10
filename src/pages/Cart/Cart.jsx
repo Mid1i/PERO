@@ -1,14 +1,15 @@
 import {useEffect} from "react";
 
+import {toFormatAmountText, toFormatPrice, isPWA} from "@utils/helpers";
 import {fetchRandomProducts} from "@api";
-import {isPWA} from "@utils/helpers";
+import classNames from "classnames";
 import {
     AuthPopup,
     Footer,
-    InstallSlider,
     Header,
+    PageUp,
     SearchBar,
-    SneakerCart,
+    SneakerCartCard,
     SneakerSlider
 } from "@components";
 
@@ -16,7 +17,15 @@ import "./Cart.style.scss";
 
 
 export default function Cart() {
-    useEffect(() => {document.title = 'Оформление заказа';}, [])
+    useEffect(() => {document.title = 'Оформление заказа';}, []);
+
+
+    const onFormTitle = () => {
+        // if (!isLoading && !isError && data.pages[0].amount !== 0) {
+        //     return `${data.pages[0].amount} ${toFormatAmountText(data.pages[0].amount)}`;
+        // }
+        return '3 товара'
+    }
 
     
     return (
@@ -24,35 +33,45 @@ export default function Cart() {
             <Header/>
             <SearchBar/>
             <div className="content">
-                <div className="cart">
-                    <h4 className="cart__title">
-                        <span>Корзина</span>
-                        <span>3 товара</span>
-                    </h4>
-                    <div className="cart__sections">
-                        <div className="cart__sections-items items">
-                            <SneakerCart/>
-                        </div>
-                        <div className="cart__sections-order order">
-                            <h4 className="order__title">Сумма заказа</h4>
-                            <p className="order__check">
-                                <span>3 товара на сумму</span>
-                                <span>82 197 ₽</span>
-                            </p>
-                            <h2 className="order__total">
-                                <span>Итого:</span>
-                                <span>82 197 ₽</span>
-                            </h2>
-                            <button className="order__btn btn">Оформить заказ</button>
-                        </div>
+                <h4 className="content__amount">
+                    <span className="content__amount-title">Корзина</span>
+                    <span className="content__amount-number">{onFormTitle()}</span>
+                </h4>
+                <div className="content__cart">
+                    <div className="content__cart-goods cart-goods">
+                        <SneakerCartCard/>
+                        <SneakerCartCard/>
+                        <SneakerCartCard/>
+                    </div>
+                    <div className="content__cart-order cart-order">
+                        <h4 className="cart-order__title">Сумма заказа</h4>
+                        <p className="cart-order__amount">
+                            <span className="cart-order__amount-left">Товаров в заказе</span>
+                            <span className="cart-order__amount-right">3</span>
+                        </p>
+                        <p className="cart-order__amount">
+                            <span className="cart-order__amount-left">Товары на сумму</span>
+                            <span className="cart-order__amount-right">{`${toFormatPrice('82999')} ₽`}</span>
+                        </p>
+                        <h1 className="cart-order__total">
+                            <span className="cart-order__total-left">Итого:</span>
+                            <span className="cart-order__total-right">{`${toFormatPrice('82999')} ₽`}</span>
+                        </h1>
+                        <button className={classNames("cart-order__btn", isPWA() && "mobile")}>Оформить заказ</button>
+                        {isPWA() && (
+                            <>
+                                <p className="cart-order__mobile-text">{`${toFormatPrice('82999')} ₽`}</p>
+                                <button className="cart-order__mobile-btn">Оформить</button>
+                            </>
+                        )}
                     </div>
                 </div>
-                <SneakerSlider title='Рекомендуем:' mobileDevice={isPWA() ? true : false} func={fetchRandomProducts}/>
+                <SneakerSlider title='Рекомендуем:' func={fetchRandomProducts}/>
             </div>
-            <Footer/>
+            <Footer activePage='cart'/>
 
-            <InstallSlider/>
             <AuthPopup/>
+            <PageUp/>
         </>
     );
 }

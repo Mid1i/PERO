@@ -1,3 +1,4 @@
+import SneakerCartCard from "./SneakerCartCard/SneakerCartCard";
 import {MainFilters, PriceFilters, Sorting} from "./Filters";
 import InstallSlider from "./InstallSlider/InstallSlider";
 import SneakerSlider from "./SneakerSlider/SneakerSlider";
@@ -6,7 +7,6 @@ import LeftNavPanel from "./LeftNavPanel/LeftNavPanel";
 import GoodsSlider from "./GoodsSlider/GoodsSlider";
 import LoadingCard from "./SneakerCard/LoadingCard";
 import SneakerCard from "./SneakerCard/SneakerCard";
-import SneakerCart from "./SneakerCart/SneakerCart";
 import SneakerInfo from "./SneakerInfo/SneakerInfo";
 import SearchBar from "./SearchBar/SearchBar"; 
 import AuthPopup from "./AuthPopup/AuthPopup";
@@ -33,7 +33,7 @@ export {
     PageUp, 
     PriceFilters, 
     SneakerCard,
-    SneakerCart, 
+    SneakerCartCard, 
     SearchBar, 
     Sorting,
     SneakerSlider,

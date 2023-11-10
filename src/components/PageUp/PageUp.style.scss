@@ -3,25 +3,17 @@
     border-radius: 100px;
     cursor: pointer;
     align-items: center;
-    display: none;
+    display: flex;
     justify-content: center;
     position: fixed;
-    bottom: 30px;
+    bottom: -50px;
     right: 30px;
-    transform: scale(0);
     transition: all 0.1s linear;
     height: 40px;
     width: 40px;
     z-index: 2;
 
     &.active {
-        transform: scale(1);
-    }
-}
-
-
-@media(max-width: 1024px) {
-    .page-up {
-        display: flex;
+        bottom: 30px;
     }
 }

@@ -6,8 +6,8 @@ import {appContext} from "@services/Context";
 import "./SearchBar.style.scss";
 
 
-export default function SearchBar({className='search-bar', onCancel=false}) {
-    const {isRegisteredUser, searchValue, setSearchValue} = useContext(appContext);
+export default function SearchBar({onCancel=false}) {
+    const {isRegisteredUser, searchValue, setAuthPopup, setSearchValue} = useContext(appContext);
 
     const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ export default function SearchBar({className='search-bar', onCancel=false}) {
     
     return (
         <>
-            <div className={className}>
+            <div className='search-bar'>
                 <input 
                     className="search-bar__input" 
                     type="text" 
@@ -49,7 +49,7 @@ export default function SearchBar({className='search-bar', onCancel=false}) {
                 </div>
             </div>
             {!isRegisteredUser && (
-                <div className="reg-banner">
+                <div className="reg-banner" onClick={setAuthPopup}>
                     <p className="reg-banner__text">Зарегистрируйтесь и пользуйтесь всеми возможностями PERO</p>
                 </div>
             )}

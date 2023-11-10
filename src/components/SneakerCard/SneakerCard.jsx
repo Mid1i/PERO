@@ -12,7 +12,6 @@ export default function SneakerCard({id, preview, name, price, page = 'home'}) {
     const {isInFavorites, onAddToFavorites} = useContext(appContext);
     const navigate = useNavigate();
     
-    
     return (
         <div title={name} className={classNames("goods__content-item goods-item", page === 'catalog' && "goods-item--catalog")}>
             <span className="goods-item__icon" onClick={() => onAddToFavorites(id)}>

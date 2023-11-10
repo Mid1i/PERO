@@ -6,8 +6,8 @@ import queryString from "query-string";
 import classNames from "classnames";
 
 import {useNoScroll, usePaginationRequest, useRequest, useScroll} from "@hooks";
-import {appContext, catalogContext} from "@services";
 import {toFormatAmountText, isPWA} from "@utils/helpers";
+import {appContext, catalogContext} from "@services";
 import {filters} from "@utils/constants";
 import {fetchColors} from '@api';
 import {
@@ -180,10 +180,8 @@ export default function Catalog() {
                             </div>
                         </div>
                         <div className="content__catalog">
-                            {isLoading ? <LoadingCard /> : (data.pages[0].page.content.length === 0) ? (
-                                <EmptyContent 
-                                    title={searchValue ? `По запросу  «${searchValue}» ничего не найдено` : 'Ничего не найдено'}
-                                />
+                            {isLoading ? <LoadingCard page='catalog'/> : (data.pages[0].page.content.length === 0) ? (
+                                <EmptyContent title={searchValue ? `По запросу  «${searchValue}» ничего не найдено` : 'Ничего не найдено'}/>
                             ) : (
                                 data.pages.map(itemsPage => itemsPage.page.content.map(item => (
                                     <SneakerCard

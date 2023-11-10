@@ -1,7 +1,9 @@
 import ContentLoader from "react-content-loader";
 import {useEffect, useState} from "react";
+import classNames from "classnames";
 
-export default function LoadingCard() {
+
+export default function LoadingCard({page = 'home'}) {
     const [width, setWidth] = useState(225);
     const [height, setHeight] = useState(325);
     const [radius, setRadius] = useState(50);
@@ -45,11 +47,11 @@ export default function LoadingCard() {
             setTextHeight(14);
         }
     }
-
+    
 
     return (
         [...Array(12)].map((item, index) => (
-            <div className="goods-item" key={index}>
+            <div className={classNames("goods-item", page === 'catalog' && 'goods-item--catalog')} key={index}>
                 <ContentLoader 
                     speed={2}
                     width={width}
