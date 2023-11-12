@@ -2,7 +2,8 @@ import {installSliderData, installSliderSettings} from "./installSlider";
 import {footerTitles , footerElements} from "./footer";
 import {registrationInputs, loginInputs} from "./auth";
 import {filters, sortingData} from "./filters";
-import {mainURL, authURL} from './api';
+import {adminURL, authURL, openURL, userURL} from './api';
+import {settings} from "./slider";
 import {account} from "./account";
 import {brands} from "./brands";
 import {errors} from "./errors";
@@ -10,6 +11,7 @@ import {errors} from "./errors";
 
 export { 
     account,
+    adminURL,
     authURL,
     brands, 
     errors,
@@ -20,6 +22,8 @@ export {
     installSliderSettings,
     registrationInputs,
     loginInputs,
-    mainURL,
+    openURL,
+    userURL,
+    settings,
     sortingData, 
 };

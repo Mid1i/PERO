@@ -1,3 +1,4 @@
+import {QueryClient, QueryClientProvider} from "react-query";
 import {BrowserRouter as Router} from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import "@services/serviceWorker";
@@ -9,8 +10,13 @@ import "./index.scss";
 
 const root = ReactDOM.createRoot(document.querySelector('.wrapper'));
 
+const queryClient = new QueryClient();
+
+
 root.render(
     <Router>
-        <App />
+        <QueryClientProvider client={queryClient}>
+            <App />
+        </QueryClientProvider>
     </Router>
 );

@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 
-import {toFormatAmountText, toFormatPrice, isPWA} from "@utils/helpers";
-import {fetchRandomProducts} from "@api";
+import {toFormatPrice, isPWA} from "@utils/helpers";
+// import {fetchRandomProducts} from "@api";
 import classNames from "classnames";
 import {
     AuthPopup,
@@ -66,7 +66,7 @@ export default function Cart() {
                         )}
                     </div>
                 </div>
-                <SneakerSlider title='Рекомендуем:' func={fetchRandomProducts}/>
+                <SneakerSlider title='Рекомендуем:'/>
             </div>
             <Footer activePage='cart'/>
 

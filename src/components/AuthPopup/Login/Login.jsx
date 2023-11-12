@@ -14,13 +14,15 @@ export default function Login() {
 
 
     const onCheckingVisibility = (id, type) => {
-        if (id !== 'password') {
-            return type;
-        } else if (visiblePassword) {
-            return 'text';
-        } else {
-            return 'password';
+        if (id === 'password') {
+            if (visiblePassword) {
+                return 'text';
+            } else {
+                return 'password';
+            }
         }
+
+        return type;
     }
 
     const onClickChangeStep = () => {

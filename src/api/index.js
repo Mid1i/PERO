@@ -1,18 +1,17 @@
-import {fetchColors} from "./colorsAPI";
-import {fetchCurrentProduct} from "./currentProductAPI";
-import {fetchCatalogProducts, fetchProducts, fetchRandomProducts, fetchRandomGenderProducts, fetchSearchProducts} from "./productsAPI";
-import {fetchRegistration, fetchEmailConfirming, fetchLogin, fetchTokens} from "./authAPI";
+import {fetchCatalogProducts, fetchColors, fetchCurrentProduct, fetchProducts, fetchRandomProducts} from "./openAPI";
+import {fetchAuthVerify, fetchRegistration, fetchEmail, fetchLogin} from "./authAPI";
+import {fetchFavouriteProducts} from "./userAPI";
+
 
 export {
+    fetchAuthVerify,
     fetchCatalogProducts,
     fetchColors,
     fetchCurrentProduct,
-    fetchEmailConfirming,
+    fetchEmail,
+    fetchFavouriteProducts,
     fetchLogin,
     fetchProducts,
     fetchRandomProducts,
-    fetchRandomGenderProducts,
     fetchRegistration,
-    fetchTokens,
-    fetchSearchProducts,
 };

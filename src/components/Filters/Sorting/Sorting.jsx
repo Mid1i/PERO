@@ -13,7 +13,7 @@ export default function Sorting() {
     const [currentSorting, setCurrentSorting] = useState('');
     const navigate = useNavigate();
 
-    useEffect(() => {if (sortingData.values.includes(params['sort'])) setCurrentSorting(params['sort'])}, [params])
+    useEffect(() => {if (sortingData.values.includes(params?.['sort'])) setCurrentSorting(params['sort'])}, [params])
 
 
     const onChangeSort = (element) => {

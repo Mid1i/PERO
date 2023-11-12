@@ -369,6 +369,21 @@
     }
 }
 
+.images-scroll {
+    align-items: center;
+    display: flex;
+    overflow: auto;
+    width: 100%;
+
+    & div {
+        margin-right: 15px;
+
+        &:last-child {
+            margin-right: 0px;
+        }
+    }
+}
+
 .success-popup {
     background: #F7F7F7;
     padding: 20px;
@@ -672,7 +687,8 @@
         }
     }
 
-    .images-slider {
+    .images-slider,
+    .images-scroll {
         align-items: center;
         display: flex;
         flex: 0 0 160px;
@@ -808,7 +824,8 @@
         width: 50px;
     }
 
-    .images-slider {
+    .images-slider,
+    .images-scroll {
         flex: 0 0 100px;
         margin-bottom: 10px;
 

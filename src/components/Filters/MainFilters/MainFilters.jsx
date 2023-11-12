@@ -7,14 +7,14 @@ import "./MainFilters.style.scss";
 
 
 export default function MainFilters({id, title, elements, values = elements}) {
-    const {onFormLink, link, params, setAmount, setLink} = useContext(catalogContext);
+    const {onFormLink, link, params, setFiltersAmount, setLink} = useContext(catalogContext);
     const [filters, setFilters] = useState([]);
    
 
     useEffect(() => {
         if (params[id]) {
             setFilters(String(params[id]).split(',').filter(item => values.includes(item)));
-            setAmount(prev => prev += String(params[id]).split(',').filter(item => values.includes(item)).length);
+            setFiltersAmount(prev => prev += String(params[id]).split(',').filter(item => values.includes(item)).length);
         } else {
             setFilters([]);
         }

@@ -1,32 +1,28 @@
 import {browserName, osName} from "react-device-detect";
 import {useParams} from "react-router-dom";
-import {useMutation} from "react-query";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
-import {fetchTokens} from "@api";
-import {Footer, Header, SearchBar} from "@components";
+import {fetchAuthVerify} from "@api";
+import {AuthPopup, Footer, Header, SearchBar} from "@components";
 
-import "./AuthEmail.style.scss";
+import "./AuthVerify.style.scss";
 
 import authEmail from "@assets/images/content-images/email-success.jpg";
 
 
-export default function AuthEmail() {
-    const emailMutation = useMutation(fetchTokens, {onSuccess: (data) => onSuccessRequest(data)});
+export default function AuthVerify() {
+    const [requestStatus, setRequestStatus] = useState('error');
 
     const params = useParams();
 
-
+    
     useEffect(() => {
-        const data = {'uuid': params.uuid, 'browser': browserName, 'device': osName};
-        emailMutation.mutate(data);      
+        console.log(fetchAuthVerify(params.uuid))
+        axios.put(fetchAuthVerify(params.uuid), {}, {headers: {'X-Browser': browserName, 'X-Device': osName}})
+             .then(() => setRequestStatus('success'))
+             .catch(() => setRequestStatus('error')) 
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-
-    const onSuccessRequest = (data) => {
-        localStorage.setItem('accessToken', data.accessToken);
-        localStorage.setItem('refreshToken', data.refreshToken);
-    }
 
 
     return (
@@ -34,7 +30,7 @@ export default function AuthEmail() {
             <Header/>
             <SearchBar/>
             <div className="content">
-                {emailMutation.isSuccess ? (
+                {requestStatus === 'success' ? (
                     <div className="content__email">
                         <h1 className="content__email-title">Почтовый адрес успешно подтверждён!</h1>
                         <img className="content__email-image" src={authEmail} alt="Success"/>
@@ -48,6 +44,8 @@ export default function AuthEmail() {
                 )}
             </div>
             <Footer/>
+
+            <AuthPopup/>
         </>
     );
 }

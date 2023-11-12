@@ -1,11 +1,12 @@
-import {QueryClient, QueryClientProvider} from "react-query";
 import {useState, useEffect, useReducer} from "react";
 import {useLocation} from "react-router-dom";
 import {isMobile} from "react-device-detect";
 import queryString from "query-string";
 
+// import {fetchFavouriteProducts} from "@api";
 import {appContext, Routers} from "@services";
-import {isPWA} from "@utils/helpers";
+// import {useUserRequest} from "@hooks/useUserRequest";
+import {isPWA, onAddToArray, onCreateArray, onRemoveFromArray} from "@utils/helpers";
 
 
 export default function App() {
@@ -13,22 +14,22 @@ export default function App() {
     const [isRegisteredUser, setIsRegisteredUser] = useReducer(prev => !prev, false);
     const [installPopup, setInstallPopup] = useReducer(prev => !prev, false);
     const [authPopup, setAuthPopup] = useReducer(prev => !prev, false);
+    const [favouriteItems, setFavouriteItems] = useState([]);
     const [searchValue, setSearchValue] = useState('');
-    const [likedItems, setLikedItems] = useState([]);
     const [cartItems, setCartItems] = useState([]);
 
-    const queryClient = new QueryClient();
     const {search} = useLocation();
-    
-    
+
+
     useEffect(() => {
-        const favourites = JSON.parse(localStorage.getItem('favorites'));
-        const cart = JSON.parse(localStorage.getItem('cart'));
-
-        if (Array.isArray(favourites)) setLikedItems(favourites);
-        if (Array.isArray(cart)) setCartItems(cart);
-
-        if (localStorage.getItem('accessToken') && localStorage.getItem('refreshToken')) setIsRegisteredUser();
+        if (localStorage.getItem('accessToken')) {
+            localStorage.removeItem('favourite');
+            localStorage.removeItem('cart');
+            setIsRegisteredUser();
+        } else {
+            setFavouriteItems(onCreateArray('favourite'));
+            setCartItems(onCreateArray('cart'));
+        }
 
         if (!isPWA() && isMobile && !(localStorage.getItem('showInstall'))) {
             localStorage.setItem('showInstall', 'false');
@@ -47,24 +48,24 @@ export default function App() {
             const amount = cartItems.find(obj => obj.id === id).amount;
             setCartItems(prev => prev.filter(obj => obj.id !== id));
             setCartItems(prev => [...prev, {id: id, amount: amount + 1}]);
-            localStorage.setItem('cart', JSON.stringify([...cartItems.filter(obj => obj.id !== id), {id: id, amount: amount + 1}]));
+            onAddToArray('cart', cartItems, id, amount + 1);
         } else {
             setCartItems(prev => [...prev, {id: id, amount: 1}]);
-            localStorage.setItem('cart', JSON.stringify([...cartItems, {id: id, amount: 1}]));
+            onAddToArray('cart', cartItems, id, 1);
         }
     }
     
-    const onAddToFavorites = (id) => {
-        if (likedItems.find(obj => Number(obj) === Number(id))) {
-            setLikedItems(prev => prev.filter(obj => Number(obj) !== Number(id)));
-            localStorage.setItem("favorites", JSON.stringify(likedItems.filter(obj => Number(obj) !== Number(id))));
+    const onAddToFavorite = (id) => {
+        if (favouriteItems.find(obj => Number(obj) === Number(id))) {
+            setFavouriteItems(prev => prev.filter(obj => Number(obj) !== Number(id)));
+            onRemoveFromArray('favourite', favouriteItems, id);
         } else {
-            setLikedItems(prev => [...prev, id]);
-            localStorage.setItem("favorites", JSON.stringify([...likedItems, id]));
+            setFavouriteItems(prev => [...prev, id]);
+            onAddToArray('favourite', favouriteItems, id);
         }
     }
     
-    const isInFavorites = (id) => likedItems.includes(id);
+    const isInFavorite = (id) => favouriteItems.includes(id);
     
     
     const contextData = {
@@ -72,8 +73,8 @@ export default function App() {
         cartItems,
         installPopup,
         isMale, 
-        isInFavorites, 
-        onAddToFavorites, 
+        isInFavorite, 
+        onAddToFavorite, 
         onAddToCart,
         isRegisteredUser,
         setAuthPopup,
@@ -85,10 +86,8 @@ export default function App() {
 
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <appContext.Provider value={{...contextData}}>
-                <Routers />
-            </appContext.Provider>
-        </QueryClientProvider>
+        <appContext.Provider value={{...contextData}}>
+            <Routers/>
+        </appContext.Provider>
     );
 }

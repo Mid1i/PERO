@@ -5,6 +5,7 @@ import Slider from "react-slick";
 
 import {useRequest, useScroll} from "@hooks";
 import {appContext} from "@services/Context";
+import {settings} from "@utils/constants";
 import {isPWA} from "@utils/helpers";
 import {fetchProducts} from "@api";
 import {
@@ -28,29 +29,9 @@ import mobilePhone from "@assets/images/home-images/pero-mobile--phone.png";
 
 
 export default function Home() {
-    const {data: items, error, isError, isLoading} = useRequest(fetchProducts);
+    const {requestData: {data, error, status}} = useRequest(fetchProducts);
     const {setInstallPopup} = useContext(appContext);
     const navigate = useNavigate();
-    const settings = {
-        arrows: false,
-        centerMode: true,
-        className: "content__goods-slider",
-        dots: false,
-        easing: 'linear',
-        infinite: true,
-        initialSlide: 1,
-        variableWidth: true,
-        swipeToSlide: true,
-        slidesToShow: 4,
-        speed: 600,
-        swipe: true,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: "unslick"
-            }
-        ]
-    }
 
     useScroll();
 
@@ -60,12 +41,21 @@ export default function Home() {
     const onClickDownloadBanner = () => {if (isMobile) setInstallPopup();}
 
 
+    const sliderRender = (from, to) => {
+        return (
+            <Slider {...settings} className="content__goods-slider">
+                {data.slice(from, to).map((item) => (<SneakerCard key={item.id} {...item}/>))}
+            </Slider>
+        );
+    }
+
+
     return (
         <>
             <Header/>
             <SearchBar/>
             <div className="content">
-                {(isLoading || (!isError && items.length !== 0)) ? (
+                {(status === 'loading' || (!!data)) ? (
                     <>
                         <GoodsSlider/>
                         <div className="content__popular">
@@ -78,37 +68,18 @@ export default function Home() {
                             <h5 className="content__popular-right" onClick={() => navigate('/catalog/')}>Больше кроссовок</h5>
                         </div>
                         <div className="content__goods">
-                            {isLoading ? (
+                            {status === 'loading' ? (
                                 <Slider {...settings}>
                                     <LoadingCard/>
                                 </Slider>
-                            /* TODO: изменить кол-во предметов на минимум 10 */
-                            ) : ((items.length > 5) ? (
-                                    <>
-                                        <Slider {...settings}>
-                                            {isLoading ? <LoadingCard/> : (
-                                                items.slice(0, items.length / 2).map((item) => (
-                                                    <SneakerCard
-                                                        key={item.id}
-                                                        {...item}
-                                                    />
-                                                ))
-                                            )}
-                                        </Slider>
-                                        <Slider {...settings}>
-                                            {isLoading ? <LoadingCard/> : (
-                                                items.slice(items.length / 2, items.length).map((item) => (
-                                                    <SneakerCard
-                                                        key={item.id}
-                                                        {...item}
-                                                    />
-                                                ))
-                                            )}
-                                        </Slider>
-                                    </>
-                            ) :  (
+                            ) : ((data.length / 2 > 6) ? (
+                                <>
+                                    {sliderRender(0, data.length / 2)}
+                                    {sliderRender(data.length / 2, data.length)}
+                                </>
+                            ) : (
                                 <div className="content__goods-scroll">
-                                    {items.map((item) => <SneakerCard key={item.id} {...item}/>)}
+                                    {data.map((item) => (<SneakerCard key={item.id} {...item}/>))}
                                 </div>
                             ))}
                             <div className="content__goods-back"></div>
@@ -130,7 +101,7 @@ export default function Home() {
                         )}
                         <Brands/>
                     </>
-                ) : <Error status={error.response?.status || 502}/>}
+                ) : <Error status={error?.response?.status || 502}/>}
             </div>
             <Footer activePage='home'/>
             

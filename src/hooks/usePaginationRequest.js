@@ -1,25 +1,40 @@
-import {useInfiniteQuery} from "react-query";
+// import {useInfiniteQuery} from "react-query";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 import {fetchCatalogProducts} from "@api";
 
-export default function usePaginationRequest(isMale, search) {
-    const currentPage = (obj) => {
-        if (obj.page.content.length === obj.page.size) {
-            return obj.page.number + 1;
-        } else { 
-            return undefined;
-        }
-    }
-    
-    const {
-        data,
-        error,
-        fetchNextPage,
-        isError,
-        isFetchingNextPage,
-        isLoading
-    } = useInfiniteQuery(['items', isMale, search], fetchCatalogProducts, {getNextPageParam: (lastPage) => currentPage(lastPage), retry: false})
+export default function usePaginationRequest(isMale, search, ref) {
+    const [page, setPage] = useState(0);
+    const [requestData, setRequestData] = useState({
+        amount: 0,
+        data: [],
+        error: null,
+        status: 'loading'
+    });
 
+
+    useEffect(() => {
+        setRequestData({...requestData, status: 'loading'});
+        setPage(0);
+
+        axios.get(fetchCatalogProducts(0, isMale, search))
+             .then(response => setRequestData({amount: response.data.amount, data: [], error: null, status: 'complete'}))
+             .catch(error => setRequestData({amount: 0, data: [], error: error, status: 'error'})) 
+    }, [isMale, search]); // eslint-disable-line react-hooks/exhaustive-deps
+
+
+    useEffect(() => {
+        if (ref && requestData.data.length !== requestData.amount) {
+            setRequestData({...requestData, status: 'fetching'});
+
+            axios.get(fetchCatalogProducts(page, isMale, search))
+                 .then(response => setRequestData({amount: response.data.amount, data: [...requestData.data, ...response.data.page.content], error: null, status: 'complete'}))
+                 .catch(error => setRequestData({amount: 0, data: [], error: error, status: 'error'})) 
+
+            setPage(prev => prev + 1);
+        }
+    }, [ref]); // eslint-disable-line react-hooks/exhaustive-deps
     
-    return {data, error, fetchNextPage, isError, isFetchingNextPage, isLoading};
+    return {requestData};
 }

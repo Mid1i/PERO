@@ -7,7 +7,5 @@ export default function useScroll() {
     const {pathName} = useLocation();
 
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [pathName, params.id]);
+    useEffect(() => {window.scrollTo(0, 0);}, [pathName, params.id]);
 }

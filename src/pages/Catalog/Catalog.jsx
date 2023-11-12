@@ -31,17 +31,17 @@ import "./Catalog.style.scss";
 export default function Catalog() {
     const {isMale, searchValue} = useContext(appContext);
     const [isOpen, setIsOpen] = useReducer(prev => !prev, false);
+    const [filtersAmount, setFiltersAmount] = useState(0);
     const [isOpenSort, setIsOpenSort] = useState(false);
     const [params, setParams] = useState([]);
-    const [amount, setAmount] = useState(0);
     const [link, setLink] = useState({});
 
     const {search} = useLocation();
     const navigate = useNavigate();
 
-    const {data, error, fetchNextPage, isError, isFetchingNextPage, isLoading} = usePaginationRequest(isMale, search);
-    const {data: colors, isError: isErrorColors, isLoading: isLoadingColors} = useRequest(fetchColors, 'colors');
-    const {ref, inView} = useInView({threshold: 0.5})
+    const {ref, inView} = useInView({threshold: 0.8});
+    const {requestData: {amount, data, error, status}} = usePaginationRequest(isMale, search, inView);
+    const {requestData: {data: colors, status: statusColors}} = useRequest(fetchColors);
 
     useScroll();
     useNoScroll(isOpen);
@@ -56,16 +56,14 @@ export default function Catalog() {
     }, [isMale])
 
     useEffect(() => {
-        setAmount(0);
+        setFiltersAmount(0);
         setIsOpenSort(false);
         setParams(queryString.parse(search));
     }, [search])
-
-    useEffect(() => {if (inView) fetchNextPage()}, [inView]) // eslint-disable-line react-hooks/exhaustive-deps
     
     useEffect(() => {setLink({...link, 'search': searchValue})}, [searchValue]) // eslint-disable-line react-hooks/exhaustive-deps
 
-    useEffect(() => {for (let id in params) setLink({...link, [id]: params[`${id}`]})}, [params]) // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => {for (let id in params) setLink({...link, [id]: params?.[id]})}, [params]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     const onClickFilters = () => {
@@ -90,8 +88,8 @@ export default function Catalog() {
     }
 
     const onFormTitle = () => {
-        if (!isLoading && !isError && data.pages[0].amount !== 0) {
-            return `${data.pages[0].amount} ${toFormatAmountText(data.pages[0].amount)}`;
+        if (status === 'complete' && amount !== 0) {
+            return `${amount} ${toFormatAmountText(amount)}`;
         }
     }
 
@@ -108,11 +106,11 @@ export default function Catalog() {
 
     
     return (
-        <catalogContext.Provider value={{onFormLink, link, params, isOpenSort, setAmount, setIsOpenSort, setLink}}>
+        <catalogContext.Provider value={{onFormLink, link, params, isOpenSort, setFiltersAmount, setIsOpenSort, setLink}}>
             <Header/>
             <SearchBar onCancel={true}/>
             <div className="content">
-                {(isLoading || !isError) ? (
+                {(status !== 'error') ? (
                     <>
                         {!isPWA() && (
                             <p className="content__nav">
@@ -139,14 +137,14 @@ export default function Catalog() {
                                     <path fillRule="evenodd" clipRule="evenodd" d="M3.255 3.16925C3.5649 2.24254 4.13961 1.44006 4.8999 0.87244C5.66019 0.304819 6.56863 0 7.5 0C8.43137 0 9.33981 0.304819 10.1001 0.87244C10.8604 1.44006 11.4351 2.24254 11.745 3.16925H22.5C22.8978 3.16925 23.2794 3.336 23.5607 3.63281C23.842 3.92962 24 4.33218 24 4.75194C24 5.17169 23.842 5.57426 23.5607 5.87107C23.2794 6.16788 22.8978 6.33463 22.5 6.33463H11.745C11.4351 7.26134 10.8604 8.06382 10.1001 8.63144C9.33981 9.19906 8.43137 9.50388 7.5 9.50388C6.56863 9.50388 5.66019 9.19906 4.8999 8.63144C4.13961 8.06382 3.5649 7.26134 3.255 6.33463H1.5C1.10218 6.33463 0.720645 6.16788 0.43934 5.87107C0.158036 5.57426 0 5.17169 0 4.75194C0 4.33218 0.158036 3.92962 0.43934 3.63281C0.720645 3.336 1.10218 3.16925 1.5 3.16925H3.255ZM7.5 3.16925C7.10218 3.16925 6.72064 3.336 6.43934 3.63281C6.15804 3.92962 6 4.33218 6 4.75194C6 5.17169 6.15804 5.57426 6.43934 5.87107C6.72064 6.16788 7.10218 6.33463 7.5 6.33463C7.89782 6.33463 8.27936 6.16788 8.56066 5.87107C8.84196 5.57426 9 5.17169 9 4.75194C9 4.33218 8.84196 3.92962 8.56066 3.63281C8.27936 3.336 7.89782 3.16925 7.5 3.16925Z" fill="#1F1F21"/>
                                     <path fillRule="evenodd" clipRule="evenodd" d="M12.255 12.6654C12.5649 11.7387 13.1396 10.9362 13.8999 10.3686C14.6602 9.80094 15.5686 9.49612 16.5 9.49612C17.4314 9.49612 18.3398 9.80094 19.1001 10.3686C19.8604 10.9362 20.4351 11.7387 20.745 12.6654H22.5C22.8978 12.6654 23.2794 12.8321 23.5607 13.1289C23.842 13.4257 24 13.8283 24 14.2481C24 14.6678 23.842 15.0704 23.5607 15.3672C23.2794 15.664 22.8978 15.8307 22.5 15.8307H20.745C20.4351 16.7575 19.8604 17.5599 19.1001 18.1276C18.3398 18.6952 17.4314 19 16.5 19C15.5686 19 14.6602 18.6952 13.8999 18.1276C13.1396 17.5599 12.5649 16.7575 12.255 15.8307H1.5C1.10218 15.8307 0.720645 15.664 0.43934 15.3672C0.158036 15.0704 0 14.6678 0 14.2481C0 13.8283 0.158036 13.4257 0.43934 13.1289C0.720645 12.8321 1.10218 12.6654 1.5 12.6654H12.255ZM16.5 12.6654C16.1022 12.6654 15.7206 12.8321 15.4393 13.1289C15.158 13.4257 15 13.8283 15 14.2481C15 14.6678 15.158 15.0704 15.4393 15.3672C15.7206 15.664 16.1022 15.8307 16.5 15.8307C16.8978 15.8307 17.2794 15.664 17.5607 15.3672C17.842 15.0704 18 14.6678 18 14.2481C18 13.8283 17.842 13.4257 17.5607 13.1289C17.2794 12.8321 16.8978 12.6654 16.5 12.6654Z" fill="#1F1F21"/>
                                 </svg>
-                                <span className={classNames("filters__amount", amount !== 0 && "active")}>{amount}</span>
+                                <span className={classNames("filters__amount", filtersAmount !== 0 && "active")}>{filtersAmount}</span>
                             </p>
                             <div className={classNames("filters__blackout blackout", isOpen && "active")}>
                                 <div className={classNames("filters__blackout-items filters-items", isOpen && "active")}>
                                     <div className="filters-items__top">
                                         <svg
                                             className="filters-items__top-icon"
-                                            onClick={() => onCloseFilters()}
+                                            onClick={onCloseFilters}
                                             height="14" 
                                             viewBox="0 0 15 14" 
                                             width="15" 
@@ -160,7 +158,7 @@ export default function Catalog() {
                                         <p className={classNames("filters-items__top-cancel", onFormLink(link) !== '' && "active")} onClick={() => onCancelFilters()}>Сбросить</p>
                                     </div>
                                     <div className="filters-items__section">
-                                        {(!isLoadingColors && !isErrorColors) && (
+                                        {(statusColors === 'complete') && (
                                             <>
                                                 {filters.map((filter, index) => (
                                                     <MainFilters                                
@@ -180,25 +178,27 @@ export default function Catalog() {
                             </div>
                         </div>
                         <div className="content__catalog">
-                            {isLoading ? <LoadingCard page='catalog'/> : (data.pages[0].page.content.length === 0) ? (
-                                <EmptyContent title={searchValue ? `По запросу  «${searchValue}» ничего не найдено` : 'Ничего не найдено'}/>
-                            ) : (
-                                data.pages.map(itemsPage => itemsPage.page.content.map(item => (
-                                    <SneakerCard
-                                        key={item.id}
-                                        page='catalog'
-                                        {...item}
-                                    />)
+                            {status === 'loading' ? <LoadingCard page='catalog'/> : 
+                                (amount === 0) ? (
+                                    <EmptyContent title={searchValue ? `По запросу  «${searchValue}» ничего не найдено` : 'Ничего не найдено'}/>
+                                ) : (
+                                    data.map(item => (
+                                        <SneakerCard 
+                                            key={item.id} 
+                                            page='catalog' 
+                                            {...item}
+                                        />)
+                                    )
                                 )
-                            ))}
-                            {isFetchingNextPage && (
+                            }
+                            {status === 'fetching' && (
                                 <div className="loader--catalog">
                                     <TailSpin ariaLabel='loading' color="#E47F46" height={80} width={80}/>
                                 </div>
                             )}
                         </div>
                     </>
-                ) : <Error status={error.response?.status || 404}/>}
+                ) : <Error status={error?.response?.status || 404}/>}
             </div>
             <Footer activePage='catalog' footerRef={ref}/>
             

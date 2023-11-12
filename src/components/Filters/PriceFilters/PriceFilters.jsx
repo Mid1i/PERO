@@ -7,7 +7,7 @@ import "./PriceFilters.style.scss";
 
 
 export default function PriceFilters() {
-    const {onFormLink, link, params, setAmount, setLink} = useContext(catalogContext);
+    const {onFormLink, link, params, setFiltersAmount, setLink} = useContext(catalogContext);
     const [startValue, setStartValue] = useState('');
     const [endValue, setEndValue] = useState('');
    
@@ -16,7 +16,7 @@ export default function PriceFilters() {
         if (validateInput(params['fromPrice'])) {
             setLink({...link, 'fromPrice': params['fromPrice']});
             setStartValue(params['fromPrice']);
-            setAmount(prev => prev += 1);
+            setFiltersAmount(prev => prev += 1);
         } else {
             setStartValue('');
         }
@@ -24,7 +24,7 @@ export default function PriceFilters() {
         if (validateInput(params['toPrice'])) {
             setLink({...link, 'toPrice': params['toPrice']});
             setEndValue(params['toPrice']);
-            setAmount(prev => prev += 1);
+            setFiltersAmount(prev => prev += 1);
         } else {
             setEndValue('');
         }

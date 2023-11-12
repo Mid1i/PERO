@@ -21,17 +21,21 @@ export default function Registration() {
     }
 
     const onCheckingVisibility = (id, type) => {
-        if (id === 'password' && visiblePassword) {
-            return 'text';
-        } else if (id === 'password' && !visiblePassword) {
-            return 'password';
+        if (id === 'password') {
+            if (visiblePassword) {
+                return 'text';
+            } else {
+                return 'password';
+            }
         }
 
-        if (id === 'passwordCheck' && visiblePasswordCheck) {
-            return 'text';
-        } else if (!visiblePasswordCheck) {
-            return 'password';
-        }
+        if (id === 'passwordCheck') {
+            if (visiblePasswordCheck) {
+                return 'text';
+            } else {
+                return 'password';
+            }
+        } 
 
         return type;
     }

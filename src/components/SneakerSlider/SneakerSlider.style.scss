@@ -22,6 +22,19 @@
             margin-bottom: 0px;
         }
     }
+
+    &__scroll {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        padding-bottom: 10px;
+        overflow: auto;
+        width: 100%;
+
+        & .goods-item:last-child {
+            margin-right: 0px;
+        }
+    }
 }
 
 

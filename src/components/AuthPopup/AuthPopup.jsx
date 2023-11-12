@@ -1,10 +1,10 @@
 import {browserName, osName} from "react-device-detect";
 import {useContext, useEffect, useState} from "react";
-import {useMutation} from "react-query";
 import classNames from "classnames";
+import axios from "axios";
 
-import {fetchEmailConfirming, fetchLogin, fetchRegistration} from "@api";
-import {appContext, authContext} from "@services/Context";
+import {fetchEmail, fetchLogin, fetchRegistration} from "@api";
+import {appContext, authContext} from "@services";
 import {isPWA} from "@utils/helpers";
 import {useNoScroll} from "@hooks";
 
@@ -14,20 +14,20 @@ import "./AuthPopup.style.scss";
 
 
 export default function AuthPopup() {
+    const [requestData, setRequestData] = useState({error: null, status: 'loading'});
     const {authPopup, isRegisteredUser, setAuthPopup} = useContext(appContext);
-    const [registeredUser, setRegisteredUser] = useState(false);
-    const [inputsValue, setInputsValue] = useState({});
+    const [registeredUser, setRegisteredUser] = useState(true);
+    const [inputsValue, setInputsValue] = useState({
+        'email': 'example@mail.ru',
+        'fullName': 'Иванов Иван Иванович',
+        'password': '2003Example',
+        'passwordCheck': '2003Example'
+    });
     const [inputsError, setInputsError] = useState({});
     const [authBanner, setAuthBanner] = useState(true);
     const [timer, setTimer] = useState(59);
     
     useNoScroll(authPopup);
-
-    const registrationMutation = useMutation(fetchRegistration, {onSuccess: () => onSuccessHandling(), onError: error => onErrorHandling(error.response)});
-
-    const loginMutation = useMutation(fetchLogin, {onSuccess: (data) => onSuccessHandling(data), onError: (error) => onErrorHandling(error.response)});
-    
-    const emailMutation = useMutation(fetchEmailConfirming, {onSuccess: () => onSuccessHandling()});
 
 
     useEffect(() => {
@@ -55,26 +55,8 @@ export default function AuthPopup() {
         }
         
         if (error.status === 401 && error.data === 'Необходимо подтвердить почту') {
-            emailMutation.mutate(inputsValue.email);
+            axios.post(fetchEmail(inputsValue.email), {"typeLink": "CONFIRM_LINK"});
             setInputsError({'confirm': error.data});
-        }
-    }
-
-    const onSuccessHandling = (data) => {
-        if (data) {
-            localStorage.setItem('accessToken', data.accessToken);
-            localStorage.setItem('refreshToken', data.refreshToken);
-            setAuthPopup();
-        } else {
-            setTimer(59);
-
-            const countdown = window.setInterval(() => {
-                if (timer > 0) {
-                    setTimer(prev => prev - 1);
-                } else {
-                    clearInterval(countdown);
-                }
-            }, 1000);
         }
     }
     
@@ -83,25 +65,40 @@ export default function AuthPopup() {
         const {passwordCheck, ...data} = inputsValue;
 
         if (registeredUser) {
-            delete data['passwordCheck'];
-            const user = {'userData': data, 'browser': browserName, 'device': osName};
-            loginMutation.mutate(user);
-            if (loginMutation.isSuccess) window.location.reload();
+            axios.post(fetchLogin, data, {headers: {'X-Browser': browserName, 'X-Device': osName}}) 
+                 .then((response) => {
+                    setRequestData({...requestData, status: 'success'});
+                    localStorage.setItem('accessToken', response.data.accessToken);
+                    localStorage.setItem('refreshToken', response.data.refreshToken);
+                    window.location.reload();
+                 })
+                 .catch(error => onErrorHandling(error.response));
         } else if (inputsValue.password === passwordCheck) {
-            delete data['passwordCheck'];
-            registrationMutation.mutate(data);
+            axios.post(fetchRegistration, data) 
+                 .then(() => {
+                    setRequestData({...requestData, status: 'success'});
+                    setTimer(9);
+
+                    const countdown = window.setInterval(() => {
+                        if (timer > 0) {
+                            setTimer(prev => prev - 1);
+                        } else {
+                            clearInterval(countdown);
+                        }
+                    }, 1000);
+                 })
+                 .catch(error => onErrorHandling(error.response));
         }
     }
     
     const contextData = {
         authBanner,
-        emailMutation, 
         inputsError, 
-        inputsValue, 
-        onSubmitForm, 
-        onSuccessHandling, 
+        inputsValue,
+        onSubmitForm,
         onErrorHandling,
         registeredUser, 
+        setTimer,
         setAuthBanner,
         setInputsError,
         setInputsValue,
@@ -134,7 +131,7 @@ export default function AuthPopup() {
                         )}
                     </div>
                     {(registeredUser && !inputsError.confirm) ? <Login/> : (
-                        (!registeredUser && (!registrationMutation.isSuccess || inputsValue?.password !== inputsValue?.passwordCheck)) ? <Registration/> : (
+                        (!registeredUser && requestData.status !== 'success') ? <Registration/> : (
                             <EmailConfirming/>
                         )
                     )}

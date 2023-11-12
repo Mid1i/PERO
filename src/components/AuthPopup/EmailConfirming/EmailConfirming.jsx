@@ -1,13 +1,28 @@
 import {useContext} from "react";
+import axios from "axios";
 
 import {toFormatEmail, toFormatTime, toFormatTimeText} from "@utils/helpers"; 
 import {authContext} from "@services";
+import {fetchEmail} from "@api";
 
 import "./EmailConfirming.style.scss";
 
 
 export default function EmailConfirming() {
-    const {emailMutation, inputsValue, timer} = useContext(authContext);
+    const {inputsValue, timer, setTimer} = useContext(authContext);
+
+    const onClickResendBtn = () => {
+        axios.post(fetchEmail(inputsValue.email), {"typeLink": "CONFIRM_LINK"});
+        setTimer(9);
+
+        const countdown = window.setInterval(() => {
+            if (timer > 0) {
+                setTimer(prev => prev - 1);
+            } else {
+                clearInterval(countdown);
+            }
+        }, 1000);
+    }
 
 
     return(
@@ -17,7 +32,7 @@ export default function EmailConfirming() {
             <button 
                 className="auth-popup__btn" 
                 disabled={timer > 0 ? true : false}
-                onClick={() => emailMutation.mutate(inputsValue?.email)}
+                onClick={onClickResendBtn}
             >
                 {`Отправить ещё раз ${timer > 0 ? `через ${toFormatTime(timer)} ${toFormatTimeText(timer)}` : ''}`}
             </button>
