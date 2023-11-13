@@ -27,7 +27,7 @@
         align-items: center;
         display: flex;
         justify-content: center;
-        padding-bottom: 10px;
+        padding: 0px 0px 10px 60px;
         overflow: auto;
         width: 100%;
 
@@ -58,6 +58,11 @@
             padding-left: 30px;
             padding-bottom: 10px;
         }
+
+        &__scroll {
+            justify-content: flex-start;
+            padding-left: 30px;
+        }
     }
 }
 
@@ -73,6 +78,10 @@
         &__slider {
             padding-left: 20px;
             padding-bottom: 10px;
+        }
+
+        &__scroll {
+            padding-left: 20px;
         }
     }
 }

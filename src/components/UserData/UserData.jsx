@@ -1,7 +1,12 @@
+import {browserName, osName} from "react-device-detect";
+import {useNavigate} from "react-router-dom";
+import {useContext, useState} from "react";
 import classNames from "classnames";
-import {useState} from "react";
+import axios from "axios";
 
 import {account} from "@utils/constants";
+import {fetchAuthSignOut} from "@api";
+import {appContext} from "@services";
 
 import "./UserData.style.scss";
 
@@ -9,6 +14,7 @@ import {changePassword, emailIcon, greenCheckIcon} from "@assets/images";
 
 
 export default function UserData() {
+    const {token} = useContext(appContext);
     const [value, setValue] = useState({
         surname: 'Иванов',
         name: 'Иван',
@@ -17,6 +23,19 @@ export default function UserData() {
         password: 'misha2003',
         gender: true
     });
+
+    const navigate = useNavigate();
+
+    const onClickExitBtn = () => {
+        localStorage.removeItem('cart');
+        localStorage.removeItem('favourite');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        
+        axios.delete(fetchAuthSignOut, {headers: {'X-Browser': browserName, 'X-Device': osName, 'Authorization': `Bearer ${token}`}});
+        navigate('/');
+        window.location.reload();
+    }
 
 
     const genderInputsRender = (id, label, onChangeInputs) => {
@@ -94,8 +113,7 @@ export default function UserData() {
             <div className="account__content-btns account-btns">
                 <button className="account-btns__confirm btn">Сохранить</button>
                 <div className="account-btns__exit">
-                    <button>Выйти</button>
-                    <button>Выйти со всех устройств</button>
+                    <button onClick={onClickExitBtn}>Выйти</button>
                 </div>
             </div>           
         </>

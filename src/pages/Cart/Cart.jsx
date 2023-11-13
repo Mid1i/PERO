@@ -1,7 +1,9 @@
-import {useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
+// import axios from "axios";
 
 import {toFormatPrice, isPWA} from "@utils/helpers";
-// import {fetchRandomProducts} from "@api";
+// import {fetchCartOpenProducts} from "@api";
+// import {appContext} from "@services";
 import classNames from "classnames";
 import {
     AuthPopup,
@@ -16,8 +18,17 @@ import {
 import "./Cart.style.scss";
 
 
+
 export default function Cart() {
-    useEffect(() => {document.title = 'Оформление заказа';}, []);
+    // const {cartItems, isRegisteredUser} = useContext(appContext);
+
+
+
+    useEffect(() => {
+        document.title = 'Оформление заказа';
+        // axios.get(fetchCartOpenProducts(cartItems))
+        //      .then()
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 
     const onFormTitle = () => {

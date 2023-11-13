@@ -1,30 +1,76 @@
-// import {appContext} from "@services";
-// import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
+import axios from "axios";
+
+import {fetchFavouriteOpenProducts} from "@api";
+import {appContext} from "@services";
 import {
     AuthPopup, 
-    // Error,
-    // EmptyContent, 
+    Error,
+    EmptyContent, 
     Footer, 
     Header, 
-    // LoadingCard,
+    LoadingCard,
     PageUp,
     SearchBar,
-    // SneakerCard
+    SneakerCard
 } from "@components";
 
 import "./Favourite.style.scss";
 
 
 export default function Favourite() {
-    // const {favoriteItems} = useContext(appContext);
+    const {favouriteItems, isRegisteredUser} = useContext(appContext);
+    const [requestData, setRequestData] = useState({
+        data: null,
+        error: null,
+        status: 'loading'
+    });
     
+    
+    useEffect(() => {
+        if (!isRegisteredUser && favouriteItems.length !== 0) {
+            axios.get(fetchFavouriteOpenProducts(favouriteItems))
+                 .then(response => setRequestData({data: response.data.content, error: null, status: 'success'}))
+                 .catch(error => setRequestData({data: null, error: error, status: 'error'}))
+        }
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+    
     return (
         <>
             <Header/>
             <SearchBar/>
             <div className="content">
-                <h1 className="content__title">Избранное</h1>
+                {(requestData.status !== 'error' || isRegisteredUser) ? (
+                    <>
+                        <h1 className="content__title">{favouriteItems.length !== 0 ? 'Избранное' : ''}</h1>
+                        <div className="content__favourite-items">
+                            {(requestData.status === 'loading' && !isRegisteredUser && favouriteItems.length !== 0) ? <LoadingCard page='catalog'/> : (
+                                favouriteItems.length === 0 ? (
+                                    <EmptyContent title='Используйте' text='Добавьте товары в избранное, чтобы купить их позже.' svg={true}/>
+                                ) : (
+                                    !isRegisteredUser ? (
+                                        requestData.data.map((item) => (
+                                            <SneakerCard 
+                                                key={item.id} 
+                                                {...item}
+                                                page='catalog'
+                                            />
+                                        ))
+                                    ) : (
+                                        favouriteItems.map((item) => (
+                                            <SneakerCard 
+                                                key={item.id} 
+                                                {...item}
+                                                page='catalog'
+                                            />
+                                        ))
+                                    )
+                                )
+                            )}
+                        </div>
+                    </>
+                ) : <Error status={requestData.error?.response?.status || 502}/>}
             </div>
             <Footer/>
 

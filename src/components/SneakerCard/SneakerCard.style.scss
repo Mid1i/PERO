@@ -12,7 +12,7 @@
 
     &--catalog {
         box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.20);
-        margin: 0px 10px 20px;
+        margin: 0px 15px 20px;
     }
 
     &__icon {
@@ -75,6 +75,18 @@
     }
 }
 
+@keyframes heart {
+    0% {
+        opacity: 1;
+        height: 100%;
+        width: 100%;
+    }
+    100% {
+        opacity: 0;
+        height: 150%;
+        width: 150%;
+    }
+}
 
 @media(hover: hover) {
     .goods-item:hover .goods-item__image-preview {
@@ -91,6 +103,10 @@
     .goods-item {
         padding: 5px 5px 20px;
         width: 200px;
+
+        &--catalog {
+            margin: 0px 10px 15px;
+        }
 
         &__icon {
             top: 20px;
@@ -123,7 +139,7 @@
         width: 150px;
 
         &--catalog {
-            margin-right: 10px;
+            margin: 0px 5px 15px;
         }
 
         &__icon {

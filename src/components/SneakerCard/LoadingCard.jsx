@@ -25,7 +25,7 @@ export default function LoadingCard({page = 'home'}) {
     }, [])
 
     const resizeHandler = () => {
-        if (window.innerWidth > 767) {
+        if (window.innerWidth > 1024) {
             setHeight(325);
             setWidth(225);
             setMargin(60);
