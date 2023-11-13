@@ -64,7 +64,7 @@ export default function App() {
         }
     }
     
-    const onAddToFavourite = (id, preview, name, price) => {
+    const onAddToFavourite = (id) => {
         if (!isRegisteredUser) {
             if (favouriteItems.find(obj => Number(obj) === Number(id))) {
                 setFavouriteItems(prev => prev.filter(obj => Number(obj) !== Number(id)));
@@ -74,12 +74,6 @@ export default function App() {
                 onAddToArray('favourite', favouriteItems, id);
             }
         } else {
-            // if (favouriteItems.find(obj => obj.id === id)) {
-            //     setFavouriteItems(prev => prev.filter(obj => obj.id !== id));
-            // } else {
-            //     setFavouriteItems(prev => [...prev, {id: id, preview: preview, name: name, price: price}]);
-            // }
-
             axios.put(updateFavouriteProducts(id), {}, {headers: {'Authorization': `Bearer ${token}`}})
                  .then(response => {
                     if (!!response.data) {
@@ -115,6 +109,7 @@ export default function App() {
         setAuthPopup,
         setIsMale,
         searchValue, 
+        setFavouriteItems,
         setInstallPopup,
         setSearchValue,
     };

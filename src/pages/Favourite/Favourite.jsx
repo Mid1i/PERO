@@ -1,7 +1,8 @@
 import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 
-import {fetchFavouriteOpenProducts} from "@api";
+import {fetchFavouriteOpenProducts, fetchFavouriteProducts} from "@api";
+import {useUserRequest} from "@hooks";
 import {appContext} from "@services";
 import {
     AuthPopup, 
@@ -19,12 +20,14 @@ import "./Favourite.style.scss";
 
 
 export default function Favourite() {
-    const {favouriteItems, isRegisteredUser} = useContext(appContext);
+    const {favouriteItems, token, isRegisteredUser, setFavouriteItems} = useContext(appContext);
     const [requestData, setRequestData] = useState({
         data: null,
         error: null,
         status: 'loading'
     });
+
+    const {requestData: {data: favouriteData, status: favouriteStatus}} = useUserRequest(fetchFavouriteProducts, token, isRegisteredUser); 
     
     
     useEffect(() => {
@@ -33,7 +36,11 @@ export default function Favourite() {
                  .then(response => setRequestData({data: response.data.content, error: null, status: 'success'}))
                  .catch(error => setRequestData({data: null, error: error, status: 'error'}))
         }
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [favouriteItems]) // eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(() => {
+        if (favouriteStatus === 'complete') setFavouriteItems(favouriteData);
+    }, [favouriteStatus]) // eslint-disable-line react-hooks/exhaustive-deps
 
     
     return (
@@ -72,7 +79,7 @@ export default function Favourite() {
                     </>
                 ) : <Error status={requestData.error?.response?.status || 502}/>}
             </div>
-            <Footer/>
+            <Footer activePage='favourite'/>
 
             <PageUp/>
             <AuthPopup/>

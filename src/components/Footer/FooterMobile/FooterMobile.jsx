@@ -24,7 +24,7 @@ export default function FooterMobile({activePage}) {
                         <p className="footer-el__text">Каталог</p>
                     </div>
                     <div 
-                        className={classNames("footer-mobile__half-el footer-el", activePage === 'favorites' && "active")}
+                        className={classNames("footer-mobile__half-el footer-el", activePage === 'favourite' && "active")}
                         onClick={() => navigate('/wishlist')}
                     >
                         <svg className="footer-el__icon" height="19" viewBox="0 0 14 19" width="14" >
