@@ -1,0 +1,44 @@
+.error-popup {
+    background: #E47F46;
+    border-radius: 15px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 30px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    min-width: 300px;
+    max-width: 80%;
+    transition: all 0.2s linear;
+    transform: translate(-50%, -50%) scale(0);
+
+    &.active {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    &__icon {
+        align-self: flex-end;
+        cursor: pointer;
+        margin-bottom: 15px;
+    }
+
+    &__text {
+        color: #FFFFFF;
+        font-size: 16px;
+        line-height: 18px;
+        padding: 0px 20px;
+        text-align: center;
+    }
+}
+
+
+@media(max-width: 500px) {
+    .error-popup {
+        padding: 15px 15px 20px;
+
+        &__text {
+            padding: 0px 10px;
+        }
+    }
+}

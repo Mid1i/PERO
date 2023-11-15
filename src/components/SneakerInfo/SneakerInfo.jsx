@@ -9,6 +9,7 @@ import Slider from "react-slick";
 import {imageImport, toFormatPrice, toFormatBrand, toFormatBrandForRequest, toFormatTitle} from "@utils/helpers";
 import {settings} from "@utils/constants/slider";
 import {appContext} from "@services/Context";
+import {imagesURL} from "@utils/constants";
 import {isPWA} from "@utils/helpers";
 import {useNoScroll} from "@hooks";
 
@@ -16,8 +17,7 @@ import "./SneakerInfo.style.scss";
 
 
 export default function Sneaker({brand, color, description, id, images, name, male, preview, price, sizes}) {
-    const {cartItems, isInFavourite, onAddToFavourite, onAddToCart, setIsMale} = useContext(appContext);
-    const [popupSuccess, setPopupSuccess] = useReducer(prev => !prev, false);
+    const {cartItems, isRegisteredUser, isInFavourite, onAddToFavourite, onAddToCart, successPopup, setErrorPopup, setSuccessPopup, setIsMale} = useContext(appContext);
     const [popupImage, setPopupImage] = useReducer(prev => !prev, false);
     const [currentImage, setCurrentImage] = useState(preview);
     const [sizeWarning, setSizeWarning] = useState(false);
@@ -29,7 +29,7 @@ export default function Sneaker({brand, color, description, id, images, name, ma
     const brandsImages = imageImport();
     const itemImages = [preview, ...images];
 
-    useNoScroll([popupImage, popupSuccess]);
+    useNoScroll([popupImage, successPopup]);
 
 
     useEffect(() => {setCurrentImage(preview);}, [preview]);
@@ -39,11 +39,18 @@ export default function Sneaker({brand, color, description, id, images, name, ma
 
     const onBuyItem = () => {
         if (currentSize !== '') {
-            onAddToCart(currentSize);
-            setChooseSize(false);
-            setPopupSuccess();
+            if ((!isRegisteredUser && cartItems.reduce((totalAmount, {amount}) => totalAmount + amount, 0) < 10)) {
+                onAddToCart(currentSize);
+                setChooseSize(false);
 
-            if (isMobile) window.setTimeout(() => {setPopupSuccess();}, 2000);
+                setSuccessPopup();
+                if (isMobile) window.setTimeout(() => {setSuccessPopup();}, 2000);
+            } else if (isRegisteredUser) {
+                onAddToCart(currentSize);
+                setChooseSize(false);
+            } else {
+                setErrorPopup('Количество товаров в корзине не должно превшать 10');
+            }
         } else {
             setChooseSize(true);
         }
@@ -74,11 +81,13 @@ export default function Sneaker({brand, color, description, id, images, name, ma
         for (let i = 0; cartItems[i]; i++) {
             if (cartItems[i].id === sizeId) {
                 if (quantity - cartItems[i].amount === 1 && !sizeWarning) setSizeWarning(true);
+                if (quantity - cartItems[i].amount === 0 && sizeWarning) setSizeWarning(false);
                 return quantity - cartItems[i].amount;
-            }
+            } 
         }
 
         if (quantity === 1 && !sizeWarning) setSizeWarning(true);
+        if (quantity === 0 && sizeWarning) setSizeWarning(false);
         return quantity;
     }
     
@@ -107,7 +116,7 @@ export default function Sneaker({brand, color, description, id, images, name, ma
                             loading="lazy"
                             onClick={setPopupImage}
                             title={name}
-                            src={currentImage} 
+                            src={`${imagesURL}/unscaled/${currentImage}`} 
                         />
                         {itemImages.length > 3 ? (
                             <Slider {...settings} className="product-left__images-slider images-slider" slidesToShow={3}>
@@ -130,7 +139,7 @@ export default function Sneaker({brand, color, description, id, images, name, ma
                                             alt={name}
                                             className="images-slider__item-image"
                                             onClick={() => setCurrentImage(image)}
-                                            src={image}
+                                            src={`${imagesURL}/unscaled/${image}`}
                                         />
                                     </div>
                                 ))}
@@ -222,7 +231,7 @@ export default function Sneaker({brand, color, description, id, images, name, ma
                     <div className="product-zoom__wrapper">
                         <TransformWrapper centerOnInit={true}>
                             <TransformComponent contentStyle={{display: "flex", justifyContent: "center"}}>
-                                <img alt={name} className="product-zoom__wrapper-image" loading="lazy" src={currentImage}/>
+                                <img alt={name} className="product-zoom__wrapper-image" loading="lazy" src={`${imagesURL}/scaled/${currentImage}`}/>
                             </TransformComponent>
                         </TransformWrapper>
                     </div>
@@ -232,24 +241,24 @@ export default function Sneaker({brand, color, description, id, images, name, ma
                         className={classNames("product-zoom__wrapper-image", zoomImage && "zoom")}
                         loading="lazy"
                         onClick={() => setZoomImage(!zoomImage)}
-                        src={currentImage} 
+                        src={`${imagesURL}/scaled/${currentImage}`} 
                     />
                 )}
                 <h6 className="product-zoom__title">{name}</h6>
             </div>
             
-            <div className={classNames("content__blackout blackout", popupSuccess && "active")}>
-                <div className={classNames("content__blackout-success success-popup", popupSuccess && "active")}>
+            <div className={classNames("content__blackout blackout", successPopup && "active")}>
+                <div className={classNames("content__blackout-success success-popup", successPopup && "active")}>
                     {isMobile ? <p className="success-popup__text">Товар добавлен в корзину</p> : (
                         <>
                             <div className="success-popup__top">
                                 <h4 className="success-popup__top-title">Товар успешно добавлен в корзину</h4>
-                                <svg className="success-popup__top-icon" onClick={setPopupSuccess} height="20" viewBox="0 0 20 20" width="20">
+                                <svg className="success-popup__top-icon" onClick={setSuccessPopup} height="20" viewBox="0 0 20 20" width="20">
                                     <path d="M19 19L1 1.00003M19 1L1.00002 19" stroke="black" strokeWidth="2" strokeLinecap="round"/>
                                 </svg>
                             </div>
                             <div className="success-popup__content">
-                                <img alt={name} className="success-popup__content-image" src={preview}/>
+                                <img alt={name} className="success-popup__content-image" src={`${imagesURL}/unscaled/${preview}`}/>
                                 <p className="success-popup__content-text content-text">
                                     <span className="content-text__name">{name}</span>
                                     <span className="content-text__size">{`Размер: ${sizes.filter(item => item.sizeId === currentSize)[0]?.size}`}</span>
@@ -258,7 +267,7 @@ export default function Sneaker({brand, color, description, id, images, name, ma
                                 <p className="success-popup__content-price">{`${toFormatPrice(price)} ₽`}</p>
                             </div>
                             <div className="success-popup__btns">
-                                <button className="success-popup__btns-continue" onClick={setPopupSuccess}>Продолжить покупки</button>
+                                <button className="success-popup__btns-continue" onClick={setSuccessPopup}>Продолжить покупки</button>
                                 <button className="success-popup__btns-cart" onClick={() => navigate('/cart')}>В корзину</button>
                             </div>
                         </>

@@ -50,6 +50,7 @@
 .content__catalog {
     align-items: center;
     display: flex;
+    flex: 1 0 auto;
     flex-wrap: wrap;
     justify-content: space-around;
     padding: 0px 50px;

@@ -1,9 +1,10 @@
 .empty {
     align-items: center;
     display: flex;
+    flex: 1 0 auto;
     flex-direction: column;
-    padding: 400px 0px;
-    height: 100%;
+    justify-content: center;
+    padding: 100px 60px;
     width: 100%;
 
     &__title {
@@ -36,7 +37,7 @@
 
 @media(max-width: 1024px) {
     .empty {
-        padding: 400px 30px;
+        padding: 150px 30px;
 
         &__title {
             margin-bottom: 15px;
@@ -60,7 +61,7 @@
 
 @media(max-width: 500px) {
     .empty {
-        padding: 200px 20px;
+        padding: 150px 20px;
 
         &__title {
             margin-bottom: 5px;

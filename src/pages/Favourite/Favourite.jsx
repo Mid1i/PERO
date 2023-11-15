@@ -31,15 +31,17 @@ export default function Favourite() {
     
     
     useEffect(() => {
+        document.title = 'Избранное';
+
         if (!isRegisteredUser && favouriteItems.length !== 0) {
             axios.get(fetchFavouriteOpenProducts(favouriteItems))
-                 .then(response => setRequestData({data: response.data.content, error: null, status: 'success'}))
+                 .then(response => setRequestData({data: response.data.content.filter(item => item.active), error: null, status: 'success'}))
                  .catch(error => setRequestData({data: null, error: error, status: 'error'}))
         }
     }, [favouriteItems]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
-        if (favouriteStatus === 'complete') setFavouriteItems(favouriteData);
+        if (favouriteStatus === 'complete') setFavouriteItems(favouriteData.filter(item => item.active));
     }, [favouriteStatus]) // eslint-disable-line react-hooks/exhaustive-deps
 
     
@@ -57,7 +59,7 @@ export default function Favourite() {
                                     <EmptyContent title='Используйте' text='Добавьте товары в избранное, чтобы купить их позже.' svg={true}/>
                                 ) : (
                                     !isRegisteredUser ? (
-                                        requestData.data.map((item) => (
+                                        requestData.data.map(item => (
                                             <SneakerCard 
                                                 key={item.id} 
                                                 {...item}

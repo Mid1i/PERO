@@ -21,6 +21,14 @@
         & .goods-item {
             margin-bottom: 0px;
         }
+
+        & .slick-prev {
+            left: 10px !important;
+        }
+
+        & .slick-next {
+            right: 10px !important;
+        }
     }
 
     &__scroll {
@@ -37,6 +45,13 @@
     }
 }
 
+
+@media(hover: hover) {
+    .similar-goods__slider:hover .slick-arrow {
+        pointer-events: auto;
+        opacity: 1;
+    }
+}
 
 @media(max-width: 1024px) {
     .similar-goods {

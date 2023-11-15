@@ -30,7 +30,7 @@ export default function Routers() {
             element: <Cart/>
         },
         {
-            path: '/wishlist',
+            path: '/customer/favourite',
             element: <Favourite/>
         },
         {

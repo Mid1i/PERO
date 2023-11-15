@@ -8,6 +8,7 @@ import GoodsSlider from "./GoodsSlider/GoodsSlider";
 import LoadingCard from "./SneakerCard/LoadingCard";
 import SneakerCard from "./SneakerCard/SneakerCard";
 import SneakerInfo from "./SneakerInfo/SneakerInfo";
+import ErrorPopup from "./ErrorPopup/ErrorPopup";
 import SearchBar from "./SearchBar/SearchBar"; 
 import AuthPopup from "./AuthPopup/AuthPopup";
 import UserData from "./UserData/UserData";
@@ -21,7 +22,8 @@ import Error from "./Error/Error";
 export { 
     AuthPopup,
     Brands, 
-    EmptyContent, 
+    EmptyContent,
+    ErrorPopup, 
     Error,
     Footer, 
     GoodsSlider, 

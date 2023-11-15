@@ -5,24 +5,34 @@ import queryString from "query-string";
 import axios from "axios";
 
 import {isPWA, onAddToArray, onCreateArray, onRemoveFromArray} from "@utils/helpers";
-import {fetchFavouriteProducts, updateFavouriteProducts} from "@api";
 import {appContext, Routers} from "@services";
 import {useUserRequest} from "@hooks";
+import {
+    addCartProducts, 
+    fetchCartProducts, 
+    fetchFavouriteProducts, 
+    removeCartProducts, 
+    updateFavouriteProducts,
+    substractCartProducts
+} from "@api";
 
 
 export default function App() {
-    const [isMale, setIsMale] = useState(true);
     const [isRegisteredUser, setIsRegisteredUser] = useReducer(prev => !prev, false);
     const [installPopup, setInstallPopup] = useReducer(prev => !prev, false);
+    const [successPopup, setSuccessPopup] = useReducer(prev => !prev, false);
     const [authPopup, setAuthPopup] = useReducer(prev => !prev, false);
     const [favouriteItems, setFavouriteItems] = useState([]);
     const [searchValue, setSearchValue] = useState('');
+    const [errorPopup, setErrorPopup] = useState(''); 
     const [cartItems, setCartItems] = useState([]);
+    const [isMale, setIsMale] = useState(true);
     const [token, setToken] = useState('');
 
     const {search} = useLocation();
 
-    const {requestData: {data: favouriteData, status: favouriteStatus}} = useUserRequest(fetchFavouriteProducts, token, isRegisteredUser); 
+    const {requestData: {data: favouriteData, status: favouriteStatus}} = useUserRequest(fetchFavouriteProducts, token, isRegisteredUser);
+    const {requestData: {data: cartData, status: cartStatus}} = useUserRequest(fetchCartProducts, token, isRegisteredUser);  
     
 
     useEffect(() => {
@@ -43,8 +53,9 @@ export default function App() {
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
-        if (favouriteStatus === 'complete') setFavouriteItems(favouriteData);
-    }, [favouriteStatus]) // eslint-disable-line react-hooks/exhaustive-deps
+        if (favouriteStatus === 'complete') setFavouriteItems(favouriteData.filter(item => item.active));
+        if (cartStatus === 'complete') setCartItems(cartData);
+    }, [favouriteStatus, cartStatus]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         const paramsSearch = queryString.parse(search)['search'];
@@ -53,14 +64,47 @@ export default function App() {
     
 
     const onAddToCart = (id) => {
-        if (cartItems.find(obj => obj.id === id)) {
-            const amount = cartItems.find(obj => obj.id === id).amount;
-            setCartItems(prev => prev.filter(obj => obj.id !== id));
-            setCartItems(prev => [...prev, {id: id, amount: amount + 1}]);
-            onAddToArray('cart', cartItems, id, amount + 1);
+        if (!isRegisteredUser) {
+            if (cartItems.find(obj => obj.id === id)) {
+                setCartItems(prev => [...prev.filter(obj => obj.id !== id), {id: id, amount: prev.find(obj => obj.id === id).amount + 1}]);
+                onAddToArray('cart', cartItems, id, cartItems.find(obj => obj.id === id).amount + 1);
+            } else {
+                setCartItems(prev => [...prev, {id: id, amount: 1}]);
+                onAddToArray('cart', cartItems, id, 1);
+            }
         } else {
-            setCartItems(prev => [...prev, {id: id, amount: 1}]);
-            onAddToArray('cart', cartItems, id, 1);
+            axios.post(addCartProducts(id), {}, {headers: {'Authorization': `Bearer ${token}`}})
+                 .then(response => {
+                    setCartItems(prev => [...prev.filter(item => item.sizeId !== response.data.sizeId), response.data]);
+                    setSuccessPopup();
+
+                    if (isMobile) window.setTimeout(() => {setSuccessPopup();}, 2000);
+                 })
+                 .catch(error => {
+                    if (error.response.status === 400) setErrorPopup(error.response.data); 
+                 })
+        }
+    }
+
+    const onSubstractFromCart = (id, amount) => {
+        if (!isRegisteredUser) {
+            setCartItems(prev => [...prev.filter(item => item.id !== id), {id: id, amount: amount - 1}]);
+            onAddToArray('cart', cartItems, id, amount - 1);
+        } else {
+            axios.put(substractCartProducts, {quantity: amount - 1, sizeId: id}, {headers: {'Authorization': `Bearer ${token}`}})
+                 .then(response => setCartItems(prev => [...prev.filter(item => item.sizeId !== response.data.sizeId), response.data]))
+                 .catch(error => console.log(error))
+        }
+    }
+
+    const onRemoveFromCart = (id) => {
+        if (!isRegisteredUser) {
+            setCartItems(prev => prev.filter(item => item.id !== id));
+            onRemoveFromArray('cart', cartItems, id);
+        } else {
+            axios.delete(removeCartProducts(id), {headers: {'Authorization': `Bearer ${token}`}})
+                 .then(() => setCartItems(prev => prev.filter(item => item.sizeId !== id)))
+                 .catch(error => console.log(error))
         }
     }
     
@@ -98,17 +142,24 @@ export default function App() {
     const contextData = {
         authPopup,
         cartItems,
+        errorPopup,
         favouriteItems,
         installPopup,
         isMale, 
         isInFavourite, 
         onAddToFavourite, 
         onAddToCart,
+        onSubstractFromCart,
+        onRemoveFromCart,
         isRegisteredUser,
         token,
+        successPopup,
+        setSuccessPopup,
         setAuthPopup,
+        setErrorPopup,
         setIsMale,
         searchValue, 
+        setCartItems,
         setFavouriteItems,
         setInstallPopup,
         setSearchValue,

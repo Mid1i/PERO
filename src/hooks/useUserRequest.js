@@ -13,7 +13,7 @@ export default function useUserRequest(url, token, isRegistered) {
     useEffect(() => {
         if (isRegistered) {
             axios.get(url, {headers: {'Authorization': `Bearer ${token}`}})
-                .then(response => {setRequestData({data: response.data.content, error: null, status: 'complete'})})
+                .then(response => {setRequestData({data: response.data.content || response.data.page.content, error: null, status: 'complete'})})
                 .catch(error => {setRequestData({data: null, error: error, status: 'error'})})
         }
     }, [url, token, isRegistered]);

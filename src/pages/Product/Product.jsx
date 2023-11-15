@@ -6,6 +6,7 @@ import {fetchCurrentProduct} from "@api";
 import {isPWA} from "@utils/helpers";
 import {
     AuthPopup,
+    ErrorPopup,
     Error,
     Footer,
     Header, 
@@ -78,6 +79,7 @@ export default function Product() {
             <Footer/>
 
             <AuthPopup/>
+            <ErrorPopup/>
         </>
     );
 }

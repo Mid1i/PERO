@@ -33,7 +33,6 @@
         display: flex;
         flex: 0 0 auto;
         justify-content: space-between;
-        cursor: pointer;
         margin-bottom: 15px;
         width: 100%;
 
@@ -89,6 +88,18 @@
                 max-width: 16px;
                 height: 100%;
                 width: 100%;
+
+                & path {
+                    transition: all 0.1s linear;
+                }
+            }
+
+            &:disabled {
+                pointer-events: none;
+
+                & svg path {
+                    stroke: #E5E3E0;
+                }
             }
         }
 
@@ -139,6 +150,15 @@
             & span {
                 transition: all 0.1s linear;
             }
+        }
+
+        &-favorite svg.liked path {
+            fill: #FF2D55;
+            stroke: #FF2D55;
+        }
+
+        &-favorite span.liked {
+            color: #FF2D55;
         }
 
         &-delete {
@@ -248,14 +268,6 @@
 
     .item-data__btns-favorite:hover {
         transform: scale(1.05);
-
-        & span {
-            color: #FF2D55;
-        }
-
-        & svg path {
-            fill: #FF2D55;
-        }
     }
 }
 

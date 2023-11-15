@@ -1,27 +1,43 @@
 import {toFormatPrice, isPWA} from "@utils/helpers";
+import {useContext, useReducer} from "react";
+import {useNavigate} from "react-router-dom";
 import classNames from "classnames";
 import {useNoScroll} from "@hooks";
-import {useReducer} from "react";
 
-import image from "@assets/images/content-images/1.jpg";
+import {imagesURL} from "@utils/constants";
+import {appContext} from "@services";
 
 
 import "./SneakerCartCard.style.scss";
 
 
-export default function SneakerCartCard() {
+export default function SneakerCartCard({amount, id, preview, name, price, quantity, size, sizeId}) {
+    const {isInFavourite, onAddToFavourite, onAddToCart, onSubstractFromCart, onRemoveFromCart} = useContext(appContext);
     const [actionsPopup, setActionsPopup] = useReducer(prev => !prev, false);
+
+    const navigate = useNavigate();
     
     useNoScroll(actionsPopup);
 
 
+    const onRemoveSneaker = () => {
+        onRemoveFromCart(sizeId);
+        setActionsPopup();
+    }
+
+
     return (
         <div className={classNames("cart-goods__item", isPWA() && "mobile")}>
-            <img className={classNames("cart-goods__item-image", isPWA() && "mobile")} src={image} alt={'title'}/>
+            <img 
+                alt={name}
+                className={classNames("cart-goods__item-image", isPWA() && "mobile")} 
+                onClick={() => navigate(`/catalog/product/${id}`)}
+                src={`${imagesURL}/unscaled/${preview}`}
+            />
             <div className="cart-goods__item-data item-data">
                 <div className="item-data__top">
-                    <h2 className="item-data__top-title">Air Max 270 Men's Shoe</h2>
-                    <p className="item-data__top-price">{`${toFormatPrice('22999')} ₽`}</p>
+                    <h2 className="item-data__top-title">{name}</h2>
+                    <p className="item-data__top-price">{`${toFormatPrice(amount * price)} ₽`}</p>
                     {isPWA() && (
                         <svg className="item-data__top-icon" onClick={setActionsPopup} height="7" viewBox="0 0 26 7" width="26">
                             <path d="M3.32304 7C1.49089 7 0 5.43018 0 3.50024C0 1.56982 1.49089 0 3.32304 0C5.15518 0 6.64607 1.57039 6.64607 3.50024C6.64607 5.4297 5.15527 7 3.32304 7ZM3.32304 1.04921C2.03992 1.04921 0.996553 2.1488 0.996553 3.49976C0.996553 4.85072 2.03992 5.94982 3.32304 5.94982C4.60615 5.94982 5.64952 4.85082 5.64952 3.49976C5.64952 2.1487 4.60615 1.04921 3.32304 1.04921Z" fill="#1F1F21"/>
@@ -30,16 +46,24 @@ export default function SneakerCartCard() {
                         </svg>
                     )}
                 </div>
-                <p className="item-data__size">Размер: 42</p>
+                <p className="item-data__size">{`Размер: ${size}`}</p>
                 {!isPWA() && (
                     <div className="item-data__counters">
-                        <button className="item-data__counters-minus">
+                        <button 
+                            className="item-data__counters-minus" 
+                            disabled={(amount === 1) ? true : false}
+                            onClick={() => onSubstractFromCart(sizeId, amount)}
+                        >
                             <svg height="2" viewBox="0 0 13 2" width="13">
                                 <path d="M0 1H13" stroke="#1F1F21" strokeWidth="1.5"/>
                             </svg>
                         </button>
-                        <span className="item-data__counters-number">3</span>
-                        <button className="item-data__counters-plus">
+                        <span className="item-data__counters-number">{amount}</span>
+                        <button 
+                            className="item-data__counters-plus" 
+                            disabled={(amount === quantity || amount === 10) ? true : false}
+                            onClick={() => onAddToCart(sizeId)} 
+                        >
                             <svg height="13" viewBox="0 0 13 13" width="13">
                                 <path d="M6.5 0V13M0 6.5H13" stroke="#1F1F21" strokeWidth="1.5"/>
                             </svg>
@@ -47,20 +71,20 @@ export default function SneakerCartCard() {
                     </div>
                 )}
                 <div className={classNames("item-data__btns", isPWA() && "mobile")}>
-                    <p className="item-data__btns-price">{`${toFormatPrice('22999')} ₽`}</p>
+                    <p className="item-data__btns-price">{`${toFormatPrice(amount * price)} ₽`}</p>
                     {!isPWA() && (
                         <>
-                            <button className="item-data__btns-delete">
+                            <button className="item-data__btns-delete" onClick={() => onRemoveFromCart(sizeId)}>
                                 <svg height="16" viewBox="0 0 12 16" width="12">
                                     <path fillRule="evenodd" clipRule="evenodd" d="M4.5 1.86667C4.5 1.79594 4.52634 1.72811 4.57322 1.6781C4.62011 1.6281 4.6837 1.6 4.75 1.6H7.25C7.3163 1.6 7.37989 1.6281 7.42678 1.6781C7.47366 1.72811 7.5 1.79594 7.5 1.86667V3.2H4.5V1.86667ZM9 1.86667V3.2H11.25C11.4489 3.2 11.6397 3.28429 11.7803 3.43431C11.921 3.58434 12 3.78783 12 4C12 4.21217 11.921 4.41566 11.7803 4.56569C11.6397 4.71571 11.4489 4.8 11.25 4.8H0.75C0.551088 4.8 0.360322 4.71571 0.21967 4.56569C0.0790175 4.41566 0 4.21217 0 4C0 3.78783 0.0790175 3.58434 0.21967 3.43431C0.360322 3.28429 0.551088 3.2 0.75 3.2H3V1.86667C3 0.836267 3.784 0 4.75 0H7.25C8.216 0 9 0.836267 9 1.86667ZM2.496 7.12C2.48851 7.01354 2.46111 6.90976 2.41543 6.81477C2.36975 6.71978 2.30671 6.6355 2.23002 6.5669C2.15333 6.4983 2.06455 6.44677 1.9689 6.41534C1.87325 6.38391 1.77266 6.37322 1.67308 6.3839C1.5735 6.39458 1.47692 6.42641 1.38905 6.47752C1.30118 6.52863 1.22379 6.59799 1.16144 6.6815C1.09908 6.765 1.05303 6.86098 1.02599 6.96377C0.998953 7.06656 0.991476 7.17408 1.004 7.28L1.664 14.32C1.70738 14.7804 1.90952 15.2072 2.23121 15.5176C2.5529 15.828 2.97121 15.9999 3.405 16H8.595C9.495 16 10.247 15.2736 10.336 14.3189L10.996 7.27893C11.01 7.07114 10.9475 6.86572 10.8217 6.70635C10.6959 6.54698 10.5168 6.44623 10.3225 6.42553C10.1281 6.40483 9.93388 6.46581 9.78103 6.5955C9.62819 6.72519 9.5288 6.91336 9.504 7.12L8.844 14.16C8.8378 14.2258 8.80888 14.2868 8.76286 14.3312C8.71685 14.3755 8.65702 14.4001 8.595 14.4H3.405C3.34298 14.4001 3.28315 14.3755 3.23714 14.3312C3.19112 14.2868 3.1622 14.2258 3.156 14.16L2.496 7.12Z" fill="#F7F7F7"/>
                                 </svg>
                                 <span>Удалить</span>
                             </button>
-                            <button className="item-data__btns-favorite">
-                                <svg height="16" viewBox="0 0 16 16" width="16">
-                                    <path d="M7.96059 16C7.5665 16 7.0936 15.8202 6.77833 15.4607C1.65517 10.3371 1.57635 10.2472 1.57635 10.1573L1.49754 10.0674C0.551722 8.98876 0 7.46067 0 5.93258V5.75281C0.0788177 2.51685 2.36453 0 5.20197 0C6.06897 0 7.25123 0.539326 7.96059 1.61798C8.66995 0.539326 9.93103 0 10.798 0C13.6355 0 15.8424 2.51685 16 5.75281V5.93258C16 7.55056 15.4483 8.98876 14.5025 10.1573L14.4236 10.2472C14.3448 10.3371 13.7143 10.9663 9.22167 15.5506C8.82759 15.8202 8.4335 16 7.96059 16ZM2.75862 9.88764C3.07389 10.2472 4.65025 11.5056 7.5665 14.382C7.80296 14.6517 8.11823 14.6517 8.35468 14.382C11.3498 11.3258 13.0837 9.61798 13.4778 9.25843L13.5567 9.16854C14.3448 8.26966 14.7389 7.10112 14.7389 5.93258V5.75281C14.6601 3.23596 12.9261 1.34831 10.7192 1.34831C10.1675 1.34831 9.06404 1.79775 8.66995 2.78652C8.51232 3.14607 8.19705 3.32584 7.88177 3.32584C7.5665 3.32584 7.25123 3.14607 7.0936 2.78652C6.69951 1.88764 5.67488 1.34831 5.04433 1.34831C2.91625 1.34831 1.10345 3.32584 1.02463 5.75281V6.02247C1.02463 7.19101 1.49754 8.35955 2.2069 9.16854L2.75862 9.88764Z" fill="white"/>
+                            <button className="item-data__btns-favorite" onClick={() => onAddToFavourite(id)}>
+                                <svg className={classNames(isInFavourite(id) && "liked")} height="16" viewBox="0 0 16 16" width="16">
+                                    <path d="M13.9876 9.68902V9.75741C13.9672 9.77686 13.9456 9.79775 13.9227 9.81991C13.7989 9.93997 13.6307 10.1067 13.43 10.3074C13.0281 10.7094 12.4897 11.2541 11.9027 11.8492C11.7147 12.0398 11.5217 12.2356 11.3265 12.4336C10.3031 13.4716 9.22051 14.5697 8.48699 15.2984C8.20384 15.5672 7.79616 15.5672 7.51301 15.2984C6.63829 14.4295 5.24829 13.0362 4.06592 11.8477C3.47404 11.2527 2.93451 10.7093 2.53807 10.3091C2.33981 10.1089 2.17759 9.9448 2.06258 9.82801C2.0443 9.80945 2.02761 9.79247 2.01244 9.77703V9.70146L1.88977 9.56036C1.01502 8.55421 0.5 7.2063 0.5 5.76824V5.67668V5.59184C0.57712 2.78087 2.6406 0.591558 4.93532 0.591558C5.29567 0.591558 5.76244 0.734165 6.22429 1.02021C6.66878 1.2955 7.07342 1.68228 7.3453 2.13435C7.45607 2.41858 7.71429 2.62875 8.0398 2.62875C8.37502 2.62875 8.63887 2.40586 8.74381 2.10873C8.97634 1.62759 9.37476 1.2229 9.8222 0.935876C10.2841 0.639558 10.7486 0.5 11.0647 0.5C13.4296 0.5 15.4227 2.67847 15.5 5.5916V5.76824C15.5 7.30648 14.9801 8.64249 14.1248 9.54434L13.9876 9.68902Z" fill="none" stroke="white"/>
                                 </svg>
-                                <span>В избранное</span>
+                                <span className={classNames(isInFavourite(id) && "liked")}>{isInFavourite(id) ? 'В избранном' : 'В избранное'}</span>
                             </button>
                         </>
                     )}
@@ -71,20 +95,28 @@ export default function SneakerCartCard() {
                 <div className={classNames("blackout__popup actions-popup", actionsPopup && "active")}>
                     <div className="actions-popup__top">
                         <div className="actions-popup__top-counters actions-counters">
-                            <button className="actions-counters__minus">
+                            <button 
+                                className="actions-counters__minus" 
+                                disabled={(amount > 1) ? false : true}
+                                onClick={() => onSubstractFromCart(sizeId, amount)}
+                            >
                                 <svg height="2" viewBox="0 0 13 2" width="13">
                                     <path d="M0 1H13" stroke="#007AFF" strokeWidth="1.5"/>
                                 </svg>
                             </button>
-                            <span className="actions-counters__number">3</span>
-                            <button className="actions-counters__plus">
+                            <span className="actions-counters__number">{amount}</span>
+                            <button 
+                                className="actions-counters__plus"
+                                disabled={(amount === quantity || amount === 10) ? true : false}
+                                onClick={() => onAddToCart(sizeId)}
+                            >
                                 <svg height="13" viewBox="0 0 13 13" width="13">
                                     <path d="M6.5 0V13M0 6.5H13" stroke="#007AFF" strokeWidth="1.5"/>
                                 </svg>
                             </button>
                         </div>
-                        <p className="actions-popup__top-favorite">Добавить в избранное</p>
-                        <p className="actions-popup__top-delete">Удалить</p>
+                        <p className="actions-popup__top-favorite" onClick={() => onAddToFavourite(id)}>{isInFavourite(id) ? `Удалить из избранного` : 'Добавить в избранное'}</p>
+                        <p className="actions-popup__top-delete" onClick={onRemoveSneaker}>Удалить</p>
                     </div>
                     <p className="actions-popup__close" onClick={setActionsPopup}>Закрыть</p>
                 </div>

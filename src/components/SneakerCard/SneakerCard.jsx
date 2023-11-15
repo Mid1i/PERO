@@ -4,6 +4,7 @@ import {useContext} from "react";
 
 import {appContext} from "@services/Context";
 import {toFormatPrice} from "@utils/helpers";
+import {imagesURL} from "@utils/constants";
 
 import "./SneakerCard.style.scss";
 
@@ -21,7 +22,7 @@ export default function SneakerCard({id, preview, name, price, page = 'home'}) {
             </span>
             <div onClick={() => navigate(`/catalog/product/${id}`)}>
                 <div className="goods-item__image">
-                    <img alt={name} className="goods-item__image-preview" loading="lazy" src={preview}/>
+                    <img alt={name} className="goods-item__image-preview" loading="lazy" src={`${imagesURL}/unscaled/${preview}`}/>
                 </div>
                 <h6 className="goods-item__title">{name}</h6>
                 <p className="goods-item__price">{`${toFormatPrice(price)} ₽`}</p>

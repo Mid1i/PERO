@@ -1,4 +1,10 @@
-export const onRemoveFromArray = (arrayName, array, id) => localStorage.setItem(arrayName, JSON.stringify(array.filter(obj => Number(obj) !== Number(id))));
+export const onRemoveFromArray = (arrayName, array, id) => {
+    if (arrayName === 'favourite') {
+        localStorage.setItem(arrayName, JSON.stringify(array.filter(obj => Number(obj) !== Number(id))));
+    } else {
+        localStorage.setItem(arrayName, JSON.stringify(array.filter(obj => obj.id !== id)));
+    }
+}
 
 
 export const onAddToArray = (arrayName, array, id, amount) => {

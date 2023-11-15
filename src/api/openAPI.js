@@ -25,7 +25,7 @@ export const fetchFavouriteOpenProducts = (array) => {
 export const fetchCartOpenProducts = (array) => {
     let url = `${openURL}/cart?page=0&size=100`;
 
-    array.map(item => url += `&${item.sizeId}`);
+    array.map(item => url += `&sizes=${item.id}`);
 
     return url;
 }

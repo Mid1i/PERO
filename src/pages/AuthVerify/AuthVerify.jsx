@@ -1,4 +1,3 @@
-import {browserName, osName} from "react-device-detect";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
@@ -19,7 +18,7 @@ export default function AuthVerify() {
     
     useEffect(() => {
         console.log(fetchAuthVerify(params.uuid))
-        axios.put(fetchAuthVerify(params.uuid), {}, {headers: {'X-Browser': browserName, 'X-Device': osName}})
+        axios.put(fetchAuthVerify(params.uuid), {})
              .then(() => setRequestStatus('success'))
              .catch(() => setRequestStatus('error')) 
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
