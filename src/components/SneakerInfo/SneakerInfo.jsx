@@ -126,7 +126,7 @@ export default function Sneaker({brand, color, description, id, images, name, ma
                                             alt={name}
                                             className="images-slider__item-image"
                                             onClick={() => setCurrentImage(image)}
-                                            src={image}
+                                            src={`${imagesURL}/unscaled/${image}`}
                                         />
                                     </div>
                                 ))}

@@ -6,4 +6,4 @@ export const userURL = 'https://java.pero-nn.ru/api/user';
 
 export const adminURL = 'https://java.pero-nn.ru/api/admin';
 
-export const imagesURL = 'https://pero-nn.ru/static/sneakers';
+export const imagesURL = 'https://pero-nn.ru/resources/sneakers';

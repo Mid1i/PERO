@@ -75,7 +75,9 @@ export default function App() {
         } else {
             axios.post(addCartProducts(id), {}, {headers: {'Authorization': `Bearer ${token}`}})
                  .then(response => {
-                    setCartItems(prev => [...prev.filter(item => item.sizeId !== response.data.sizeId), response.data]);
+                    const itemIndex = cartItems.findIndex(item => item.sizeId === id);
+
+                    setCartItems(prev => [...prev.slice(0, itemIndex), response.data, ...prev.slice(itemIndex + 1)]);
                     setSuccessPopup();
 
                     if (isMobile) window.setTimeout(() => {setSuccessPopup();}, 2000);
@@ -92,7 +94,11 @@ export default function App() {
             onAddToArray('cart', cartItems, id, amount - 1);
         } else {
             axios.put(substractCartProducts, {quantity: amount - 1, sizeId: id}, {headers: {'Authorization': `Bearer ${token}`}})
-                 .then(response => setCartItems(prev => [...prev.filter(item => item.sizeId !== response.data.sizeId), response.data]))
+                 .then(response => {
+                    const itemIndex = cartItems.findIndex(item => item.sizeId === id);
+                    
+                    setCartItems(prev => [...prev.slice(0, itemIndex), response.data, ...prev.slice(itemIndex + 1)]);
+                 })
                  .catch(error => console.log(error))
         }
     }
