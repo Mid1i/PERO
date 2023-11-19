@@ -25,14 +25,14 @@ import "./Cart.style.scss";
 
 
 export default function Cart() {
-    const {cartItems, isMale, isRegisteredUser, token, setCartItems} = useContext(appContext);
+    const {cartItems, isMale, isRegisteredUser, setCartItems, setErrorPopup} = useContext(appContext);
     const [requestData, setRequestData] = useState({
         data: null,
         error: null,
         status: 'loading'
     })
 
-    const {requestData: {data: cartData, status: cartStatus}} = useUserRequest(fetchCartProducts, token, isRegisteredUser); 
+    const {requestData: {data: cartData, status: cartStatus}} = useUserRequest(fetchCartProducts, localStorage.getItem('accessToken'), isRegisteredUser, setErrorPopup); 
     
 
     useEffect(() => {

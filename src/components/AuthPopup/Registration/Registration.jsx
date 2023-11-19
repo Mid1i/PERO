@@ -9,13 +9,13 @@ import "./Registration.style.scss";
 
 
 export default function Registration() {
-    const {inputsError, inputsValue, onSubmitForm, setRegisteredUser, setInputsValue, setInputsError} = useContext(authContext);
+    const {inputsError, inputsValue, onSubmitForm, setAuthStep, setInputsValue, setInputsError} = useContext(authContext);
     const [visiblePasswordCheck, setVisiblePasswordCheck] = useReducer(prev => !prev, false);
     const [visiblePassword, setVisiblePassword] = useReducer(prev => !prev, false);
 
 
     const onClickChangeStep = () => {
-        setRegisteredUser(prev => !prev);
+        setAuthStep('login');
         setInputsValue({});
         setInputsError({});
     }

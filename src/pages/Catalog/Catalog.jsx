@@ -13,6 +13,7 @@ import {fetchColors} from '@api';
 import {
     AuthPopup, 
     Error,
+    ErrorPopup,
     EmptyContent, 
     Footer, 
     Header, 
@@ -204,6 +205,7 @@ export default function Catalog() {
             
             <PageUp/>
             <AuthPopup/>
+            <ErrorPopup/>
         </catalogContext.Provider>
     );
 }

@@ -7,7 +7,7 @@ import {AuthPopup, Footer, Header, SearchBar} from "@components";
 
 import "./AuthVerify.style.scss";
 
-import authEmail from "@assets/images/content-images/email-success.jpg";
+import authEmail from "@assets/images/auth-images/email-confirming.jpg";
 
 
 export default function AuthVerify() {
@@ -17,7 +17,6 @@ export default function AuthVerify() {
 
     
     useEffect(() => {
-        console.log(fetchAuthVerify(params.uuid))
         axios.put(fetchAuthVerify(params.uuid), {})
              .then(() => setRequestStatus('success'))
              .catch(() => setRequestStatus('error')) 

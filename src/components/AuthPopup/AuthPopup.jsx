@@ -3,12 +3,12 @@ import {useContext, useEffect, useState} from "react";
 import classNames from "classnames";
 import axios from "axios";
 
-import {fetchEmail, fetchLogin, fetchRegistration} from "@api";
+import {fetchEmail, fetchLogin, fetchPasswordReset, fetchRegistration} from "@api";
 import {appContext, authContext} from "@services";
 import {isPWA} from "@utils/helpers";
 import {useNoScroll} from "@hooks";
 
-import {AuthMobile, EmailConfirming, Login, Registration} from ".";
+import {AuthMobile, EmailConfirming, Login, Registration, ResetPassword} from ".";
 
 import "./AuthPopup.style.scss";
 
@@ -16,7 +16,7 @@ import "./AuthPopup.style.scss";
 export default function AuthPopup() {
     const [requestData, setRequestData] = useState({error: null, status: 'loading'});
     const {authPopup, isRegisteredUser, setAuthPopup} = useContext(appContext);
-    const [registeredUser, setRegisteredUser] = useState(true);
+    const [authStep, setAuthStep] = useState('login');
     const [inputsValue, setInputsValue] = useState({
         'email': 'example@mail.ru',
         'fullName': 'Иванов Иван Иванович',
@@ -41,6 +41,7 @@ export default function AuthPopup() {
 
     const onClickCloseBtn = () => {
         setAuthPopup();
+        setAuthStep('login');
         setInputsValue({});
         setInputsError({});
     }
@@ -57,6 +58,7 @@ export default function AuthPopup() {
         if (error.status === 401 && error.data === 'Необходимо подтвердить почту') {
             axios.post(fetchEmail(inputsValue.email), {"typeLink": "CONFIRM_LINK"});
             setInputsError({'confirm': error.data});
+            setAuthStep('emailConfirming');
         }
     }
     
@@ -64,7 +66,7 @@ export default function AuthPopup() {
         event.preventDefault();
         const {passwordCheck, ...data} = inputsValue;
 
-        if (registeredUser) {
+        if (authStep === 'login') {
             axios.post(fetchLogin, data, {headers: {'X-Browser': browserName, 'X-Device': osName}}) 
                  .then((response) => {
                     setRequestData({...requestData, status: 'success'});
@@ -73,10 +75,25 @@ export default function AuthPopup() {
                     window.location.reload();
                  })
                  .catch(error => onErrorHandling(error.response));
-        } else if (inputsValue.password === passwordCheck) {
+        } else if (authStep === 'resetPassword') {
+            axios.post(fetchPasswordReset(inputsValue.email), data) 
+                 .then(() => {
+                    setAuthStep('emailReset');
+                    setTimer(9);
+
+                    const countdown = window.setInterval(() => {
+                        if (timer > 0) {
+                            setTimer(prev => prev - 1);
+                        } else {
+                            clearInterval(countdown);
+                        }
+                    }, 1000);
+                 })
+                 .catch(error => onErrorHandling(error.response));
+        } else if (inputsValue.password === passwordCheck && authStep === 'registration') {
             axios.post(fetchRegistration, data) 
                  .then(() => {
-                    setRequestData({...requestData, status: 'success'});
+                    setAuthStep('emailConfirming');
                     setTimer(9);
 
                     const countdown = window.setInterval(() => {
@@ -92,17 +109,17 @@ export default function AuthPopup() {
     }
     
     const contextData = {
+        authStep,
         authBanner,
         inputsError, 
         inputsValue,
         onSubmitForm,
         onErrorHandling,
-        registeredUser, 
         setTimer,
+        setAuthStep,
         setAuthBanner,
         setInputsError,
         setInputsValue,
-        setRegisteredUser,
         timer, 
     }
 
@@ -130,11 +147,10 @@ export default function AuthPopup() {
                             </svg>
                         )}
                     </div>
-                    {(registeredUser && !inputsError.confirm) ? <Login/> : (
-                        (!registeredUser && requestData.status !== 'success') ? <Registration/> : (
-                            <EmailConfirming/>
-                        )
-                    )}
+                    {authStep === 'login' && <Login/>}
+                    {authStep === 'registration' && <Registration/>}
+                    {authStep === 'resetPassword' && <ResetPassword/>}
+                    {['emailConfirming', 'emailReset'].includes(authStep) && <EmailConfirming/>}
                 </div>
             </div>
         </authContext.Provider>

@@ -7,6 +7,7 @@ import {appContext} from "@services";
 import {
     AuthPopup, 
     Error,
+    ErrorPopup,
     EmptyContent, 
     Footer, 
     Header, 
@@ -20,14 +21,14 @@ import "./Favourite.style.scss";
 
 
 export default function Favourite() {
-    const {favouriteItems, token, isRegisteredUser, setFavouriteItems} = useContext(appContext);
+    const {favouriteItems, isRegisteredUser, setErrorPopup, setFavouriteItems} = useContext(appContext);
     const [requestData, setRequestData] = useState({
         data: null,
         error: null,
         status: 'loading'
     });
 
-    const {requestData: {data: favouriteData, status: favouriteStatus}} = useUserRequest(fetchFavouriteProducts, token, isRegisteredUser); 
+    const {requestData: {data: favouriteData, status: favouriteStatus}} = useUserRequest(fetchFavouriteProducts, localStorage.getItem('accessToken'), isRegisteredUser, setErrorPopup); 
     
     
     useEffect(() => {
@@ -85,6 +86,7 @@ export default function Favourite() {
 
             <PageUp/>
             <AuthPopup/>
+            <ErrorPopup/>
         </>
     );
 }

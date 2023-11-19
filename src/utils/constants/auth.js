@@ -41,3 +41,16 @@ export const loginInputs = [
         type: 'password'
     },
 ]
+
+export const passwordResetInputs = [
+    {
+        id: 'passwordReset',
+        placeholder: 'Пароль',
+        type: 'password'
+    },
+    {
+        id: 'passwordCheckReset',
+        placeholder: 'Повторите пароль',
+        type: 'password'
+    },
+]

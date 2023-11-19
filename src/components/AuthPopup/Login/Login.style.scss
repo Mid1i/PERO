@@ -1,0 +1,13 @@
+.auth-popup__forget {
+    color: #E47F46;
+    cursor: pointer;
+    margin: 20px 0px 50px;
+    text-align: center;
+}
+
+
+@media(hover: hover) {
+    .auth-popup__forget:hover {
+        text-decoration: underline;
+    }
+}

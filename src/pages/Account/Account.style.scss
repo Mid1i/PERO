@@ -1,133 +1,141 @@
-.account {
+.content__account {
+    align-items: flex-start;
     display: flex;
-
-    padding: 20px 30px;
-
+    padding: 30px 60px;
+    max-width: 1440px;
     height: 100%;
     width: 100%;
 
-    &__panel {
-        display: flex;
-        flex: 0 0 auto;
-        flex-direction: column;
-
-        padding-top: 10px;
-        padding-right: 50px;
-
-        &-title {
-            cursor: pointer;
-
-            font-size: 18px;
-            font-weight: 500;
-
-            margin-bottom: 45px;
-
-            position: relative;
-
-            &::after {
-                background: #212121;
-    
-                content: '';
-    
-                position: absolute;
-                bottom: -1px;
-                left: 0px;
-    
-                transition: all 0.1s linear;
-                height: 1px;
-                width: 0px;
-            }
-
-            &.active {
-                font-weight: 700;
-
-                &::after {
-                    width: 100%;
-                }
-            }
-        }
-    }
-
-    &__content {
+    &-data {
         border-left: 2px solid #CFCCC7;
-
         display: flex;
-        flex: 1 0 auto;
         flex-direction: column;
-
-        padding-left: 50px;
+        padding-left: 60px;
         padding-top: 10px;
+        width: 100%;
     }
 }
+
+.account-navbar {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    padding-top: 10px;
+    padding-right: 60px;
+
+    &__item {
+        cursor: pointer;
+        font-size: 18px;
+        margin-bottom: 50px;
+        transition: all 0.1s linear;
+
+        &--active {
+            font-weight: 700;
+        }
+    }
+}
+
+.account-info {
+    align-items: center;
+    display: none;
+    margin-bottom: 100px;
+
+    &__icon {
+        margin-right: 20px;
+    }
+
+    &__text {
+        font-weight: 500;
+        display: flex;
+        flex-direction: column;
+
+        &--name {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        &--email {
+            color: #828282;
+            font-size: 16px;
+        }
+    }
+}
+
+.account-items {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+
+    &__el {
+        border-bottom: 1px solid #E5E3E0;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+        width: 100%;
+
+        &-text {
+            font-size: 20px;
+            font-weight: 500;
+            margin-right: 10px;
+        }
+    }
+}
+
 
 @media(hover: hover) {
-    .account__panel-title:hover {
+    .account-navbar__item:hover {
         color: #E47F46;
+    }
 
-        &::after {
-            background: #E47F46;
-
-            width: 100%;
-        }
+    .account-navbar__item--active:hover {
+        color: #1F1F21;
     }
 }
 
-@media(max-width: 1100px) {
-    .account {
-        padding: 20px;
-        
-        &__panel {
-            padding-right: 30px;
-        }
-
-        &__content {
-            padding-left: 30px;
-        }
-    }
-}
-
-@media(max-width: 767px) {
-    .account {
+@media(max-width: 1024px) {
+    .content__account {
         flex-direction: column;
+        padding: 20px 30px;
+    }
 
-        padding: 10px 10px;
+    .account-navbar,
+    .content__account-data {
+        display: none;
+    }
 
-        &--mobile {
-            margin-bottom: 130px;
-        }
-
-        &__panel {
-            border-bottom: 2px solid #CFCCC7;
-
-            flex-direction: row;
-            justify-content: space-between;
-
-            padding: 0px 10px;
-
-            &-title {
-                margin-bottom: 10px;
-
-                &.active::after {
-                    width: 0px;
-                }
-            }
-        }
-        
-        &__content {
-            border-left: none;
-
-            padding-left: 10px;
-            padding-top: 20px;
-        }
+    .account-info,
+    .account-items {
+        display: flex;
     }
 }
 
 @media(max-width: 500px) {
-    .account--mobile {
-        margin-bottom: 100px;
+    .content__account {
+        padding: 15px 20px;
     }
 
-    .account__panel-title {
+    .account-info__icon {
+        margin-right: 15px;
+        height: 40px;
+        width: 40px;
+    }
+
+    .account-info__text--name {
         font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .account-info__text--email {
+        font-size: 14px;
+    }
+
+    .account-items__el-text {
+        font-size: 16px;
+    }
+
+    .account-items__el-icon {
+        height: 18px;
+        width: 7px;
     }
 }

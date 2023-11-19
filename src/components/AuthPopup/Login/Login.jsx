@@ -9,7 +9,7 @@ import "./Login.style.scss";
 
 
 export default function Login() {
-    const {inputsError, inputsValue, onSubmitForm, setRegisteredUser, setInputsValue, setInputsError} = useContext(authContext);
+    const {inputsError, inputsValue, onSubmitForm, setAuthStep, setInputsValue, setInputsError} = useContext(authContext);
     const [visiblePassword, setVisiblePassword] = useReducer(prev => !prev, false);
 
 
@@ -26,7 +26,7 @@ export default function Login() {
     }
 
     const onClickChangeStep = () => {
-        setRegisteredUser(prev => !prev);
+        setAuthStep('registration');
         setInputsValue({});
         setInputsError({});
     }
@@ -68,6 +68,7 @@ export default function Login() {
                         )}
                     </div>)
                 )}
+                <p className="auth-popup__forget" onClick={() => setAuthStep('resetPassword')}>Забыли пароль?</p>
                 <button className="auth-popup__form-btn" type="submit">Войти</button>
             </form>
         </>

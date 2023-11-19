@@ -1,9 +1,9 @@
-export const openURL = 'https://java.pero-nn.ru/api/open';
+export const openURL = 'https://pero-nn.ru/api/open';
 
-export const authURL = 'https://java.pero-nn.ru/api/auth';
+export const authURL = 'https://pero-nn.ru/api/auth';
 
-export const userURL = 'https://java.pero-nn.ru/api/user';
+export const userURL = 'https://pero-nn.ru/api/user';
 
-export const adminURL = 'https://java.pero-nn.ru/api/admin';
+export const adminURL = 'https://pero-nn.ru/api/admin';
 
 export const imagesURL = 'https://pero-nn.ru/resources/sneakers';

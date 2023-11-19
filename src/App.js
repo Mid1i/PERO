@@ -11,6 +11,7 @@ import {
     addCartProducts, 
     fetchCartProducts, 
     fetchFavouriteProducts, 
+    refreshTokens,
     removeCartProducts, 
     updateFavouriteProducts,
     substractCartProducts
@@ -27,17 +28,15 @@ export default function App() {
     const [errorPopup, setErrorPopup] = useState(''); 
     const [cartItems, setCartItems] = useState([]);
     const [isMale, setIsMale] = useState(true);
-    const [token, setToken] = useState('');
 
     const {search} = useLocation();
 
-    const {requestData: {data: favouriteData, status: favouriteStatus}} = useUserRequest(fetchFavouriteProducts, token, isRegisteredUser);
-    const {requestData: {data: cartData, status: cartStatus}} = useUserRequest(fetchCartProducts, token, isRegisteredUser);  
+    const {requestData: {data: favouriteData, status: favouriteStatus}} = useUserRequest(fetchFavouriteProducts, localStorage.getItem('accessToken'), isRegisteredUser, setErrorPopup);
+    const {requestData: {data: cartData, status: cartStatus}} = useUserRequest(fetchCartProducts, localStorage.getItem('accessToken'), isRegisteredUser, setErrorPopup);  
     
 
     useEffect(() => {
         if (localStorage.getItem('accessToken')) {
-            setToken(localStorage.getItem('accessToken'));
             localStorage.removeItem('favourite');
             localStorage.removeItem('cart');
             setIsRegisteredUser();
@@ -50,17 +49,32 @@ export default function App() {
             localStorage.setItem('showInstall', 'false');
             setInstallPopup();
         }
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         if (favouriteStatus === 'complete') setFavouriteItems(favouriteData.filter(item => item.active));
         if (cartStatus === 'complete') setCartItems(cartData);
-    }, [favouriteStatus, cartStatus]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [favouriteStatus, cartStatus]); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         const paramsSearch = queryString.parse(search)['search'];
         if (!!paramsSearch) setSearchValue(paramsSearch);
-    }, [search])
+    }, [search]);
+
+
+    const errorHandling = (error, func, id, amount) => {
+        if (error.response.status === 400) {
+            setErrorPopup({text: error.response.data});
+        } else if (error.response.status === 500) {
+            axios.put(refreshTokens, {}, {headers: {'X-Authorization': `${localStorage.getItem('refreshToken')}`}})
+                 .then(response => {
+                    localStorage.setItem('accessToken', response.data.accessToken);
+                    localStorage.setItem('refreshToken', response.data.refreshToken);
+                    func(id, amount);
+                 })
+                 .catch(() => setErrorPopup({title: 'Возникла ошибка', text: 'Пожалуйста, перезайдите в аккаунт'}))
+        }
+    }
     
 
     const onAddToCart = (id) => {
@@ -73,7 +87,7 @@ export default function App() {
                 onAddToArray('cart', cartItems, id, 1);
             }
         } else {
-            axios.post(addCartProducts(id), {}, {headers: {'Authorization': `Bearer ${token}`}})
+            axios.post(addCartProducts(id), {}, {headers: {'Authorization': `Bearer ${localStorage.getItem('accessToken')}`}})
                  .then(response => {
                     const itemIndex = cartItems.findIndex(item => item.sizeId === id);
 
@@ -82,9 +96,7 @@ export default function App() {
 
                     if (isMobile) window.setTimeout(() => {setSuccessPopup();}, 2000);
                  })
-                 .catch(error => {
-                    if (error.response.status === 400) setErrorPopup(error.response.data); 
-                 })
+                 .catch(error => errorHandling(error, onAddToCart, id))
         }
     }
 
@@ -93,13 +105,13 @@ export default function App() {
             setCartItems(prev => [...prev.filter(item => item.id !== id), {id: id, amount: amount - 1}]);
             onAddToArray('cart', cartItems, id, amount - 1);
         } else {
-            axios.put(substractCartProducts, {quantity: amount - 1, sizeId: id}, {headers: {'Authorization': `Bearer ${token}`}})
+            axios.put(substractCartProducts, {quantity: amount - 1, sizeId: id}, {headers: {'Authorization': `Bearer ${localStorage.getItem('accessToken')}`}})
                  .then(response => {
                     const itemIndex = cartItems.findIndex(item => item.sizeId === id);
                     
                     setCartItems(prev => [...prev.slice(0, itemIndex), response.data, ...prev.slice(itemIndex + 1)]);
                  })
-                 .catch(error => console.log(error))
+                 .catch(error => errorHandling(error, onSubstractFromCart, id, amount))
         }
     }
 
@@ -108,9 +120,9 @@ export default function App() {
             setCartItems(prev => prev.filter(item => item.id !== id));
             onRemoveFromArray('cart', cartItems, id);
         } else {
-            axios.delete(removeCartProducts(id), {headers: {'Authorization': `Bearer ${token}`}})
+            axios.delete(removeCartProducts(id), {headers: {'Authorization': `Bearer ${localStorage.getItem('accessToken')}`}})
                  .then(() => setCartItems(prev => prev.filter(item => item.sizeId !== id)))
-                 .catch(error => console.log(error))
+                 .catch(error => errorHandling(error, onRemoveFromCart, id))
         }
     }
     
@@ -124,7 +136,7 @@ export default function App() {
                 onAddToArray('favourite', favouriteItems, id);
             }
         } else {
-            axios.put(updateFavouriteProducts(id), {}, {headers: {'Authorization': `Bearer ${token}`}})
+            axios.put(updateFavouriteProducts(id), {}, {headers: {'Authorization': `Bearer ${localStorage.getItem('accessToken')}`}})
                  .then(response => {
                     if (!!response.data) {
                         setFavouriteItems(prev => [...prev, response.data]);
@@ -132,7 +144,7 @@ export default function App() {
                         setFavouriteItems(prev => prev.filter(obj => obj.id !== id));
                     }
                  })
-                 .catch(error => console.log(error))
+                 .catch(error => errorHandling(error, onAddToFavourite, id))
         }
     }
     
@@ -158,7 +170,6 @@ export default function App() {
         onSubstractFromCart,
         onRemoveFromCart,
         isRegisteredUser,
-        token,
         successPopup,
         setSuccessPopup,
         setAuthPopup,

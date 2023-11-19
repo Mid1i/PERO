@@ -12,6 +12,7 @@ import {
     AuthPopup,
     Brands,
     Error,
+    ErrorPopup,
     Footer, 
     GoodsSlider,
     InstallSlider, 
@@ -107,6 +108,7 @@ export default function Home() {
             
             <PageUp/>
             <AuthPopup/>
+            <ErrorPopup/>
             <InstallSlider/>
         </>
     );

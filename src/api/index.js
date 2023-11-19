@@ -1,11 +1,12 @@
 import {fetchCartOpenProducts, fetchCatalogProducts, fetchColors, fetchCurrentProduct, fetchFavouriteOpenProducts, fetchProducts, fetchRandomProducts} from "./openAPI";
-import {fetchAuthVerify, fetchAuthSignOut, fetchRegistration, fetchEmail, fetchLogin} from "./authAPI";
-import {addCartProducts, fetchCartProducts, fetchFavouriteProducts, removeCartProducts, updateCartProducts, updateFavouriteProducts, substractCartProducts} from "./userAPI";
+import {fetchAuthVerify, fetchAuthPasswordReset, fetchAuthSignOut, fetchRegistration, fetchEmail, fetchPasswordReset, fetchLogin,refreshTokens} from "./authAPI";
+import {addCartProducts, fetchCartProducts, fetchFavouriteProducts, fetchUserData, removeCartProducts, updateCartProducts, updateFavouriteProducts, substractCartProducts} from "./userAPI";
 
 
 export {
-    addCartProducts,
     fetchAuthVerify,
+    fetchAuthPasswordReset,
+    addCartProducts,
     fetchAuthSignOut,
     fetchCartProducts,
     fetchCartOpenProducts,
@@ -16,9 +17,12 @@ export {
     fetchFavouriteProducts,
     fetchFavouriteOpenProducts,
     fetchLogin,
+    fetchPasswordReset,
     fetchProducts,
+    fetchUserData,
     fetchRandomProducts,
     fetchRegistration,
+    refreshTokens,
     removeCartProducts,
     updateCartProducts,
     updateFavouriteProducts,
