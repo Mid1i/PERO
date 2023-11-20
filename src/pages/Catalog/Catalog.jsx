@@ -199,7 +199,7 @@ export default function Catalog() {
                             )}
                         </div>
                     </>
-                ) : <Error status={error?.response?.status || 404}/>}
+                ) : <Error status={error?.response?.status || 502}/>}
             </div>
             <Footer activePage='catalog' footerRef={ref}/>
             

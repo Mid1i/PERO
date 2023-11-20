@@ -1,16 +1,18 @@
 import {browserName, osName} from "react-device-detect";
 import {useNavigate} from "react-router-dom";
+import {useState, useContext} from "react";
 import classNames from "classnames";
-import {useState} from "react";
 import axios from "axios";
 
+import {fetchAuthSignOut, refreshTokens, updateUserData} from "@api";
 import {account} from "@utils/constants";
-import {fetchAuthSignOut} from "@api";
+import {appContext} from "@services";
 
 import "./UserData.style.scss";
 
 
-export default function UserData({fullName = '', male = true, email = ''}) {
+export default function UserData({fullName = '', male, email = '', setDataPopup, dataPopup}) {
+    const {setErrorPopup} = useContext(appContext);
     const [data, setData] = useState({
         surname: fullName.split(' ')?.[0],
         name: fullName.split(' ')?.[1],
@@ -33,6 +35,38 @@ export default function UserData({fullName = '', male = true, email = ''}) {
         window.location.reload();
     }
 
+    const onClickSaveBtn = () => {
+        const userData = {
+            'fullName': [data.surname, data.name, data.patronymic].join(' '),
+            'male': data.gender
+        };
+
+        if (onCheckingInputs()) {
+            axios.put(updateUserData, userData, {headers: {'Authorization': `Bearer ${localStorage.getItem('accessToken')}`}})
+                 .then(() => window.location.reload())
+                 .catch(error => {
+                    if (error.response.status === 500) {
+                        axios.put(refreshTokens, {}, {headers: {'X-Authorization': `${localStorage.getItem('refreshToken')}`}})
+                             .then(response => {
+                                localStorage.setItem('accessToken', response.data.accessToken);
+                                localStorage.setItem('refreshToken', response.data.refreshToken);
+                                onClickSaveBtn();
+                             })
+                             .catch(() => setErrorPopup({title: 'Возникла ошибка', text: 'Пожалуйста, перезайдите в аккаунт'}))
+                    } else {
+                        setErrorPopup({title: 'Ошибка', text: error.response.data.fullName})
+                    }
+                 })
+        }
+    }
+
+    const onCheckingInputs = () => {
+        if (([data.surname, data.name, data.patronymic].join(' ') !== fullName || data.gender !== male) && ![data.surname, data.name, data.patronymic].includes('')) {
+            return true;
+        }
+        return false;
+    }
+    
 
     const genderInputsRender = (id, label, onChangeInputs) => {
         return (
@@ -40,7 +74,7 @@ export default function UserData({fullName = '', male = true, email = ''}) {
                 <input
                     autoComplete="none"
                     className="user-gender__wrapper-input"
-                    checked={(id === 'male' && data.male) || (id === 'female' && !data.female) ? true : false}
+                    checked={(id === 'male' && data.gender) || (id === 'female' && !data.gender) ? true : false}
                     id={id} 
                     name="gender"
                     onChange={onChangeInputs}
@@ -51,12 +85,17 @@ export default function UserData({fullName = '', male = true, email = ''}) {
             </div>
         );
     }
-
+    
 
     return (
         <>
             <div className="user-data__top">
-                <h6 className="user-data__top-title user-data__top-title--main">Мои данные</h6>
+                <h6 className="user-data__top-title user-data__top-title--main">
+                    <span>Мои данные</span>
+                    <svg fill="none" onClick={setDataPopup} height="23" viewBox="0 0 22 23" width="22">
+                        <path d="M21 21.125L1 1.75004M21 1.75L1.00003 21.125" stroke="#1F1F21" strokeWidth="2" strokeLinecap="round"/>
+                    </svg>
+                </h6>
                 <div className="user-data__top-wrapper input-wrapper">
                     {account.map(input => (
                         <div className="input-wrapper__item" key={input.id}>
@@ -77,10 +116,21 @@ export default function UserData({fullName = '', male = true, email = ''}) {
                         </div>
                     ))}
                 </div>
+                <div className="user-data__top-email mobile-email">
+                    <input
+                        className="mobile-email__input"
+                        id="email"
+                        readOnly
+                        type="text"
+                        value={data.email}
+                    />
+                    <label className="mobile-email__label" htmlFor="email">Email</label>
+                    <span className="mobile-email__text">Подтверждён</span>
+                </div>
                 <h5 className="user-data__top-title">Пол</h5>
                 <div className="user-data__top-gender user-gender">
-                    {genderInputsRender('male', 'Мужской', () => setData({...data, 'male': true}))}
-                    {genderInputsRender('female', 'Женский', () => setData({...data, 'male': false}))}
+                    {genderInputsRender('male', 'Мужской', () => setData({...data, 'gender': true}))}
+                    {genderInputsRender('female', 'Женский', () => setData({...data, 'gender': false}))}
                 </div>
                 <h5 className="user-data__top-title">E-mail</h5>
                 <div className="user-data__top-email user-email">
@@ -95,9 +145,15 @@ export default function UserData({fullName = '', male = true, email = ''}) {
                 </div>
             </div>
             <div className="user-data__btns">
-                <button className="user-data__btns-save">Сохранить</button>
+                <button 
+                    className="user-data__btns-save" 
+                    disabled={!onCheckingInputs() ? true : false}
+                    onClick={onClickSaveBtn}
+                >
+                    Сохранить
+                </button>
                 <button className="user-data__btns-exit" onClick={onClickExitBtn}>Выйти</button>
-            </div>           
+            </div>
         </>
     );
 }

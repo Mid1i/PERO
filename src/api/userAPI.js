@@ -3,6 +3,8 @@ import {userURL} from "@utils/constants";
 
 export const fetchUserData = `${userURL}/profile`;
 
+export const updateUserData = `${userURL}/profile/edit`;
+
 
 export const fetchFavouriteProducts = `${userURL}/favourite?page=0&size=20`;
 
