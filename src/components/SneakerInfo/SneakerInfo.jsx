@@ -36,7 +36,7 @@ export default function Sneaker({brand, color, description, id, images, name, ma
 
     useEffect(() => {document.title = `${'кроссовки'.indexOf(name.toLowerCase()) ? 'Кроссовки' : 'Кеды'} ${toFormatBrand(brand).toUpperCase()} — купить в интернет-магазине PERO`;}, [name, brand]);
 
-
+    
     const onBuyItem = () => {
         if (currentSize !== '') {
             if ((!isRegisteredUser && cartItems.reduce((totalAmount, {amount}) => totalAmount + amount, 0) < 10)) {
@@ -62,6 +62,11 @@ export default function Sneaker({brand, color, description, id, images, name, ma
         } else {
             navigate('/');
         }
+    }
+
+    const onClickSuccessCart = () => {
+        setSuccessPopup();
+        navigate('/cart');
     }
 
     const onClickGenderText = () => {
@@ -271,7 +276,7 @@ export default function Sneaker({brand, color, description, id, images, name, ma
                             </div>
                             <div className="success-popup__btns">
                                 <button className="success-popup__btns-continue" onClick={setSuccessPopup}>Продолжить покупки</button>
-                                <button className="success-popup__btns-cart" onClick={() => navigate('/cart')}>В корзину</button>
+                                <button className="success-popup__btns-cart" onClick={onClickSuccessCart}>В корзину</button>
                             </div>
                         </>
                     )}

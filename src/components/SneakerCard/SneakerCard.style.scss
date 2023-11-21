@@ -75,18 +75,6 @@
     }
 }
 
-@keyframes heart {
-    0% {
-        opacity: 1;
-        height: 100%;
-        width: 100%;
-    }
-    100% {
-        opacity: 0;
-        height: 150%;
-        width: 150%;
-    }
-}
 
 @media(hover: hover) {
     .goods-item:hover .goods-item__image-preview {
@@ -109,8 +97,8 @@
         }
 
         &__icon {
-            top: 25px;
-            right: 25px;
+            top: 20px;
+            right: 20px;
             height: 35px;
             width: 35px;
         }

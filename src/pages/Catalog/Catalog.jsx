@@ -41,6 +41,7 @@ export default function Catalog() {
     const navigate = useNavigate();
 
     const {ref, inView} = useInView({threshold: 0.8});
+    
     const {requestData: {amount, data, error, status}} = usePaginationRequest(isMale, search, inView);
     const {requestData: {data: colors, status: statusColors}} = useRequest(fetchColors);
 
@@ -89,7 +90,7 @@ export default function Catalog() {
     }
 
     const onFormTitle = () => {
-        if (status === 'complete' && amount !== 0) {
+        if (status === 'complete' && amount > 0) {
             return `${amount} ${toFormatAmountText(amount)}`;
         }
     }

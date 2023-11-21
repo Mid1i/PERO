@@ -30,7 +30,7 @@ export default function usePaginationRequest(isMale, search, ref) {
 
             setPage(prev => prev + 1);
         }
-    }, [ref]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [isMale, search, ref]); // eslint-disable-line react-hooks/exhaustive-deps
     
     return {requestData};
 }
