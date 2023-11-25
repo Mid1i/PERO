@@ -133,6 +133,11 @@
         &__icon {
             top: 15px;
             right: 15px;
+
+            & svg {
+                height: 18px;
+                width: 18px;
+            }
         }
 
         &__image {

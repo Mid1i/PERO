@@ -11,7 +11,7 @@ import "./Header.style.scss";
 
 
 export default function Header() {
-    const {isMale, isRegisteredUser, setIsMale, setAuthPopup} = useContext(appContext);
+    const {isMale, isRegisteredUser, setIsMale, setAuthPopup, searchValue} = useContext(appContext);
     const [popupMenu, changePopupMenu] = useState(false);
 
     const images = imageImport();
@@ -33,7 +33,7 @@ export default function Header() {
         setIsMale(gender);
   
         if (pathname !== '/catalog/') {
-            navigate('/catalog/');
+            navigate(`/catalog/${searchValue !== '' ? `?search=${searchValue}` : ''}`);
         }
     }
 
@@ -100,7 +100,7 @@ export default function Header() {
     const menuItemsRender = () => {
         return (
             <>
-                <li className="header-nav__el" onClick={() => navigate('/catalog')}>
+                <li className="header-nav__el" onClick={() => navigate(`/catalog/${searchValue !== '' && `?search=${searchValue}`}`)}>
                     <svg className="header-nav__el-icon" height="18" viewBox="0 0 18 18" width="18">
                         <path clipRule="evenodd" fillRule="evenodd" d="M2.25002 0H5.34002C5.93852 0 6.51232 0.2384 6.93462 0.6625C7.35682 1.0867 7.59272 1.6615 7.59002 2.26V5.34C7.59002 6.5826 6.58272 7.59 5.34002 7.59H2.25002C1.00742 7.59 2.12752e-05 6.5826 2.12752e-05 5.34V2.26C-0.00257872 1.6615 0.233222 1.0867 0.655522 0.6625C1.07772 0.2384 1.65152 0 2.25002 0ZM5.34002 6.08C5.75202 6.0746 6.08462 5.742 6.09002 5.33V2.26C6.09002 1.8458 5.75422 1.51 5.34002 1.51H2.25002C1.83582 1.51 1.50002 1.8458 1.50002 2.26V5.33C1.50542 5.742 1.83812 6.0746 2.25002 6.08H5.34002Z" fill="#1F1F21"/>
                         <path clipRule="evenodd" fillRule="evenodd" d="M12.6602 0H15.7502C16.3486 0 16.9224 0.2384 17.3447 0.6625C17.7669 1.0867 18.0028 1.6615 18.0002 2.26V5.34C18.0002 6.5826 16.9928 7.59 15.7502 7.59H12.6602C11.4175 7.59 10.4102 6.5826 10.4102 5.34V2.25C10.4102 1.0074 11.4175 0 12.6602 0ZM15.7502 6.08C16.1621 6.0746 16.4948 5.742 16.5002 5.33V2.26C16.5002 1.8458 16.1644 1.51 15.7502 1.51H12.6602C12.2459 1.51 11.9102 1.8458 11.9102 2.26V5.33C11.9155 5.742 12.2482 6.0746 12.6602 6.08H15.7502Z" fill="#1F1F21"/>

@@ -9,11 +9,11 @@ import authBannerImage from "@assets/images/auth-images/auth-banner-back.png";
 
 
 export default function AuthMobile() {
-    const {authBanner, setAuthBanner, setRegisteredUser} = useContext(authContext);
+    const {authBanner, setAuthBanner, setAuthStep} = useContext(authContext);
 
     const onClickBtns = (step) => {
         setAuthBanner(prev => !prev);
-        setRegisteredUser(step);
+        setAuthStep(step);
     }
 
 
@@ -29,8 +29,8 @@ export default function AuthMobile() {
             <h2 className="auth-mobile__subtitle">Измени свой взгляд на стиль</h2>
             <p className="auth-mobile__text">Прокачай свою внешность вместе с нами</p>
             <img alt='background' className="auth-mobile__image" src={authBannerImage}/>
-            <button className="auth-mobile__btn" onClick={() => onClickBtns(true)}>Войти по Email</button>
-            <button className="auth-mobile__btn" onClick={() => onClickBtns(false)}>Зарегистрироваться</button>
+            <button className="auth-mobile__btn" onClick={() => onClickBtns('login')}>Войти по Email</button>
+            <button className="auth-mobile__btn" onClick={() => onClickBtns('registration')}>Зарегистрироваться</button>
         </div>
     );
 }

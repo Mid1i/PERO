@@ -1,5 +1,5 @@
+import {Fragment, useContext, useEffect, useReducer, useRef, useState} from "react";
 import {TransformComponent, TransformWrapper} from "react-zoom-pan-pinch";
-import {useContext, useEffect, useReducer, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {isMobile} from "react-device-detect";
 import {RWebShare} from "react-web-share";
@@ -25,12 +25,22 @@ export default function Sneaker({brand, color, description, id, images, name, ma
     const [currentSize, setCurrentSize] = useState('');
     const [zoomImage, setZoomImage] = useState(false);
     
+    const zoomRef = useRef(null);
     const navigate = useNavigate();
     const brandsImages = imageImport();
     const itemImages = [preview, ...images];
 
     useNoScroll([popupImage, successPopup]);
 
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (!!zoomRef.current && !zoomRef.current.contains(event.target)) setPopupImage();
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {document.removeEventListener("mousedown", handleClickOutside);};
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {setCurrentImage(preview);}, [preview]);
 
@@ -228,31 +238,39 @@ export default function Sneaker({brand, color, description, id, images, name, ma
                 <p className="product__description">{description}</p>
             </div>
 
-            <div className={classNames("content__blackout blackout product-zoom", popupImage && "active")}>
-                {popupImage && (
-                    <>
-                        <svg className="product-zoom__icon" onClick={setPopupImage} height="14" viewBox="0 0 15 14" width="15">
-                            <path d="M13.8725 0C14.1716 0 14.4584 0.110039 14.6698 0.305919C14.8812 0.501858 15 0.767573 15 1.04463C15 1.32169 14.8812 1.5874 14.6698 1.78334L9.04639 6.99369L14.6834 12.2167C14.8889 12.4137 15.0025 12.6777 15 12.9516C14.9974 13.2256 14.8788 13.4876 14.6697 13.6814C14.4606 13.8751 14.1778 13.985 13.8821 13.9873C13.5864 13.9897 13.3016 13.8844 13.0889 13.6941L7.50681 8.52205L1.92473 13.6941C1.71326 13.89 1.42648 14 1.12745 14C0.828428 14 0.541647 13.89 0.330173 13.6941C0.118764 13.4981 1.84946e-07 13.2324 1.84946e-07 12.9554C1.84946e-07 12.6783 0.118764 12.4126 0.330173 12.2167L5.95361 7.00631L0.316557 1.78334C0.111138 1.58628 -0.00252673 1.32235 4.26297e-05 1.04839C0.00261199 0.774434 0.121208 0.512371 0.330291 0.318646C0.539375 0.124922 0.822216 0.0150364 1.11789 0.0126557C1.41357 0.0102751 1.69843 0.11559 1.91111 0.305919L7.49319 5.47795L13.0753 0.305919C13.2867 0.110039 13.5735 0 13.8725 0Z" fill="white"/>
-                        </svg>
-                        {window.innerWidth < 1024 ? (
-                            <div className="product-zoom__wrapper">
-                                <TransformWrapper centerOnInit={true}>
-                                    <TransformComponent contentStyle={{display: "flex", justifyContent: "center"}}>
-                                        <img alt={name} className="product-zoom__wrapper-image" loading="lazy" src={`${imagesURL}/scaled/${currentImage}`}/>
-                                    </TransformComponent>
-                                </TransformWrapper>
-                            </div>
-                        ) : (
-                            <img 
-                                alt={name}
-                                className={classNames("product-zoom__wrapper-image", zoomImage && "zoom")}
-                                loading="lazy"
-                                onClick={() => setZoomImage(!zoomImage)}
-                                src={`${imagesURL}/scaled/${currentImage}`} 
-                            />
-                        )}
-                    </>
-                )}
+            <div className={classNames("content__blackout blackout", popupImage && "active")}>
+                <div className={classNames("product-zoom", popupImage && "active")}>
+                    {popupImage && (
+                        <>
+                            <svg className="product-zoom__icon" height="14" viewBox="0 0 15 14" width="15">
+                                <path d="M13.8725 0C14.1716 0 14.4584 0.110039 14.6698 0.305919C14.8812 0.501858 15 0.767573 15 1.04463C15 1.32169 14.8812 1.5874 14.6698 1.78334L9.04639 6.99369L14.6834 12.2167C14.8889 12.4137 15.0025 12.6777 15 12.9516C14.9974 13.2256 14.8788 13.4876 14.6697 13.6814C14.4606 13.8751 14.1778 13.985 13.8821 13.9873C13.5864 13.9897 13.3016 13.8844 13.0889 13.6941L7.50681 8.52205L1.92473 13.6941C1.71326 13.89 1.42648 14 1.12745 14C0.828428 14 0.541647 13.89 0.330173 13.6941C0.118764 13.4981 1.84946e-07 13.2324 1.84946e-07 12.9554C1.84946e-07 12.6783 0.118764 12.4126 0.330173 12.2167L5.95361 7.00631L0.316557 1.78334C0.111138 1.58628 -0.00252673 1.32235 4.26297e-05 1.04839C0.00261199 0.774434 0.121208 0.512371 0.330291 0.318646C0.539375 0.124922 0.822216 0.0150364 1.11789 0.0126557C1.41357 0.0102751 1.69843 0.11559 1.91111 0.305919L7.49319 5.47795L13.0753 0.305919C13.2867 0.110039 13.5735 0 13.8725 0Z" fill="white"/>
+                            </svg>
+                            {window.innerWidth < 1024 ? (
+                                <div className="product-zoom__wrapper" ref={zoomRef}>
+                                    <TransformWrapper centerOnInit={true}>
+                                        <TransformComponent contentStyle={{display: "flex", justifyContent: "center"}}>
+                                            <img 
+                                                alt={name} 
+                                                className="product-zoom__wrapper-image"
+                                                loading="lazy" 
+                                                src={`${imagesURL}/scaled/${currentImage}`}
+                                            />
+                                        </TransformComponent>
+                                    </TransformWrapper>
+                                </div>
+                            ) : (
+                                <img 
+                                    alt={name}
+                                    className={classNames("product-zoom__image", zoomImage && "zoom")}
+                                    loading="lazy"
+                                    ref={zoomRef}
+                                    onClick={() => setZoomImage(prev => !prev)}
+                                    src={`${imagesURL}/scaled/${currentImage}`} 
+                                />
+                            )}
+                        </>
+                    )}
+                </div>
             </div>
             
             <div className={classNames("content__blackout blackout", successPopup && "active")}>

@@ -90,7 +90,7 @@ export default function Catalog() {
     }
 
     const onFormTitle = () => {
-        if (status === 'complete' && amount > 0) {
+        if (status === 'complete' && amount !== 0) {
             return `${amount} ${toFormatAmountText(amount)}`;
         }
     }

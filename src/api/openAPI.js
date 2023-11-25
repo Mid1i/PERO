@@ -14,7 +14,7 @@ export const fetchCatalogProducts = (page, isMale, link) => `${openURL}/sneakers
 
 
 export const fetchFavouriteOpenProducts = (array) => {
-    let url = `${openURL}/favourite?page=0&size=100`;
+    let url = `${openURL}/unauthorized/favourite?page=0&size=100`;
 
     array.map(id => url += `&sneakers=${id}`);
 
@@ -23,7 +23,7 @@ export const fetchFavouriteOpenProducts = (array) => {
 
 
 export const fetchCartOpenProducts = (array) => {
-    let url = `${openURL}/cart?page=0&size=100`;
+    let url = `${openURL}/unauthorized/cart?page=0&size=100`;
 
     array.map(item => url += `&sizes=${item.id}`);
 

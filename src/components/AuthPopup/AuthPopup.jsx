@@ -79,7 +79,7 @@ export default function AuthPopup() {
             axios.post(fetchPasswordReset(inputsValue.email), data) 
                  .then(() => {
                     setAuthStep('emailReset');
-                    setTimer(9);
+                    setTimer(59);
 
                     const countdown = window.setInterval(() => {
                         if (timer > 0) {
@@ -94,7 +94,7 @@ export default function AuthPopup() {
             axios.post(fetchRegistration, data) 
                  .then(() => {
                     setAuthStep('emailConfirming');
-                    setTimer(9);
+                    setTimer(59);
 
                     const countdown = window.setInterval(() => {
                         if (timer > 0) {

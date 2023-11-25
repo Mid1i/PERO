@@ -19,7 +19,7 @@ export default function EmailConfirming() {
         };
 
         axios.post(fetchEmail(inputsValue.email), {"typeLink": data[authStep]});
-        setTimer(9);
+        setTimer(59);
 
         const countdown = window.setInterval(() => {
             if (timer > 0) {
