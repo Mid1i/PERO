@@ -1,6 +1,6 @@
 import {Routes, Route} from "react-router-dom";
 
-import {About, Account, AuthVerify, AuthPasswordReset, Catalog, Cart, Contacts, Favourite, NotFound, Home, Product, Shops} from "@pages";
+import {About, Account, Admin, AuthVerify, AuthPasswordReset, Catalog, Cart, Contacts, Favourite, NotFound, Home, Product, Shops} from "@pages";
 
 
 export default function Routers() {
@@ -48,6 +48,10 @@ export default function Routers() {
         {
             path: '/shops',
             element: <Shops/>
+        },
+        {
+            path: '/admin',
+            element: <Admin/>
         },
         {
             path: '*',

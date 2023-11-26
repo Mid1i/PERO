@@ -1,4 +1,5 @@
 import {useNavigate} from "react-router-dom";
+import classNames from "classnames";
 import {useContext} from "react";
 
 import {appContext} from "@services/Context";
@@ -6,7 +7,7 @@ import {appContext} from "@services/Context";
 import "./SearchBar.style.scss";
 
 
-export default function SearchBar({onCancel=false}) {
+export default function SearchBar({onCancel=false, page=''}) {
     const {isRegisteredUser, searchValue, setAuthPopup, setSearchValue} = useContext(appContext);
 
     const navigate = useNavigate();
@@ -29,7 +30,7 @@ export default function SearchBar({onCancel=false}) {
     
     return (
         <>
-            <div className='search-bar'>
+            <div className={classNames('search-bar', page !== '' && 'search-bar--admin')}>
                 <input 
                     className="search-bar__input" 
                     type="text" 
@@ -39,7 +40,7 @@ export default function SearchBar({onCancel=false}) {
                     onChange={(event) => setSearchValue(event.target.value)}
                     value={searchValue}
                 />
-                <div className="search-bar__icons">
+                <div className={classNames("search-bar__icons", page !== '' && "search-bar__icons--admin")}>
                     <svg className="search-bar__icons-icon" onClick={() => navigate(`/catalog/?search=${searchValue}`)} height="20" viewBox="0 0 20 20" width="20">
                         <path fill="#FFFFFF" d="m18.444 20-7-7a6.774 6.774 0 0 1-4.222 1.444c-2.018 0-3.726-.699-5.124-2.097C.7 10.948 0 9.24 0 7.222s.7-3.726 2.098-5.124C3.496.7 5.204 0 7.222 0c2.019 0 3.727.7 5.125 2.098 1.397 1.398 2.097 3.106 2.097 5.124A6.774 6.774 0 0 1 13 11.444l7 7L18.444 20ZM7.222 12.222c1.39 0 2.57-.486 3.542-1.459.973-.972 1.459-2.153 1.458-3.54 0-1.39-.486-2.57-1.459-3.543-.972-.973-2.153-1.459-3.54-1.458-1.39 0-2.57.487-3.543 1.46-.973.972-1.459 2.152-1.458 3.54 0 1.39.487 2.57 1.46 3.542.972.973 2.152 1.459 3.54 1.458Z"/>
                     </svg>

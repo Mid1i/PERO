@@ -1,0 +1,66 @@
+.admin {
+    background: #F7F7F7;
+    display: flex;
+    padding: 20px 60px 0px 0px;
+    height: 100%;
+    width: 100%;
+
+    &__left {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+
+        &-logo {
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+    }
+
+    &__right {
+        padding-left: 60px;
+        width: 100%;
+    }
+}
+
+.nav-bar {
+    background: #1F1F21;
+    border-radius: 0px 30px 0px 0px;
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    padding: 90px 50px 0px 80px;
+
+    &__item {
+        color: #E5E3E0;
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 80px;
+        transition: all 0.1s linear;
+
+        &--active {
+            color: #FFFFFF;
+            font-weight: 700px;
+            position: relative;
+
+            &::before {
+                content: url("../../assets/images/icons/active-admin.svg");
+                position: absolute;
+                left: -25px;
+                top: 0px;
+            }
+        }
+    }
+}
+
+
+@media(hover: hover) {
+    .nav-bar__item:hover {
+        color: #FFFFFF;
+        transform: scale(1.02);
+    }
+
+    .nav-bar__item--active:hover {
+        transform: none;
+    }
+}

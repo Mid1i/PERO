@@ -6,6 +6,11 @@
     max-width: 1440px;
     width: 100%;
 
+    &--admin {
+        padding: 0px;
+        max-width: 100%;
+    }
+
     &__input {
         background: #ffffff;
         border-radius: 50px;
@@ -34,6 +39,10 @@
         top: 3px;
         height: 34px;
         width: 90px;
+
+        &--admin {
+            right: 3px;
+        }
 
         &-icon {
             cursor: pointer;
