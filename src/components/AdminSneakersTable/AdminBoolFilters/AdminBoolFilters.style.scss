@@ -1,0 +1,37 @@
+.filter__bool {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 15px;
+
+    &-item {
+        align-items: center;
+        display: flex;
+        cursor: pointer;
+
+        & svg circle {
+            transition: all 0.1s linear;
+        }
+
+        & span {
+            font-size: 16px;
+            margin-left: 5px;
+            transition: all 0.1s linear;
+        }
+    }
+}
+
+
+@media(hover: hover) {
+    .filter__bool-item:hover span {
+        color: #898989;
+    }
+
+    .filter__bool-item:hover svg circle {
+        stroke: #898989;
+
+        &:nth-child(2) {
+            fill: #898989;
+        }
+    }
+}

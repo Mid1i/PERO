@@ -1,3 +1,4 @@
+import {AdminSneakersTable, AdminBoolFilters, AdminPriceFilters, AdminFilters} from "./AdminSneakersTable";
 import SneakerCartCard from "./SneakerCartCard/SneakerCartCard";
 import {MainFilters, PriceFilters, Sorting} from "./Filters";
 import InstallSlider from "./InstallSlider/InstallSlider";
@@ -8,7 +9,7 @@ import GoodsSlider from "./GoodsSlider/GoodsSlider";
 import LoadingCard from "./SneakerCard/LoadingCard";
 import SneakerCard from "./SneakerCard/SneakerCard";
 import SneakerInfo from "./SneakerInfo/SneakerInfo";
-import AdminGoods from "./AdminGoods/AdminGoods";
+import AdminNavBar from "./AdminNavBar/AdminNavBar";
 import ErrorPopup from "./ErrorPopup/ErrorPopup";
 import SearchBar from "./SearchBar/SearchBar"; 
 import AuthPopup from "./AuthPopup/AuthPopup";
@@ -21,7 +22,11 @@ import Error from "./Error/Error";
 
 
 export { 
-    AdminGoods,
+    AdminSneakersTable,
+    AdminPriceFilters,
+    AdminBoolFilters,
+    AdminFilters,
+    AdminNavBar,
     AuthPopup,
     Brands, 
     EmptyContent,

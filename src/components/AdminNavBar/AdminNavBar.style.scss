@@ -1,34 +1,10 @@
-.admin {
-    background: #F7F7F7;
-    display: flex;
-    padding: 20px 60px 0px 0px;
-    height: 100%;
-    width: 100%;
-
-    &__left {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-
-        &-logo {
-            cursor: pointer;
-            margin-bottom: 30px;
-        }
-    }
-
-    &__right {
-        padding-left: 60px;
-        width: 100%;
-    }
-}
-
 .nav-bar {
     background: #1F1F21;
     border-radius: 0px 30px 0px 0px;
     display: flex;
     flex: 1 0 auto;
     flex-direction: column;
-    padding: 90px 50px 0px 80px;
+    padding: 90px 50px 0px 60px;
 
     &__item {
         color: #E5E3E0;

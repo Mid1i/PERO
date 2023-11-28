@@ -1,9 +1,27 @@
 import {Routes, Route} from "react-router-dom";
+import {useContext} from "react";
 
-import {About, Account, Admin, AuthVerify, AuthPasswordReset, Catalog, Cart, Contacts, Favourite, NotFound, Home, Product, Shops} from "@pages";
+import {appContext} from "@services";
+import {
+    About, 
+    Account, 
+    AdminSneakers, 
+    AuthVerify, 
+    AuthPasswordReset, 
+    Catalog, 
+    Cart, 
+    Contacts, 
+    Favourite, 
+    NotFound, 
+    Home, 
+    Product, 
+    Shops
+} from "@pages";
 
 
 export default function Routers() {
+    const {isRegisteredUser} = useContext(appContext);
+
     const routers = [
         {
             path: '/',
@@ -50,15 +68,15 @@ export default function Routers() {
             element: <Shops/>
         },
         {
-            path: '/admin',
-            element: <Admin/>
+            path: '/admin/sneakers',
+            element: isRegisteredUser ? <AdminSneakers/> : <NotFound/>
         },
         {
             path: '*',
             element: <NotFound/>
         },
     ]
-
+    
 
     return (
         <Routes>

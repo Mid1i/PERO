@@ -1,41 +1,23 @@
 import {useContext, useEffect, useState} from "react";
 
 import {validatePriceInput as validateInput} from "@utils/helpers";
-import {catalogContext} from "@services/Context";
+import {adminContext} from "@services/Context";
 
-import "./PriceFilters.style.scss";
+import "./AdminPriceFilters.style.scss";
 
 
-export default function PriceFilters() {
-    const {onFormLink, link, params, setFiltersAmount, setLink} = useContext(catalogContext);
+export default function AdminPriceFilters() {
+    const {filterValues, onFormLink, setFilterValues} = useContext(adminContext);
     const [startValue, setStartValue] = useState('');
     const [endValue, setEndValue] = useState('');
    
 
     useEffect(() => {
-        if (validateInput(params?.['fromPrice'])) {
-            setLink({...link, 'fromPrice': params['fromPrice']});
-            setStartValue(params['fromPrice']);
-            setFiltersAmount(prev => prev += 1);
-        } else {
-            setStartValue('');
-        }
-            
-        if (validateInput(params?.['toPrice'])) {
-            setLink({...link, 'toPrice': params['toPrice']});
-            setEndValue(params['toPrice']);
-            setFiltersAmount(prev => prev += 1);
-        } else {
-            setEndValue('');
-        }
-    }, [params]) // eslint-disable-line react-hooks/exhaustive-deps
-
-    useEffect(() => {
-        if (onFormLink(link) === '') {
+        if (onFormLink() === '') {
             setStartValue('');
             setEndValue('');
         }
-    }, [link]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [filterValues]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     const onChangeValue = (event) => {
@@ -48,27 +30,27 @@ export default function PriceFilters() {
         }
 
         if (validateInput(event.target.value)) {
-            setLink({...link, [id]: event.target.value});
+            setFilterValues({...filterValues, [id]: event.target.value});
         }
 
         if (startValue === '' && id === 'toPrice') {
             setStartValue(3000);
-            setLink({...link, 'fromPrice': 3000});
+            setFilterValues({...filterValues, 'fromPrice': 3000});
         }
 
         if (endValue === '' && id === 'fromPrice') {
             setEndValue(50000);
-            setLink({...link, 'toPrice': 50000});
+            setFilterValues({...filterValues, 'toPrice': 50000});
         }
 
         if (startValue === '' && endValue === '') {
-            setLink({...link, 'fromPrice': 3000, 'toPrice': 50000});
+            setFilterValues({...filterValues, 'fromPrice': 3000, 'toPrice': 50000});
         }
     }
 
 
     return (
-        <div className="filter filter--price">
+        <div className="filter filter--price filter--admin">
             <h6 className="filter__title">Цена, ₽</h6>
             <div className="filter__price">
                 <input 

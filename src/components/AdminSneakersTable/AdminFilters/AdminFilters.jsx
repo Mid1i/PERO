@@ -1,38 +1,29 @@
 import {useEffect, useState, useContext} from "react";
 import classNames from "classnames";
 
-import {catalogContext} from "@services/Context"; 
+import {adminContext} from "@services/Context"; 
 
-import "./MainFilters.style.scss";
+import "./AdminFilters.style.scss";
 
 
-export default function MainFilters({id, title, elements, values = elements}) {
-    const {onFormLink, link, params, setFiltersAmount, setLink} = useContext(catalogContext);
+export default function AdminFilters({id, title, elements, values = elements}) {
+    const {filterValues, onFormLink, setFilterValues} = useContext(adminContext);
     const [filters, setFilters] = useState([]);
    
-
-    useEffect(() => {
-        if (params?.[id]) {
-            setFilters(String(params[id]).split(',').filter(item => values.includes(item)));
-            setFiltersAmount(prev => prev += String(params[id]).split(',').filter(item => values.includes(item)).length);
-        } else {
-            setFilters([]);
-        }
-    }, [params]) // eslint-disable-line react-hooks/exhaustive-deps
     
-    useEffect(() => {if (onFormLink(link) === '') setFilters([])}, [link]) // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => {if (onFormLink() === '') setFilters([])}, [filterValues]) // eslint-disable-line react-hooks/exhaustive-deps
     
 
     const onChangeFilter = (element) => {
         if (filters.find(obj => obj === element)) {
             setFilters(prev => prev.filter(obj => obj !== element));
-            setLink({...link, [id]: filters.filter(obj => obj !== element).join(',')});
+            setFilterValues({...filterValues, [id]: filters.filter(obj => obj !== element).join(',')});
         } else {
             setFilters(prev => [...prev, element]);
-            setLink({...link, [id]: [...filters, element].join(',')});
+            setFilterValues({...filterValues, [id]: [...filters, element].join(',')});
         }
     }
-
+    
 
     return (
         <div className="filter">

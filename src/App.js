@@ -75,7 +75,6 @@ export default function App() {
                  .catch(() => setErrorPopup({title: 'Возникла ошибка', text: 'Пожалуйста, перезайдите в аккаунт'}))
         }
     }
-    
 
     const onAddToCart = (id) => {
         if (!isRegisteredUser) {

@@ -22,3 +22,24 @@ export const sortingData = {
     "elements": ['По популярности', 'По возрастанию цены', 'По убыванию цены', 'По алфавиту А-Я', 'По алфавиту Я-А'],
     "values": ['', 'price,asc', 'price,desc', 'name,desc', 'name,asc'],
 };
+
+export const adminFilters = [
+    {
+        "id": "isMale",
+        "title": "Модель",
+        "elements": ['Мужская', 'Женская'],
+        "values": ['true', 'false'],
+    },
+    {
+        "id": "isActive",
+        "title": "Активные/Неактивные товары",
+        "elements": ['Активные', 'Неактивные'],
+        "values": ['true', 'false'],
+    },
+    {
+        "id": "isPopular",
+        "title": "Наиболее популярные товары",
+        "elements": ['Популярные', 'непопулярные'],
+        "values": ['true', 'false'],
+    },
+]
