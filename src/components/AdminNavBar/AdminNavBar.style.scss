@@ -40,3 +40,9 @@
         transform: none;
     }
 }
+
+@media(max-width: 1500px) {
+    .nav-bar {
+        padding: 90px 30px 0px 40px;
+    }
+}

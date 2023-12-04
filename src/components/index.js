@@ -1,4 +1,4 @@
-import {AdminSneakersTable, AdminBoolFilters, AdminPriceFilters, AdminFilters} from "./AdminSneakersTable";
+import {AdminSneakersTable, AdminBoolFilters, AdminPriceFilters, AdminFilters, SneakerCreating} from "./AdminSneakersTable";
 import SneakerCartCard from "./SneakerCartCard/SneakerCartCard";
 import {MainFilters, PriceFilters, Sorting} from "./Filters";
 import InstallSlider from "./InstallSlider/InstallSlider";
@@ -45,6 +45,7 @@ export {
     SneakerCartCard, 
     SearchBar, 
     Sorting,
+    SneakerCreating,
     SneakerSlider,
     SneakerInfo,
     UserData,

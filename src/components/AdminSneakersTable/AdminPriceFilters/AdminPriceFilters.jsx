@@ -7,13 +7,22 @@ import "./AdminPriceFilters.style.scss";
 
 
 export default function AdminPriceFilters() {
-    const {filterValues, onFormLink, setFilterValues} = useContext(adminContext);
+    const {filterValues, onFormFiltersLink, setFilterValues} = useContext(adminContext);
     const [startValue, setStartValue] = useState('');
     const [endValue, setEndValue] = useState('');
    
 
     useEffect(() => {
-        if (onFormLink() === '') {
+        if (filterValues?.fromPrice) {
+            setStartValue(filterValues.fromPrice);
+        }
+        if (filterValues?.toPrice) {
+            setEndValue(filterValues.toPrice)
+        }
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    
+    useEffect(() => {
+        if (onFormFiltersLink() === '') {
             setStartValue('');
             setEndValue('');
         }

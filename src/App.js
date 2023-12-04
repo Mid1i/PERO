@@ -28,13 +28,13 @@ export default function App() {
     const [errorPopup, setErrorPopup] = useState(''); 
     const [cartItems, setCartItems] = useState([]);
     const [isMale, setIsMale] = useState(true);
-
+    
     const {search} = useLocation();
 
     const {requestData: {data: favouriteData, status: favouriteStatus}} = useUserRequest(fetchFavouriteProducts, localStorage.getItem('accessToken'), isRegisteredUser, setErrorPopup);
     const {requestData: {data: cartData, status: cartStatus}} = useUserRequest(fetchCartProducts, localStorage.getItem('accessToken'), isRegisteredUser, setErrorPopup);  
     
-
+    
     useEffect(() => {
         if (localStorage.getItem('accessToken')) {
             localStorage.removeItem('favourite');
@@ -76,7 +76,7 @@ export default function App() {
         }
     }
 
-    const onAddToCart = (id) => {
+    const onAddToCart = (id, condition = '') => {
         if (!isRegisteredUser) {
             if (cartItems.find(obj => obj.id === id)) {
                 setCartItems(prev => [...prev.filter(obj => obj.id !== id), {id: id, amount: prev.find(obj => obj.id === id).amount + 1}]);
@@ -91,9 +91,11 @@ export default function App() {
                     const itemIndex = cartItems.findIndex(item => item.sizeId === id);
 
                     setCartItems(prev => [...prev.slice(0, itemIndex), response.data, ...prev.slice(itemIndex + 1)]);
-                    setSuccessPopup();
-
-                    if (isMobile) window.setTimeout(() => {setSuccessPopup();}, 2000);
+                    
+                    if (condition) {
+                        setSuccessPopup();
+                        if (isMobile) window.setTimeout(() => {setSuccessPopup();}, 2000);
+                    }
                  })
                  .catch(error => errorHandling(error, onAddToCart, id))
         }

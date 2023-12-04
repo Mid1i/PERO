@@ -6,12 +6,14 @@ import "./AdminBoolFilters.style.scss";
 
 
 export default function AdminBoolFilters({id, title, elements, values}) {
-    const {filterValues, onFormLink, setFilterValues} = useContext(adminContext);
+    const {filterValues, onFormFiltersLink, setFilterValues} = useContext(adminContext);
     const [filters, setFilters] = useState('');
    
     
-    useEffect(() => {if (onFormLink() === '') setFilters([])}, [filterValues]) // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => {if (onFormFiltersLink() === '') setFilters([])}, [filterValues]); // eslint-disable-line react-hooks/exhaustive-deps
     
+    useEffect(() => {if (filterValues[id]) setFilters(filterValues[id]);}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
 
     const onChangeFilter = (element) => {
         if (filters === element) {

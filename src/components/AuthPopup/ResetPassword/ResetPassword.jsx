@@ -8,14 +8,18 @@ import "./ResetPassword.style.scss";
 
 
 export default function ResetPassword() {
-    const {inputsError, inputsValue, onSubmitForm, setInputsValue} = useContext(authContext);
+    const {authStep, inputsError, inputsValue, onSubmitForm, setInputsValue} = useContext(authContext);
 
 
     return (
         <>
             <p className="auth-popup__title">Забыли пароль?</p>
             <p className="auth-popup__subtitle">
-                <span className="auth-popup__subtitle-text">Введите данные для восстановления доступа в личный кабинет</span>
+                {authStep === 'resetPassword' ? (
+                    <span className="auth-popup__subtitle-text">Введите данные для восстановления доступа в личный кабинет</span>
+                ) : (
+                    <span className="auth-popup__subtitle-text">Введите данные для подтверждения почты</span>
+                )}
             </p>
             <p className="auth-popup__error">{inputsError?.exist || ''}</p>
             <form autoComplete="off" className="auth-popup__form" onSubmit={onSubmitForm}>

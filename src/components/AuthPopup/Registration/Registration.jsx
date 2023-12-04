@@ -98,6 +98,7 @@ export default function Registration() {
                     {genderInputsRender('male', 'Я мужчина', () => setInputsValue({...inputsValue, 'male': true}))}
                     {genderInputsRender('female', 'Я женщина', () => setInputsValue({...inputsValue, 'male': false}))}
                 </div>
+                <p className="auth-popup__forget" onClick={() => setAuthStep('resendEmail')}>Не удалось подтвердить аккаунт?</p>
                 <button className="auth-popup__form-btn" type="submit">Зарегистрироваться</button>
             </form>
         </>

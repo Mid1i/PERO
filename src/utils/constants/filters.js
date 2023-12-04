@@ -20,7 +20,7 @@ export const sortingData = {
     "id": 'sort',
     "title": 'Сортировка',
     "elements": ['По популярности', 'По возрастанию цены', 'По убыванию цены', 'По алфавиту А-Я', 'По алфавиту Я-А'],
-    "values": ['', 'price,asc', 'price,desc', 'name,desc', 'name,asc'],
+    "values": ['', 'price,asc', 'price,desc', 'name,asc', 'name,desc'],
 };
 
 export const adminFilters = [
@@ -39,7 +39,7 @@ export const adminFilters = [
     {
         "id": "isPopular",
         "title": "Наиболее популярные товары",
-        "elements": ['Популярные', 'непопулярные'],
+        "elements": ['Популярные', 'Непопулярные'],
         "values": ['true', 'false'],
     },
 ]

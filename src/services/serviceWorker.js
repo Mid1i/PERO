@@ -1,6 +1,6 @@
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", function() {
-        navigator.serviceWorker.register("/serviceWorker.js").then(
+        navigator.serviceWorker.register("./serviceWorker.js").then(
             function(registration) {
                 // console.log("Service Worker зарегистрирован: ", registration.scope);
             },
@@ -39,7 +39,6 @@ window.self.addEventListener("fetch", function(event) {
 
 window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
-
     window.deferredPrompt = e;
     window.localStorage.setItem("pwainstalled", "false");
 });
@@ -47,6 +46,7 @@ window.addEventListener("beforeinstallprompt", (e) => {
 window.addEventListener("appinstalled", (event) => {
     window.localStorage.setItem("pwainstalled", "true");
 });
+
 
 export function installPWA() {
     if (window.deferredPrompt) {
@@ -60,3 +60,5 @@ export function installPWA() {
         });
     }
 }
+
+let deferredPrompt;

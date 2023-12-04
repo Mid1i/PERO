@@ -13,6 +13,9 @@ export default function usePaginationRequest(isMale, search, ref) {
         status: 'loading'
     });
 
+    const headers = !!localStorage.getItem("accessToken") ? {headers: {'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}} : {};
+
+
     useEffect(() => {
         setPage(0);
         fetchData(0, 'resetSneakers');
@@ -27,7 +30,7 @@ export default function usePaginationRequest(isMale, search, ref) {
     
 
     const fetchData = (page, step) => {
-        axios.get(fetchCatalogProducts(page, isMale, search))
+        axios.get(fetchCatalogProducts(page, isMale, search), headers)
                 .then(response => {
                     if (step === 'moreSneakers') {
                         setRequestData({amount: response.data.amount, data: [...requestData.data, ...response.data.page.content], error: null, status: 'complete'});

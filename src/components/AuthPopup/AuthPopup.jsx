@@ -1,4 +1,3 @@
-import {browserName, osName} from "react-device-detect";
 import {useContext, useEffect, useState} from "react";
 import classNames from "classnames";
 import axios from "axios";
@@ -67,7 +66,7 @@ export default function AuthPopup() {
         const {passwordCheck, ...data} = inputsValue;
 
         if (authStep === 'login') {
-            axios.post(fetchLogin, data, {headers: {'X-Browser': browserName, 'X-Device': osName}}) 
+            axios.post(fetchLogin, data) 
                  .then((response) => {
                     setRequestData({...requestData, status: 'success'});
                     localStorage.setItem('accessToken', response.data.accessToken);
@@ -90,6 +89,34 @@ export default function AuthPopup() {
                     }, 1000);
                  })
                  .catch(error => onErrorHandling(error.response));
+        } else if (authStep === 'resendEmail') {
+            axios.post(fetchEmail(inputsValue.email), {typeLink: 'CONFIRM'})
+                 .then(() => {
+                    setAuthStep('emailConfirming');
+                    setTimer(59);
+
+                    const countdown = window.setInterval(() => {
+                        if (timer > 0) {
+                            setTimer(prev => prev - 1);
+                        } else {
+                            clearInterval(countdown);
+                        }
+                    }, 1000);
+                 })
+                 .catch(error => {
+                    if (error.response.status === 429) {
+                        setAuthStep('emailConfirming');
+                        setTimer(error.response.headers['x-rate-limit-retry-after-seconds']); //Изменить время на получение из хэдера
+
+                        const countdown = window.setInterval(() => {
+                            if (timer > 0) {
+                                setTimer(prev => prev - 1);
+                            } else {
+                                clearInterval(countdown);
+                            }
+                        }, 1000);
+                    }
+                 })
         } else if (inputsValue.password === passwordCheck && authStep === 'registration') {
             axios.post(fetchRegistration, data) 
                  .then(() => {
@@ -149,7 +176,7 @@ export default function AuthPopup() {
                     </div>
                     {authStep === 'login' && <Login/>}
                     {authStep === 'registration' && <Registration/>}
-                    {authStep === 'resetPassword' && <ResetPassword/>}
+                    {['resetPassword', 'resendEmail'].includes(authStep) && <ResetPassword/>}
                     {['emailConfirming', 'emailReset'].includes(authStep) && <EmailConfirming/>}
                 </div>
             </div>

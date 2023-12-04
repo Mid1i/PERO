@@ -1,7 +1,7 @@
 .admin {
     background: #F7F7F7;
     display: flex;
-    padding: 20px 60px 0px 0px;
+    padding-top: 20px;
     height: 100%;
     width: 100%;
 
@@ -19,8 +19,14 @@
     &__right {
         display: flex;
         flex-direction: column;
-        padding-left: 60px;
+        padding: 0px 60px;
         width: 100%;
     }
 }
 
+
+@media(max-width: 1500px) {
+    .admin__right {
+        padding: 0px 30px;
+    }
+}

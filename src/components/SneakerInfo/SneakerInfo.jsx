@@ -56,7 +56,7 @@ export default function Sneaker({brand, color, description, id, images, name, ma
                 setSuccessPopup();
                 if (isMobile) window.setTimeout(() => {setSuccessPopup();}, 2000);
             } else if (isRegisteredUser) {
-                onAddToCart(currentSize);
+                onAddToCart(currentSize, 'page');
                 setChooseSize(false);
             } else {
                 setErrorPopup('Количество товаров в корзине не должно превшать 10');

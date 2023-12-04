@@ -15,17 +15,17 @@
         align-items: center;
         display: flex;
         padding: 10px 15px;
-        margin-right: 40px;
+        margin-right: 30px;
 
         &-text {
-            font-size: 20px;
+            font-size: 16px;
             font-weight: 500;
             margin-right: 10px;
         }
 
         &-number {
             color: #E47F46;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
         }
     }
@@ -48,7 +48,7 @@
 
         &-text {
             color: #FFFFFF;
-            font-size: 20px;
+            font-size: 16px;
             font-weight: 500;
             margin-left: 10px;
         }
@@ -56,25 +56,27 @@
 }
 
 .admin__table {
+    display: flex;
+    flex-direction: column;
     border-radius: 15px;
-    background: #E5E3E0;
+    max-height: 800px;
     margin-top: 15px;
-    width: 100%;
+    overflow: auto;
+    height: 100%;
 }
 
 .table-header {
-    background: #E47F46;
-    border-radius: 15px 15px 0px 0px;
     display: flex;
+    width: 100%;
 
     &__item {
+        background: #E47F46;
         align-items: center;
         display: flex;
-        flex: 0 1 auto;
+        flex: 0 0 auto;
         cursor: pointer;
         position: relative;
-        padding: 15px 20px;
-        min-width: 130px;
+        padding: 15px;
 
         &--name {
             flex: 1 0 auto;
@@ -82,9 +84,9 @@
 
         &-title {
             color: #FFFFFF;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 500;
-            margin-right: 10px;
+            margin-right: 5px;
         }
 
         &-icon {
@@ -94,6 +96,88 @@
             &.active {
                 transform: rotate(180deg);
             }
+        }
+    }
+}
+
+.table-wrapper {
+    cursor: pointer;
+    display: flex;
+    width: 100%;
+
+    & .table-wrapper__item {
+        border-bottom: 1px solid #1F1F21;
+    }
+
+    &:last-child .table-wrapper__item {
+        border-bottom: none;
+    }
+
+    &__item {
+        background: #E5E3E0;
+        align-items: center;
+        display: flex;
+        flex: 0 0 auto;
+        justify-content: center;
+        padding: 15px;
+
+        &--id {
+            max-width: 100px;
+            width: 100%;
+        }
+
+        &--create {
+            max-width: 155px;
+            width: 100%;
+        }
+
+        &--update {
+            max-width: 165px;
+            width: 100%;
+        }
+
+        &--active {
+            max-width: 115px;
+            width: 100%;
+        }
+
+        &--popular {
+            max-width: 128px;
+            width: 100%;
+        }
+
+        &--price,
+        &--male {
+            max-width: 100px;
+            width: 100%;
+        }
+
+        &--brand {
+            text-transform: capitalize;
+            max-width: 90px;
+            width: 100%;
+        }
+
+        &--name {
+            flex: 1 1 auto;
+            justify-content: flex-start;
+            min-width: 165px;
+            width: 100%;
+
+            & .table-wrapper__item-title {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                min-width: 0px;
+            }
+        }
+
+        &-title {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 16px;
+            margin-right: 5px;
+            text-align: center;
         }
     }
 }
@@ -109,8 +193,9 @@
     position: absolute;
     padding: 20px 0px;
     transition: all 0.1s linear;
-    left: 20px;
+    left: 15px;
     top: 90%;
+    z-index: 1;
 
     &--popular {
         right: 10px;

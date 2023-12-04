@@ -5,7 +5,7 @@ import Slider from "react-slick";
 
 import {installSliderData as slider, installSliderSettings} from "@utils/constants";
 import useNoScroll from "@hooks/useNoScroll";
-import {installPWA} from "@services";
+import {installPWA} from "@services/serviceWorker";
 import {isPWA} from "@utils/helpers";
 
 import {appContext} from "@services/Context";
@@ -57,7 +57,7 @@ export default function InstallSlider() {
                 ) : (
                     <>
                         <img className="install-popup__image" src={peroLogo} alt="logo"/>
-                        <button className="install-popup__btn btn" onClick={() => installPWA()}>Скачать</button>
+                        <button className="install-popup__btn btn" onClick={installPWA}>Скачать</button>
                     </>
                 )}
             </div>

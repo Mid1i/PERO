@@ -7,12 +7,14 @@ import "./AdminFilters.style.scss";
 
 
 export default function AdminFilters({id, title, elements, values = elements}) {
-    const {filterValues, onFormLink, setFilterValues} = useContext(adminContext);
+    const {filterValues, onFormFiltersLink, setFilterValues} = useContext(adminContext);
     const [filters, setFilters] = useState([]);
    
     
-    useEffect(() => {if (onFormLink() === '') setFilters([])}, [filterValues]) // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => {if (onFormFiltersLink() === '') setFilters([])}, [filterValues]); // eslint-disable-line react-hooks/exhaustive-deps
     
+    useEffect(() => {if (filterValues[id]) setFilters(filterValues[id].split(','))}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
 
     const onChangeFilter = (element) => {
         if (filters.find(obj => obj === element)) {
@@ -23,7 +25,7 @@ export default function AdminFilters({id, title, elements, values = elements}) {
             setFilterValues({...filterValues, [id]: [...filters, element].join(',')});
         }
     }
-    
+
 
     return (
         <div className="filter">
@@ -31,7 +33,7 @@ export default function AdminFilters({id, title, elements, values = elements}) {
             <div className="filter__items">
                 {elements.map((filter, index) => (
                     <p 
-                        className={classNames("filter__items-item", filters.find(obj => obj === values[index]) && "active")}
+                        className={classNames("filter__items-item", filters.find(item => item === values[index]) && "active")}
                         onClick={() => onChangeFilter(values[index])} 
                         key={index}
                     >

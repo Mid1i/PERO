@@ -14,7 +14,7 @@ export default function EmailConfirming() {
     
     const onClickResendBtn = () => {
         const data = {
-            'emailConfirming': 'CONFIRM_LINK',
+            'emailConfirming': 'CONFIRM',
             'emailReset': 'RESET_PASSWORD',
         };
 

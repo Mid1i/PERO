@@ -4,22 +4,28 @@ export const adminTableHeader = [
         'title': 'ID товара'
     },
     {
-        'id': 'date',
+        'id': 'creationDateTime',
         'title': 'Дата создания',
         'elements': ['Сначала Новые', 'Сначала Старые'],
-        'values': ['date,desc', 'date,asc']
+        'values': ['creationDateTime,desc', 'creationDateTime,asc']
+    },
+    {
+        'id': 'updatedDateTime',
+        'title': 'Дата обновления',
+        'elements': ['Сначала Новые', 'Сначала Старые'],
+        'values': ['updatedDateTime,desc', 'updatedDateTime,asc']
     },
     {
         'id': 'name',
         'title': 'Название товара',
         'elements': ['По Алфавиту А-Я', 'По Алфавиту Я-А'],
-        'values': ['name,desc', 'name,asc']
+        'values': ['name,asc', 'name,desc']
     },
     {
         'id': 'brand',
         'title': 'Бренд',
         'elements': ['По Алфавиту A-Z', 'По Алфавиту Z-A'],
-        'values': ['brand,desc', 'brand,asc']
+        'values': ['brand,asc', 'brand,desc']
     },
     {
         'id': 'isMale',
@@ -44,5 +50,24 @@ export const adminTableHeader = [
         'title': 'Популярный',
         'elements': ['Сначала Популярные', 'Сначала Непопулярные'],
         'values': ['isPopular,desc', 'isPopular,asc']
+    },
+];
+
+
+export const adminInputs = [
+    {
+        id: 'name',
+        placeholder: 'Введите название товара',
+        type: 'text'
+    },
+    {
+        id: 'price',
+        placeholder: 'Введите цену товара',
+        type: 'number'
+    },
+    {
+        id: 'color',
+        placeholder: 'Введите цвет товара',
+        type: 'text'
     },
 ]

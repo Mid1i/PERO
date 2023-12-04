@@ -3,22 +3,24 @@ import classNames from "classnames";
 
 import {adminTableHeader} from "@utils/constants/admin";
 import {adminFilters, filters} from "@utils/constants";
+import {toFormatDate, toFormatPrice} from "@utils/helpers";
 import {adminContext} from "@services";
 import {
     AdminBoolFilters,
     AdminPriceFilters, 
     AdminFilters, 
+    SneakerCreating,
     SearchBar
 } from "@components";
 
 import "./AdminSneakersTable.style.scss";
 
 
-export default function AdminSneakersTable({totalAmount='', popularAmount='', activeAmount=''}) {
-    const {colors, onFormLink, statusColors, sortingValues, setFilterValues, setSortingValues} = useContext(adminContext);
+export default function AdminSneakersTable({totalAmount, popularAmount, activeAmount, sneakers}) {
+    const {colors, onFormLink, onFormFiltersLink, statusColors, sortingValues, setFilterValues, setSortingValues} = useContext(adminContext);
     const [isOpenFilters, setIsOpenFilters] = useReducer(prev => !prev, false);
     const [isOpenSort, setIsOpenSort] = useState('');
-    
+
 
     const onOpenSortingList = (id) => {
         if (isOpenSort === id) {
@@ -39,10 +41,12 @@ export default function AdminSneakersTable({totalAmount='', popularAmount='', ac
     const onCancelFilters = () => {
         setIsOpenFilters();
         setFilterValues({});
+        onFormLink('cancel');
     }
 
     const onCloseFilters = () => {
         setIsOpenFilters();
+        onFormLink();
     }
 
     const isInSortingValues = (value) => {
@@ -104,7 +108,7 @@ export default function AdminSneakersTable({totalAmount='', popularAmount='', ac
                             <path d="M14.3196 7.68947H0.715834C0.340188 7.68947 0.0356445 7.38632 0.0356445 7.0124C0.0356445 6.63847 0.340188 6.33533 0.715834 6.33533H14.3196C14.6953 6.33533 14.9998 6.63847 14.9998 7.0124C14.9998 7.38632 14.6953 7.68947 14.3196 7.68947Z" fill="black"/>
                         </svg>
                         <h4 className="filters-items__top-title">Фильтры</h4>
-                        <p className={classNames("filters-items__top-cancel", onFormLink() !== '' && "active")} onClick={onCancelFilters}>Сбросить</p>
+                        <p className={classNames("filters-items__top-cancel", onFormFiltersLink() !== '' && "active")} onClick={onCancelFilters}>Сбросить</p>
                     </div>
                     <div className="filters-items__section">
                         {(statusColors === 'complete') && (
@@ -127,52 +131,101 @@ export default function AdminSneakersTable({totalAmount='', popularAmount='', ac
                         )}
                     </div>
                     <button className="filters-items__btn" onClick={onCloseFilters}>
-                        {onFormLink() === '' ? 'Показать все товары' : 'Применить'}
+                        {onFormFiltersLink() === '' ? 'Показать все товары' : 'Применить'}
                     </button>
                 </div>
             </div>
-            <div className="admin__right-table admin__table">
-                <div className="admin__table-header table-header">
-                    {adminTableHeader.map(({id, title, elements, values}, index) => (
-                        <div className={
-                            classNames("table-header__item", id === 'name' && "table-header__item--name")} 
-                            key={index}
-                        >
-                            <h4 className="table-header__item-title" onClick={() => onOpenSortingList(id)}>{title}</h4>
-                            {id !== 'id' && (
-                                <>
-                                    <svg 
-                                        className={classNames("table-header__item-icon", isOpenSort === title && "active")}
-                                        onClick={() => onOpenSortingList(id)}
-                                        height="7" 
-                                        viewBox="0 0 10 7" 
-                                        width="10"
-                                    >
-                                        <path d="M9.22727 0L4.77748 0L0.770514 0C0.0848331 0 -0.258008 1.06248 0.227683 1.68532L3.92752 6.42983C4.52035 7.19006 5.48459 7.19006 6.07742 6.42983L7.48449 4.62545L9.77724 1.68532C10.2558 1.06248 9.91295 0 9.22727 0Z" fill="white"/>
+            <table className="admin__table">
+                <thead>
+                    <tr className="admin__table-header table-header">
+                        {adminTableHeader.map(({id, title, elements, values}, index) => (
+                            <td className={classNames("table-header__item", id === 'name' && "table-header__item--name")} onClick={() => onOpenSortingList(id)} key={index}>
+                                <h4 className="table-header__item-title">{title}</h4>
+                                {id !== 'id' && (
+                                    <>
+                                        <svg 
+                                            className={classNames("table-header__item-icon", isOpenSort === id && "active")}
+                                            height="7" 
+                                            viewBox="0 0 10 7" 
+                                            width="10"
+                                        >
+                                            <path d="M9.22727 0L4.77748 0L0.770514 0C0.0848331 0 -0.258008 1.06248 0.227683 1.68532L3.92752 6.42983C4.52035 7.19006 5.48459 7.19006 6.07742 6.42983L7.48449 4.62545L9.77724 1.68532C10.2558 1.06248 9.91295 0 9.22727 0Z" fill="white"/>
+                                        </svg>
+                                        <ul className={classNames("table-header__item-list table-list", isOpenSort === id && "active", id === 'isPopular' && 'table-list--popular')}>
+                                            {values.map((value, index) => (
+                                                <li className="table-list__el" onClick={() => onChangeSorting(id, value)} key={index}>
+                                                    {isInSortingValues(value) ? (
+                                                        <svg className="table-list__el-icon" fill="none" height="16" viewBox="0 0 16 16" width="16">
+                                                            <circle cx="8" cy="8" r="7.5" stroke="#1F1F21"/>
+                                                            <circle cx="7.99999" cy="7.99999" r="4.44444" fill="#1F1F21"/>
+                                                        </svg>
+                                                    ) : (
+                                                        <svg className="table-list__el-icon" fill="none" height="16" viewBox="0 0 16 16" width="16">
+                                                            <circle cx="8" cy="8" r="7.5" stroke="#1F1F21"/>
+                                                        </svg>
+                                                    )}
+                                                    <span className="table-list__el-text">{elements[index]}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </>
+                                )}
+                            </td>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody className="admin__table-body">
+                    {sneakers.map(({active, brand, creationDateTime, id, name, male, price, popular, updatedDateTime}) => (
+                        <tr className="admin__table-wrapper table-wrapper" key={id}>
+                            <td className="table-wrapper__item table-wrapper__item--id">
+                                <h4 className="table-wrapper__item-title">{id}</h4>
+                            </td>
+                            <td className="table-wrapper__item table-wrapper__item--create">
+                                <h4 className="table-wrapper__item-title">{toFormatDate(creationDateTime)}</h4>
+                            </td>
+                            <td className="table-wrapper__item table-wrapper__item--update">
+                                <h4 className="table-wrapper__item-title">{toFormatDate(updatedDateTime) || '-'}</h4>
+                            </td>
+                            <td className="table-wrapper__item table-wrapper__item--name">
+                                <h4 className="table-wrapper__item-title">{name}</h4>
+                            </td>
+                            <td className="table-wrapper__item table-wrapper__item--brand">
+                                <h4 className="table-wrapper__item-title">{brand.replace('_', ' ').toLowerCase()}</h4>
+                            </td>
+                            <td className="table-wrapper__item table-wrapper__item--male">
+                                <h4 className="table-wrapper__item-title">{male ? 'Мужская' : 'Женская'}</h4>
+                            </td>
+                            <td className="table-wrapper__item table-wrapper__item--price">
+                                <h4 className="table-wrapper__item-title">{toFormatPrice(price)}</h4>
+                            </td>
+                            <td className="table-wrapper__item table-wrapper__item--active">
+                                {active ? (
+                                    <svg fill="none" height="15" viewBox="0 0 20 15" width="20">
+                                        <path d="M6.17406 12.1222L2.03177 7.98283C1.80857 7.75979 1.50584 7.63449 1.19019 7.63449C0.874528 7.63449 0.5718 7.75979 0.348597 7.98283C0.125394 8.20588 0 8.50839 0 8.82382C0 8.98001 0.0307853 9.13466 0.0905977 9.27896C0.15041 9.42325 0.238078 9.55437 0.348597 9.66481L5.33844 14.6511C5.804 15.1163 6.55606 15.1163 7.02162 14.6511L19.6514 2.03032C19.8746 1.80728 20 1.50477 20 1.18933C20 0.873903 19.8746 0.571392 19.6514 0.348348C19.4282 0.125305 19.1255 0 18.8098 0C18.4942 0 18.1914 0.125305 17.9682 0.348348L6.17406 12.1222Z" fill="#0FA958"/>
                                     </svg>
-                                    <ul className={classNames("table-header__item-list table-list", isOpenSort === id && "active", id === 'isPopular' && 'table-list--popular')}>
-                                        {values.map((value, index) => (
-                                            <li className="table-list__el" onClick={() => onChangeSorting(id, value)} key={index}>
-                                                {isInSortingValues(value) ? (
-                                                    <svg className="table-list__el-icon" fill="none" height="16" viewBox="0 0 16 16" width="16">
-                                                        <circle cx="8" cy="8" r="7.5" stroke="#1F1F21"/>
-                                                        <circle cx="7.99999" cy="7.99999" r="4.44444" fill="#1F1F21"/>
-                                                    </svg>
-                                                ) : (
-                                                    <svg className="table-list__el-icon" fill="none" height="16" viewBox="0 0 16 16" width="16">
-                                                        <circle cx="8" cy="8" r="7.5" stroke="#1F1F21"/>
-                                                    </svg>
-                                                )}
-                                                <span className="table-list__el-text">{elements[index]}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </>
-                            )}
-                        </div>
+                                ) : (
+                                    <svg fill="none" height="20" viewBox="0 0 20 20" width="20">
+                                        <path d="M19 19L1 1M19 1L1 19" stroke="#ED0A34" strokeWidth="1.66667" strokeLinecap="round"/>
+                                    </svg>
+                                )}
+                            </td>
+                            <td className="table-wrapper__item table-wrapper__item--popular">
+                                {popular ? (
+                                    <svg fill="none" height="15" viewBox="0 0 20 15" width="20">
+                                        <path d="M6.17406 12.1222L2.03177 7.98283C1.80857 7.75979 1.50584 7.63449 1.19019 7.63449C0.874528 7.63449 0.5718 7.75979 0.348597 7.98283C0.125394 8.20588 0 8.50839 0 8.82382C0 8.98001 0.0307853 9.13466 0.0905977 9.27896C0.15041 9.42325 0.238078 9.55437 0.348597 9.66481L5.33844 14.6511C5.804 15.1163 6.55606 15.1163 7.02162 14.6511L19.6514 2.03032C19.8746 1.80728 20 1.50477 20 1.18933C20 0.873903 19.8746 0.571392 19.6514 0.348348C19.4282 0.125305 19.1255 0 18.8098 0C18.4942 0 18.1914 0.125305 17.9682 0.348348L6.17406 12.1222Z" fill="#0FA958"/>
+                                    </svg>
+                                ) : (
+                                    <svg fill="none" height="20" viewBox="0 0 20 20" width="20">
+                                        <path d="M19 19L1 1M19 1L1 19" stroke="#ED0A34" strokeWidth="1.66667" strokeLinecap="round"/>
+                                    </svg>
+                                )}
+                            </td>
+                        </tr>
                     ))}
-                </div>
-            </div>
+                </tbody>
+            </table>
+
+            <SneakerCreating/>
         </div>
     );
 }
