@@ -1,14 +1,14 @@
 import {useContext, useState, useReducer} from "react";
 import classNames from "classnames";
 
+import {toFormatDate, toFormatPrice} from "@utils/helpers";
 import {adminTableHeader} from "@utils/constants/admin";
 import {adminFilters, filters} from "@utils/constants";
-import {toFormatDate, toFormatPrice} from "@utils/helpers";
 import {adminContext} from "@services";
 import {
     AdminBoolFilters,
     AdminPriceFilters, 
-    AdminFilters, 
+    AdminFilters,
     SneakerCreating,
     SearchBar
 } from "@components";
@@ -17,7 +17,7 @@ import "./AdminSneakersTable.style.scss";
 
 
 export default function AdminSneakersTable({totalAmount, popularAmount, activeAmount, sneakers}) {
-    const {colors, onFormLink, onFormFiltersLink, statusColors, sortingValues, setFilterValues, setSortingValues} = useContext(adminContext);
+    const {colors, onFormLink, onFormFiltersLink, setCreatingPopup, statusColors, sortingValues, setFilterValues, setSortingValues} = useContext(adminContext);
     const [isOpenFilters, setIsOpenFilters] = useReducer(prev => !prev, false);
     const [isOpenSort, setIsOpenSort] = useState('');
 
@@ -83,7 +83,7 @@ export default function AdminSneakersTable({totalAmount, popularAmount, activeAm
                         </svg>
                         <span className="admin-btns__item-text">Фильтры</span>
                     </button>
-                    <button className="admin-btns__item">
+                    <button className="admin-btns__item" onClick={setCreatingPopup}>
                         <svg className="admin-btns__item-icon" fill="none" height="20" viewBox="0 0 20 20" width="20">
                             <path d="M10 0V20M0 10H20" stroke="white" strokeWidth="2"/>
                         </svg>

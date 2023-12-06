@@ -4,14 +4,13 @@ import {isMobile} from "react-device-detect";
 import queryString from "query-string";
 import axios from "axios";
 
-import {isPWA, onAddToArray, onCreateArray, onRemoveFromArray} from "@utils/helpers";
+import {isPWA, onAddToArray, onCreateArray, onHandleError, onRemoveFromArray} from "@utils/helpers";
 import {appContext, Routers} from "@services";
 import {useUserRequest} from "@hooks";
 import {
     addCartProducts, 
     fetchCartProducts, 
-    fetchFavouriteProducts, 
-    refreshTokens,
+    fetchFavouriteProducts,
     removeCartProducts, 
     updateFavouriteProducts,
     substractCartProducts
@@ -62,20 +61,6 @@ export default function App() {
     }, [search]);
 
 
-    const errorHandling = (error, func, id, amount) => {
-        if (error.response.status === 400) {
-            setErrorPopup({text: error.response.data});
-        } else if (error.response.status === 500) {
-            axios.put(refreshTokens, {}, {headers: {'X-Authorization': `${localStorage.getItem('refreshToken')}`}})
-                 .then(response => {
-                    localStorage.setItem('accessToken', response.data.accessToken);
-                    localStorage.setItem('refreshToken', response.data.refreshToken);
-                    func(id, amount);
-                 })
-                 .catch(() => setErrorPopup({title: 'Возникла ошибка', text: 'Пожалуйста, перезайдите в аккаунт'}))
-        }
-    }
-
     const onAddToCart = (id, condition = '') => {
         if (!isRegisteredUser) {
             if (cartItems.find(obj => obj.id === id)) {
@@ -97,7 +82,7 @@ export default function App() {
                         if (isMobile) window.setTimeout(() => {setSuccessPopup();}, 2000);
                     }
                  })
-                 .catch(error => errorHandling(error, onAddToCart, id))
+                 .catch(error => onHandleError(error, () => onAddToCart(id), setErrorPopup))
         }
     }
 
@@ -112,7 +97,7 @@ export default function App() {
                     
                     setCartItems(prev => [...prev.slice(0, itemIndex), response.data, ...prev.slice(itemIndex + 1)]);
                  })
-                 .catch(error => errorHandling(error, onSubstractFromCart, id, amount))
+                 .catch(error => onHandleError(error, () => onSubstractFromCart(id, amount), setErrorPopup))
         }
     }
 
@@ -123,7 +108,7 @@ export default function App() {
         } else {
             axios.delete(removeCartProducts(id), {headers: {'Authorization': `Bearer ${localStorage.getItem('accessToken')}`}})
                  .then(() => setCartItems(prev => prev.filter(item => item.sizeId !== id)))
-                 .catch(error => errorHandling(error, onRemoveFromCart, id))
+                 .catch(error => onHandleError(error, () => onRemoveFromCart(id), setErrorPopup))
         }
     }
     
@@ -145,7 +130,7 @@ export default function App() {
                         setFavouriteItems(prev => prev.filter(obj => obj.id !== id));
                     }
                  })
-                 .catch(error => errorHandling(error, onAddToFavourite, id))
+                 .catch(error => onHandleError(error, () => onAddToFavourite(id), setErrorPopup))
         }
     }
     

@@ -1,17 +1,17 @@
-import {browserName, osName} from "react-device-detect";
 import {useNavigate} from "react-router-dom";
 import {useState, useContext} from "react";
 import classNames from "classnames";
 import axios from "axios";
 
-import {fetchAuthSignOut, refreshTokens, updateUserData} from "@api";
+import {fetchAuthSignOut, globalAuthSignOut, updateUserData} from "@api";
+import {onHandleError} from "@utils/helpers";
 import {account} from "@utils/constants";
 import {appContext} from "@services";
 
 import "./UserData.style.scss";
 
 
-export default function UserData({fullName = '', male, email = '', setDataPopup, dataPopup}) {
+export default function UserData({fullName = '', male, email = '', setDataPopup}) {
     const {setErrorPopup} = useContext(appContext);
     const [data, setData] = useState({
         surname: fullName.split(' ')?.[0],
@@ -24,15 +24,24 @@ export default function UserData({fullName = '', male, email = '', setDataPopup,
     const navigate = useNavigate();
 
     const onClickExitBtn = () => {
-        axios.delete(fetchAuthSignOut, {headers: {'X-Browser': browserName, 'X-Device': osName, 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`}});
+        axios.delete(fetchAuthSignOut, {headers: {'Authorization': `Bearer ${localStorage.getItem('accessToken')}`}})
+             .then(() => {
+                localStorage.removeItem('cart');
+                localStorage.removeItem('favourite');
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                
+                navigate('/');
+                window.location.reload();
+             })
+             .catch(error => onHandleError(error, onClickExitBtn, setErrorPopup))
 
-        localStorage.removeItem('cart');
-        localStorage.removeItem('favourite');
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        
-        navigate('/');
-        window.location.reload();
+    }
+    
+    const onClickExitAllBtn = () => {
+        axios.delete(globalAuthSignOut, {headers: {'Authorization': `Bearer ${localStorage.getItem('accessToken')}`}})
+             .then(() => setErrorPopup({'text': 'Вы успешно вышли со всех устройств'}))
+             .catch(error => onHandleError(error, onClickExitAllBtn, setErrorPopup))
     }
 
     const onClickSaveBtn = () => {
@@ -46,15 +55,9 @@ export default function UserData({fullName = '', male, email = '', setDataPopup,
                  .then(() => window.location.reload())
                  .catch(error => {
                     if (error.response.status === 500) {
-                        axios.put(refreshTokens, {}, {headers: {'X-Authorization': `${localStorage.getItem('refreshToken')}`}})
-                             .then(response => {
-                                localStorage.setItem('accessToken', response.data.accessToken);
-                                localStorage.setItem('refreshToken', response.data.refreshToken);
-                                onClickSaveBtn();
-                             })
-                             .catch(() => setErrorPopup({title: 'Возникла ошибка', text: 'Пожалуйста, перезайдите в аккаунт'}))
+                        onHandleError(error, onClickSaveBtn, setErrorPopup, 'updateUserData');
                     } else {
-                        setErrorPopup({title: 'Ошибка', text: error.response.data.fullName})
+                        setErrorPopup({title: 'Ошибка', text: error.response.data.fullName});
                     }
                  })
         }
@@ -152,7 +155,10 @@ export default function UserData({fullName = '', male, email = '', setDataPopup,
                 >
                     Сохранить
                 </button>
-                <button className="user-data__btns-exit" onClick={onClickExitBtn}>Выйти</button>
+                <div className="user-data__right">
+                    <button className="user-data__right-exit" onClick={onClickExitBtn}>Выйти</button>
+                    <button className="user-data__right-all" onClick={onClickExitAllBtn}>Выйти со всех устройств</button>
+                </div>
             </div>
         </>
     );

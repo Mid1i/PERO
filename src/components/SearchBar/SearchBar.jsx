@@ -14,14 +14,18 @@ export default function SearchBar({onCancel=false, page=''}) {
 
     
     const onHandleKeyDown = (event) => {
-        if ((event.key === 'Enter') && (page !== 'admin')) {
+        if (event.key === 'Enter' && page !== 'admin') {
             navigate(`/catalog/?search=${searchValue}`);
+        } else if (event.key === 'Enter' && page === 'admin') {
+            navigate(`/admin/sneakers/?search=${searchValue}`);
         }
     }
 
     const onClickSearchBtn = () => {
         if (page !== 'admin') {
             navigate(`/catalog/?search=${searchValue}`);
+        } else if (page === 'admin') {
+            navigate(`/admin/sneakers/?search=${searchValue}`);
         }
     }
 
@@ -30,6 +34,8 @@ export default function SearchBar({onCancel=false, page=''}) {
 
         if (onCancel) {
             navigate('/catalog/');
+        } else if (page === 'admin') {
+            navigate(`/admin/sneakers/`);
         }
     }
 

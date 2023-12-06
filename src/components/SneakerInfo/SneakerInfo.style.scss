@@ -275,6 +275,16 @@
                 background: #E47F46;
                 color: #FFFFFF;
             }
+
+            &:disabled {
+                color: #828282;
+                pointer-events: none;
+
+                &.active {
+                    background: #E5E3E0;
+                    color: #828282;
+                }
+            }
     
             &-icon {
                 position: absolute;

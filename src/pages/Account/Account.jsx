@@ -17,7 +17,7 @@ import {
 
 import "./Account.style.scss";
 
-//TODO: Исправить ошибку 500
+
 export default function Account() {
     const {isRegisteredUser, setErrorPopup} = useContext(appContext);
     const [dataPopup, setDataPopup] = useReducer(prev => !prev, false);

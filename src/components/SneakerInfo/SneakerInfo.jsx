@@ -191,9 +191,10 @@ export default function Sneaker({brand, color, description, id, images, name, ma
                         <p className="product-right__color">{`Цвет: ${color}`}</p>
                         <h5 className={classNames("product-right__text", chooseSize && "active")}>{chooseSize ? 'Выберите размер:' : 'Размер:'}</h5>
                         <div className="product-right__sizes product-sizes">
-                            {sizes.map(({sizeId, size, quantity}) => (onCheckingSizes(sizeId, quantity) > 0 && (
+                            {sizes.map(({sizeId, size, quantity}) => (
                                 <button 
                                     className={classNames("product-sizes__size", sizeId === currentSize && "active")}
+                                    disabled={onCheckingSizes(sizeId, quantity) === 0 ? true : false}
                                     key={sizeId} 
                                     onClick={() => onClickSize(sizeId)} 
                                 >
@@ -204,7 +205,7 @@ export default function Sneaker({brand, color, description, id, images, name, ma
                                         </svg>
                                     )}
                                 </button>
-                            )))}
+                            ))}
                         </div>
                         <div className="product-right__warning">
                             {sizeWarning && (

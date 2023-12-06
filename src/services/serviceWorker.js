@@ -1,6 +1,6 @@
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", function() {
-        navigator.serviceWorker.register("./serviceWorker.js").then(
+        navigator.serviceWorker.register("/serviceWorker.js").then(
             function(registration) {
                 // console.log("Service Worker зарегистрирован: ", registration.scope);
             },
@@ -60,5 +60,3 @@ export function installPWA() {
         });
     }
 }
-
-let deferredPrompt;

@@ -1,24 +1,35 @@
-import {useState, useReducer} from "react";
+import {useContext, useState, useReducer} from "react";
 import classNames from "classnames";
 import axios from "axios";
 
 import {adminInputs as inputs, brands, sizes} from "@utils/constants";
-import {addSizes, createSneaker} from "@api";
+import {addPreview, addSizes, createSneaker} from "@api";
+import {ErrorPopup} from "@components";
+import {adminContext} from "@services";
 
 import "./SneakerCreating.style.scss";
 
 
 export default function SneakerCreating() {
-    const [inputsValue, setInputsValue] = useState({'sizes': sizes});
-    const [inputsError, setInputsError] = useState({});
-    const [newSneakerId, setNewSneakerId] = useState(102);          //TODO: изменить
-    const [creatingStep, setCreatingStep] = useState('sizes');     //TODO: изменить
+    const {creatingPopup, setCreatingPopup, setErrorPopup} = useContext(adminContext);
     const [isOpenBrandsList, setIsOpenBrandsList] = useReducer(prev => !prev, false);
+    const [isOpenZoomImage, setIsOpenZoomImage] = useReducer(prev => !prev, false);
+    const [inputsValue, setInputsValue] = useState({'sizes': sizes});
+    const [creatingStep, setCreatingStep] = useState('images');     //TODO: изменить
+    const [newSneakerId, setNewSneakerId] = useState(102);          //TODO: изменить
+    const [inputsError, setInputsError] = useState({});
+    const [zoomImage, setZoomImage] = useState('');
  
 
     const onClickBrandsItem = (brand) => {
         setInputsValue({...inputsValue, 'brand': brand});
         setIsOpenBrandsList();
+    }
+
+    const onClickImage = (event, image) => {
+        event.preventDefault();
+        setIsOpenZoomImage();
+        setZoomImage(URL.createObjectURL(image));
     }
 
     const onErrorHandling = (error) => {
@@ -29,6 +40,21 @@ export default function SneakerCreating() {
                 setInputsError({'invalidData': error.response.data});
             }
         }
+    }
+
+    const onUploadPreview = (event) => {
+        event.preventDefault();
+
+        let data = new FormData();
+        data.append('preview', inputsValue.preview);
+        data.append('scaledPreview', inputsValue.previewScaled);
+        
+        axios.post(addPreview(newSneakerId), data, {headers: {'Authorization': `Bearer ${localStorage.getItem("accessToken")}`, 'Content-Type': 'multipart/form-data'}})
+             .then(() => {
+                setErrorPopup({'text': 'Превью успешно добавлено'});
+                setInputsError({});
+             })
+             .catch(error => onErrorHandling(error))
     }
    
     const onSubmitForm = (event) => {
@@ -93,8 +119,8 @@ export default function SneakerCreating() {
     
     
     return (
-        <div className="admin__blackout blackout active">
-            <form className="admin__blackout-creating creating" onSubmit={onSubmitForm}>
+        <div className={classNames("admin__blackout blackout", creatingPopup && "active")}>
+            <form className={classNames("admin__blackout-creating creating", creatingPopup && "active")} onSubmit={onSubmitForm}>
                 <div className="creating__header">
                     <h2 className="creating__header-title">Добавление товара</h2>
                     <ul className="creating__header-list">
@@ -104,7 +130,7 @@ export default function SneakerCreating() {
                         <li className="creating__header-list__line"></li>
                         <li className={classNames("creating__header-list__el", creatingStep === 'sizes' && "active")}>3</li>
                     </ul>
-                    <svg className="creating__header-icon" height="20" viewBox="0 0 20 20" width="20">
+                    <svg className="creating__header-icon" onClick={setCreatingPopup} height="20" viewBox="0 0 20 20" width="20">
                         <path d="M18.1865 20L10.0064 11.8123L1.82637 20L0 18.1748L8.19293 10L0 1.82519L1.82637 0L10.0064 8.18766L18.1865 0.0128538L20 1.82519L11.8199 10L20 18.1748L18.1865 20Z" fill="#1F1F21"/>
                     </svg>
                 </div>
@@ -166,42 +192,153 @@ export default function SneakerCreating() {
                     </div>
                 ) : (creatingStep === 'images') ? (
                     <div className="creating__images creating-images">
-                        <label className="creating-images__preview" htmlFor="preview">
-                            {inputsValue?.preview ? (
-                                <p className="creating-images__preview-name">{inputsValue.preview.name}</p>
-                            ) : (
-                                <span className="creating-images__button">
-                                    <svg height="13" viewBox="0 0 14 13" width="14">
-                                        <path d="M7.08502 0V13M0.52002 6.5H13.65" stroke="white" strokeWidth="3"/>
+                        <p className={classNames("creating-images__error", inputsError?.invalidData && "active")}>{inputsError?.invalidData || ''}</p>
+                        <div className="creating-images__top">
+                            <div className="creating-images__top-item images-item">
+                                <p className="creating-images__title">Превью товара</p>
+                                <label className="creating-images__preview" htmlFor="preview">
+                                    {inputsValue?.preview ? (
+                                        <div className="creating-images__preview-wrapper">
+                                            <span className="creating-images__preview-icon">
+                                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                                    <path d="M11.0585 6L11.9983 6.94L2.91959 16H1.99972V15.08L11.0585 6ZM14.658 0C14.408 0 14.148 0.1 13.9581 0.29L12.1283 2.12L15.8778 5.87L17.7075 4.04C18.0975 3.65 18.0975 3 17.7075 2.63L15.3679 0.29C15.1679 0.09 14.9179 0 14.658 0ZM11.0585 3.19L0 14.25V18H3.74948L14.8079 6.94L11.0585 3.19Z" fill="#1F1F21"/>
+                                                </svg>
+                                            </span>
+                                            <img 
+                                                alt='preview' 
+                                                className="creating-images__preview-image"
+                                                onClick={(event) => onClickImage(event, inputsValue.preview)} 
+                                                src={URL.createObjectURL(inputsValue.preview)}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <span className="creating-images__preview-button">
+                                            <svg height="13" viewBox="0 0 14 13" width="14">
+                                                <path d="M7.08502 0V13M0.52002 6.5H13.65" stroke="white" strokeWidth="3"/>
+                                            </svg>
+                                        </span>
+                                    )}
+                                    <input 
+                                        accept="image/png, image/jpeg"
+                                        className="creating-images__preview-input"
+                                        onChange={(event) => setInputsValue({...inputsValue, 'preview': event.target.files[0]})}
+                                        id="preview"
+                                        type="file"
+                                    />
+                                </label>
+                            </div>
+                            <div className="creating-images__top-item images-item">
+                                <div className="creating-images__title">
+                                    <span>Масштабируемое превью товара</span>
+                                    <svg fill="none" height="10" viewBox="0 0 10 10" width="10">
+                                        <path d="M5 3V5.4M5 7.00379L5.00381 6.99956M5 9C7.20912 9 9 7.20912 9 5C9 2.79086 7.20912 1 5 1C2.79086 1 1 2.79086 1 5C1 7.20912 2.79086 9 5 9Z" stroke="#828282" strokeLinecap="round" strokeLinejoin="round"/>
                                     </svg>
-                                </span>
-                            )}
-                            <input 
-                                accept="image/png, image/jpeg"
-                                className="creating-images__preview-input"
-                                onChange={(event) => setInputsValue({...inputsValue, 'preview': event.target.files[0]})}
-                                id="preview"
-                                type="file"
-                            />
-                        </label>
-                        <label className="creating-images__preview" htmlFor="previewScaled">
-                            {inputsValue?.previewScaled ? (
-                                <p className="creating-images__preview-name">{inputsValue.previewScaled.name}</p>
-                            ) : (
-                                <span className="creating-images__button">
-                                    <svg height="13" viewBox="0 0 14 13" width="14">
-                                        <path d="M7.08502 0V13M0.52002 6.5H13.65" stroke="white" strokeWidth="3"/>
-                                    </svg>
-                                </span>
-                            )}
-                            <input 
-                                accept="image/png, image/jpeg"
-                                className="creating-images__preview-input"
-                                onChange={(event) => setInputsValue({...inputsValue, 'previewScaled': event.target.files[0]})}
-                                id="previewScaled"
-                                type="file"
-                            />
-                        </label>
+                                    <p className="creating-images__title-text">Изображение, которое пользователь увидит при увеличении изображения товара (более хорошего качества)</p>
+                                </div>
+                                <label className="creating-images__preview" htmlFor="previewScaled">
+                                    {inputsValue?.previewScaled ? (
+                                        <div className="creating-images__preview-wrapper">
+                                            <span className="creating-images__preview-icon">
+                                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                                    <path d="M11.0585 6L11.9983 6.94L2.91959 16H1.99972V15.08L11.0585 6ZM14.658 0C14.408 0 14.148 0.1 13.9581 0.29L12.1283 2.12L15.8778 5.87L17.7075 4.04C18.0975 3.65 18.0975 3 17.7075 2.63L15.3679 0.29C15.1679 0.09 14.9179 0 14.658 0ZM11.0585 3.19L0 14.25V18H3.74948L14.8079 6.94L11.0585 3.19Z" fill="#1F1F21"/>
+                                                </svg>
+                                            </span>
+                                            <img 
+                                                alt='previewScaled' 
+                                                className="creating-images__preview-image" 
+                                                onClick={(event) => onClickImage(event, inputsValue.previewScaled)} 
+                                                src={URL.createObjectURL(inputsValue.previewScaled)}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <span className="creating-images__preview-button">
+                                            <svg height="13" viewBox="0 0 14 13" width="14">
+                                                <path d="M7.08502 0V13M0.52002 6.5H13.65" stroke="white" strokeWidth="3"/>
+                                            </svg>
+                                        </span>
+                                    )}
+                                    <input 
+                                        accept="image/png, image/jpeg"
+                                        className="creating-images__preview-input"
+                                        onChange={(event) => setInputsValue({...inputsValue, 'previewScaled': event.target.files[0]})}
+                                        id="previewScaled"
+                                        type="file"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+                        {(inputsValue?.preview && inputsValue?.previewScaled) && (
+                            <button className="creating-images__upload" onClick={onUploadPreview}>Загрузить превью товара</button>
+                        )}
+                        <p className="creating-images__title">Дополнительные изображения товара</p>
+                        {/* <div className="creating-images__top">
+                            <div className="creating-images__top-item images-item">
+                                <p className="creating-images__title">Обычное фото</p>
+                                <label className="creating-images__preview" htmlFor="preview">
+                                    {inputsValue?.preview ? (
+                                        <div className="creating-images__preview-wrapper">
+                                            <span className="creating-images__preview-icon">
+                                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                                    <path d="M11.0585 6L11.9983 6.94L2.91959 16H1.99972V15.08L11.0585 6ZM14.658 0C14.408 0 14.148 0.1 13.9581 0.29L12.1283 2.12L15.8778 5.87L17.7075 4.04C18.0975 3.65 18.0975 3 17.7075 2.63L15.3679 0.29C15.1679 0.09 14.9179 0 14.658 0ZM11.0585 3.19L0 14.25V18H3.74948L14.8079 6.94L11.0585 3.19Z" fill="#1F1F21"/>
+                                                </svg>
+                                            </span>
+                                            <img 
+                                                alt='preview' 
+                                                className="creating-images__preview-image"
+                                                onClick={(event) => onClickImage(event, inputsValue.preview)} 
+                                                src={URL.createObjectURL(inputsValue.preview)}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <span className="creating-images__preview-button">
+                                            <svg height="13" viewBox="0 0 14 13" width="14">
+                                                <path d="M7.08502 0V13M0.52002 6.5H13.65" stroke="white" strokeWidth="3"/>
+                                            </svg>
+                                        </span>
+                                    )}
+                                    <input 
+                                        accept="image/png, image/jpeg"
+                                        className="creating-images__preview-input"
+                                        onChange={(event) => setInputsValue({...inputsValue, 'preview': event.target.files[0]})}
+                                        id="preview"
+                                        type="file"
+                                    />
+                                </label>
+                            </div>
+                            <div className="creating-images__top-item images-item">
+                                <p className="creating-images__title">Масштабируемое фото</p>
+                                <label className="creating-images__preview" htmlFor="previewScaled">
+                                    {inputsValue?.previewScaled ? (
+                                        <div className="creating-images__preview-wrapper">
+                                            <span className="creating-images__preview-icon">
+                                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                                    <path d="M11.0585 6L11.9983 6.94L2.91959 16H1.99972V15.08L11.0585 6ZM14.658 0C14.408 0 14.148 0.1 13.9581 0.29L12.1283 2.12L15.8778 5.87L17.7075 4.04C18.0975 3.65 18.0975 3 17.7075 2.63L15.3679 0.29C15.1679 0.09 14.9179 0 14.658 0ZM11.0585 3.19L0 14.25V18H3.74948L14.8079 6.94L11.0585 3.19Z" fill="#1F1F21"/>
+                                                </svg>
+                                            </span>
+                                            <img 
+                                                alt='previewScaled' 
+                                                className="creating-images__preview-image" 
+                                                onClick={(event) => onClickImage(event, inputsValue.previewScaled)} 
+                                                src={URL.createObjectURL(inputsValue.previewScaled)}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <span className="creating-images__preview-button">
+                                            <svg height="13" viewBox="0 0 14 13" width="14">
+                                                <path d="M7.08502 0V13M0.52002 6.5H13.65" stroke="white" strokeWidth="3"/>
+                                            </svg>
+                                        </span>
+                                    )}
+                                    <input 
+                                        accept="image/png, image/jpeg"
+                                        className="creating-images__preview-input"
+                                        onChange={(event) => setInputsValue({...inputsValue, 'previewScaled': event.target.files[0]})}
+                                        id="previewScaled"
+                                        type="file"
+                                    />
+                                </label>
+                            </div>
+                        </div> */}
                     </div>
                 ) : (
                     <div className="creating__sizes creating-sizes">
@@ -230,6 +367,16 @@ export default function SneakerCreating() {
                     </div>
                 </div>
             </form>
+
+            <div className={classNames("creating-blackout blackout", isOpenZoomImage && "active")}>
+                <img
+                    alt={inputsValue.name}
+                    className={classNames("creating-zoom", isOpenZoomImage && "active")}
+                    onClick={setIsOpenZoomImage}
+                    src={zoomImage}
+                />
+            </div>
+            <ErrorPopup/>
         </div>
     );
 }

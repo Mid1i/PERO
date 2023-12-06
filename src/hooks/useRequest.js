@@ -15,7 +15,7 @@ export default function useRequest(url, keys = '') {
     useEffect(() => {
         axios.get(url, headers)
              .then(response => setRequestData({amount: response.data.amount, data: response.data.page?.content || response.data, error: null, status: 'complete'}))
-             .catch(error => setRequestData({amount: 0, data: null, error: error?.response, status: 'error'}))
+             .catch(error => setRequestData({amount: 0, data: null, error: error?.response, status: 'error'}))      
     }, [url, keys]); // eslint-disable-line react-hooks/exhaustive-deps
     
     return {requestData};

@@ -19,3 +19,6 @@ export const fetchAuthSignOut = `${authURL}/sign/out`;
 
 
 export const refreshTokens = `${authURL}/token/refresh`;
+
+
+export const globalAuthSignOut = `${authURL}/sign/global_out`;

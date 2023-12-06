@@ -1,16 +1,21 @@
+import {useEffect, useContext, useReducer, useState} from "react";
 import {TailSpin} from "react-loader-spinner";
-import {useEffect, useState} from "react";
+import {useLocation} from "react-router-dom";
+import queryString from "query-string";
 import axios from "axios";
 
 import {AdminSneakersTable, AdminNavBar, Error} from "@components";
-import {fetchColors, fetchSneakers} from "@api";
-import {adminContext} from "@services";
-import {useRequest} from "@hooks";
+import {fetchColors, fetchCounters, fetchSneakers} from "@api";
+import {useNoScroll, useUserRequest} from "@hooks";
+import {adminContext, appContext} from "@services";
+import {onHandleError} from "@utils/helpers";
 
 import "./AdminSneakers.style.scss";
 
 
 export default function AdminSneakers() {
+    const {isRegisteredUser, searchValue, setErrorPopup} = useContext(appContext);
+    const [creatingPopup, setCreatingPopup] = useReducer(prev => !prev, false);
     const [sortingValues, setSortingValues] = useState({});
     const [filterValues, setFilterValues] = useState({});
     const [statystics, setStatystics] = useState({});
@@ -20,25 +25,37 @@ export default function AdminSneakers() {
         status: 'loading'
     });
 
-    const {requestData: {data: colors, status: statusColors}} = useRequest(fetchColors);
-    const {requestData: {amount: activeAmount, status: activeStatus}} = useRequest(fetchSneakers('&isActive=true'));
-    const {requestData: {amount: popularAmount, status: popularStatus}} = useRequest(fetchSneakers('&isPopular=true'));
-    const {requestData: {amount: totalAmount, data: totalData, status: totalStatus}} = useRequest(fetchSneakers(''));
+    const {requestData: {data: colors, status: statusColors}} = useUserRequest(fetchColors, localStorage.getItem('accessToken'), isRegisteredUser, setErrorPopup);
+    const {requestData: {amount: totalAmount, data: totalData, status: totalStatus}} = useUserRequest(fetchSneakers(''), localStorage.getItem('accessToken'), isRegisteredUser, setErrorPopup);
+    const {requestData: {data: activeAmount, status: activeStatus}} = useUserRequest(fetchCounters('?isActive=true'), localStorage.getItem('accessToken'), isRegisteredUser, setErrorPopup);
+    const {requestData: {data: popularAmount, status: popularStatus}} = useUserRequest(fetchCounters('?isPopular=true'), localStorage.getItem('accessToken'), isRegisteredUser, setErrorPopup);
+    
+    const {search} = useLocation();
 
+    useNoScroll(creatingPopup);
+    
 
     useEffect(() => {
-        if (activeStatus === "complete" && popularStatus === "complete" && totalStatus === "complete") {
-            setStatystics({totalAmount: totalAmount, activeAmount: activeAmount, popularAmount: popularAmount});
-            setRequestData({...requestData, data: totalData, status: "complete"});
+        setFilterValues({...filterValues, 'search': queryString.parse(search).search});
+        onFormLink();
+    }, [search]) // eslint-disable-line react-hooks/exhaustive-deps
+  
+    useEffect(() => {
+        if ([activeStatus, popularStatus, totalStatus].every(item => item === 'complete')) {
+            setStatystics({'activeAmount': activeAmount, 'popularAmount': popularAmount, 'totalAmount': totalAmount});
+            setRequestData({...requestData, data: totalData, status: 'complete'});
         } else if ([activeStatus, popularStatus, totalStatus].includes('loading')) {
             setRequestData({...requestData, status: "loading"});
         } else {
-            setRequestData({...requestData, error: 502, status: "error"});
+            setRequestData({...requestData, error: 404, status: "error"});
         }
     }, [activeStatus, popularStatus, totalStatus]); // eslint-disable-line react-hooks/exhaustive-deps
     
     useEffect(() => {if (Object.keys(sortingValues).length !== 0) onFormLink()}, [sortingValues]) // eslint-disable-line react-hooks/exhaustive-deps
 
+    useEffect(() => {setFilterValues({...filterValues, 'search': searchValue})}, [searchValue]) // eslint-disable-line react-hooks/exhaustive-deps
+
+    
     const onFormLink = (step = '') => {
         setRequestData({...requestData, status: "loading"});
         let url = '';
@@ -49,9 +66,12 @@ export default function AdminSneakers() {
 
         if (step !== 'cancel') url += onFormFiltersLink();
         
-        axios.get(fetchSneakers(url), {headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`}})
+        axios.get(fetchSneakers(url), {headers: {Authorization: `Bearer ${localStorage.getItem('accessToken')}`}})
              .then(response => setRequestData({data: response.data.page.content, status: "complete"}))
-             .catch(error => setRequestData({data: null, error: error, status: "error"}))
+             .catch(error => {
+                 onHandleError(error, () => onFormLink(step), setErrorPopup);
+                 setRequestData({data: null, error: error, status: "error"});
+             })
     }
 
     const onFormFiltersLink = () => {
@@ -69,9 +89,12 @@ export default function AdminSneakers() {
     
     const contextData = {
         colors,
+        creatingPopup,
         filterValues, 
         onFormLink,
         onFormFiltersLink,
+        setCreatingPopup,
+        setErrorPopup,
         statusColors,
         sortingValues, 
         setFilterValues, 

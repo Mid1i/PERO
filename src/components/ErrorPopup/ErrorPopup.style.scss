@@ -12,6 +12,7 @@
     max-width: 80%;
     transition: all 0.2s linear;
     transform: translate(-50%, -50%) scale(0);
+    z-index: 5;
 
     &.active {
         transform: translate(-50%, -50%) scale(1);

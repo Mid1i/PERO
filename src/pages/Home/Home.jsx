@@ -56,7 +56,7 @@ export default function Home() {
             <Header/>
             <SearchBar/>
             <div className="content">
-                {(status === 'loading' || (!!data)) ? (
+                {(status !== 'error') ? (
                     <>
                         <GoodsSlider/>
                         <div className="content__popular">
