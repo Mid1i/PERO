@@ -3,7 +3,8 @@ import classNames from "classnames";
 import axios from "axios";
 
 import {adminInputs as inputs, brands, sizes} from "@utils/constants";
-import {addPreview, addSizes, createSneaker} from "@api";
+import {addImage, addPreview, addSizes, createSneaker} from "@api";
+import {onHandleError} from "@utils/helpers";
 import {ErrorPopup} from "@components";
 import {adminContext} from "@services";
 
@@ -19,6 +20,7 @@ export default function SneakerCreating() {
     const [newSneakerId, setNewSneakerId] = useState(102);          //TODO: изменить
     const [inputsError, setInputsError] = useState({});
     const [zoomImage, setZoomImage] = useState('');
+    const [images, setImages] = useState([]);
  
 
     const onClickBrandsItem = (brand) => {
@@ -32,13 +34,15 @@ export default function SneakerCreating() {
         setZoomImage(URL.createObjectURL(image));
     }
 
-    const onErrorHandling = (error) => {
+    const onErrorHandling = (error, func) => {
         if (error.response.status === 400) {
             if (typeof error.response.data === 'object') {
                 setInputsError({...error.response.data});
             } else {
                 setInputsError({'invalidData': error.response.data});
             }
+        } else {
+            onHandleError(error, func, setErrorPopup);
         }
     }
 
@@ -54,7 +58,23 @@ export default function SneakerCreating() {
                 setErrorPopup({'text': 'Превью успешно добавлено'});
                 setInputsError({});
              })
-             .catch(error => onErrorHandling(error))
+             .catch(error => onErrorHandling(error, () => onUploadPreview(event)))
+    }
+
+    const onUploadImage = (event) => {
+        event.preventDefault();
+
+        let data = new FormData();
+        data.append('image', inputsValue.images);
+        data.append('scaledImage', inputsValue.imagesScaled);
+
+        axios.post(addImage(newSneakerId), data, {headers: {'Authorization': `Bearer ${localStorage.getItem("accessToken")}`, 'Content-Type': 'multipart/form-data'}})
+             .then(response => {
+                setErrorPopup({'text': 'Фото успешно добавлено'});
+                setImages(prev => [...prev, response.data]);
+                setInputsError({});
+             })
+             .catch(error => onErrorHandling(error, () => onUploadImage(event)))
     }
    
     const onSubmitForm = (event) => {
@@ -271,11 +291,11 @@ export default function SneakerCreating() {
                             <button className="creating-images__upload" onClick={onUploadPreview}>Загрузить превью товара</button>
                         )}
                         <p className="creating-images__title">Дополнительные изображения товара</p>
-                        {/* <div className="creating-images__top">
+                        <div className="creating-images__top">
                             <div className="creating-images__top-item images-item">
                                 <p className="creating-images__title">Обычное фото</p>
-                                <label className="creating-images__preview" htmlFor="preview">
-                                    {inputsValue?.preview ? (
+                                <label className="creating-images__preview" htmlFor="image">
+                                    {inputsValue?.images ? (
                                         <div className="creating-images__preview-wrapper">
                                             <span className="creating-images__preview-icon">
                                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -285,8 +305,8 @@ export default function SneakerCreating() {
                                             <img 
                                                 alt='preview' 
                                                 className="creating-images__preview-image"
-                                                onClick={(event) => onClickImage(event, inputsValue.preview)} 
-                                                src={URL.createObjectURL(inputsValue.preview)}
+                                                onClick={(event) => onClickImage(event, inputsValue.images)} 
+                                                src={URL.createObjectURL(inputsValue.images)}
                                             />
                                         </div>
                                     ) : (
@@ -299,16 +319,22 @@ export default function SneakerCreating() {
                                     <input 
                                         accept="image/png, image/jpeg"
                                         className="creating-images__preview-input"
-                                        onChange={(event) => setInputsValue({...inputsValue, 'preview': event.target.files[0]})}
-                                        id="preview"
+                                        onChange={(event) => setInputsValue({...inputsValue, 'images': event.target.files[0]})}
+                                        id="image"
                                         type="file"
                                     />
                                 </label>
                             </div>
                             <div className="creating-images__top-item images-item">
-                                <p className="creating-images__title">Масштабируемое фото</p>
-                                <label className="creating-images__preview" htmlFor="previewScaled">
-                                    {inputsValue?.previewScaled ? (
+                                <div className="creating-images__title">
+                                    <span>Масштабируемое фото</span>
+                                    <svg fill="none" height="10" viewBox="0 0 10 10" width="10">
+                                        <path d="M5 3V5.4M5 7.00379L5.00381 6.99956M5 9C7.20912 9 9 7.20912 9 5C9 2.79086 7.20912 1 5 1C2.79086 1 1 2.79086 1 5C1 7.20912 2.79086 9 5 9Z" stroke="#828282" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
+                                    <p className="creating-images__title-text">Изображение, которое пользователь увидит при увеличении изображения товара (более хорошего качества)</p>
+                                </div>
+                                <label className="creating-images__preview" htmlFor="imageScaled">
+                                    {inputsValue?.imagesScaled ? (
                                         <div className="creating-images__preview-wrapper">
                                             <span className="creating-images__preview-icon">
                                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -318,8 +344,8 @@ export default function SneakerCreating() {
                                             <img 
                                                 alt='previewScaled' 
                                                 className="creating-images__preview-image" 
-                                                onClick={(event) => onClickImage(event, inputsValue.previewScaled)} 
-                                                src={URL.createObjectURL(inputsValue.previewScaled)}
+                                                onClick={(event) => onClickImage(event, inputsValue.imagesScaled)} 
+                                                src={URL.createObjectURL(inputsValue.imagesScaled)}
                                             />
                                         </div>
                                     ) : (
@@ -332,13 +358,16 @@ export default function SneakerCreating() {
                                     <input 
                                         accept="image/png, image/jpeg"
                                         className="creating-images__preview-input"
-                                        onChange={(event) => setInputsValue({...inputsValue, 'previewScaled': event.target.files[0]})}
-                                        id="previewScaled"
+                                        onChange={(event) => setInputsValue({...inputsValue, 'imagesScaled': event.target.files[0]})}
+                                        id="imageScaled"
                                         type="file"
                                     />
                                 </label>
                             </div>
-                        </div> */}
+                        </div>
+                        {(inputsValue?.images && inputsValue?.imagesScaled) && (
+                            <button className="creating-images__upload" onClick={onUploadImage}>Загрузить фото</button>
+                        )}
                     </div>
                 ) : (
                     <div className="creating__sizes creating-sizes">

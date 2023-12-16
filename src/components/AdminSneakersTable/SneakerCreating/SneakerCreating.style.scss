@@ -306,13 +306,14 @@
 
         &__top {
             display: flex;
-            min-height: 200px;
+            justify-content: center;
+            width: 100%;
 
             &-item {
                 align-items: center;
                 display: flex;
+                flex: 0 0 260px;
                 flex-direction: column;
-                margin: 0px 15px;
             }
         }
 
@@ -328,7 +329,8 @@
         }
 
         &__preview {
-            margin-bottom: 20px;
+            display: flex;
+            min-height: 180px;
 
             &-wrapper {
                 position: relative;
@@ -360,11 +362,13 @@
             }
 
             &-button {
+                align-self: flex-end;
                 align-items: center;
                 display: flex;
                 justify-content: center;
                 background: #E47F46;
                 border-radius: 10px;
+                margin-bottom: 20px;
                 cursor: pointer;
                 height: 30px;
                 width: 180px;

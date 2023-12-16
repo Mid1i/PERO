@@ -33,7 +33,7 @@ export default function App() {
     const {requestData: {data: favouriteData, status: favouriteStatus}} = useUserRequest(fetchFavouriteProducts, localStorage.getItem('accessToken'), isRegisteredUser, setErrorPopup);
     const {requestData: {data: cartData, status: cartStatus}} = useUserRequest(fetchCartProducts, localStorage.getItem('accessToken'), isRegisteredUser, setErrorPopup);  
     
-    
+    console.log(isRegisteredUser)
     useEffect(() => {
         if (localStorage.getItem('accessToken')) {
             localStorage.removeItem('favourite');
