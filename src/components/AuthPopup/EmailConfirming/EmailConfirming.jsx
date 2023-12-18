@@ -33,8 +33,8 @@ export default function EmailConfirming() {
 
     return(
         <>
-            <h3 className="auth-popup__title auth-popup__title--success">Подтверждение почтового адреса</h3>
-            <p className="auth-popup__text">{`Ссылка для ${authStep === 'emailConfirming' ? 'подтверждения' : 'сброса пароля'} отправлена на ${toFormatEmail(inputsValue?.email)}. Перейдите по ссылке из письма в течение 24 часов. Если письмо не пришло, проверьте папку "спам" в Вашем почтовом ящике.`}</p>
+            <h3 className="auth-popup__title auth-popup__title--success">{'emailConfirming' === authStep ? 'Подтверждение почтового адреса' : 'Изменение пароля'}</h3>
+            <p className="auth-popup__text">{`Ссылка для ${'emailConfirming' === authStep ? 'подтверждения' : 'сброса пароля'} отправлена на ${toFormatEmail(inputsValue?.email)}. Перейдите по ссылке из письма в течение 24 часов. Если письмо не пришло, проверьте папку "спам" в Вашем почтовом ящике.`}</p>
             <button 
                 className="auth-popup__btn" 
                 disabled={timer > 0 ? true : false}

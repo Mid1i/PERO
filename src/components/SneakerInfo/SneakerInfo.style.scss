@@ -49,7 +49,12 @@
             position: absolute;
             top: 25px;
             left: 15px;
+            transition: all 0.1s linear;
             z-index: 2;
+
+            &:active {
+                transform: scale(0.95);
+            }
 
             &-text {
                 color: #E47F46;
@@ -68,9 +73,14 @@
             position: absolute;
             right: 15px;
             top: 15px;
+            transition: all 0.1s linear;
             height: 40px;
             width: 40px;
             z-index: 2;
+
+            &:active {
+                transform: scale(0.95);
+            }
     
             &-icon path {
                 transition: all 0.1s linear;    
@@ -276,6 +286,10 @@
                 color: #FFFFFF;
             }
 
+            &:active {
+                transform: scale(0.95);
+            }
+
             &:disabled {
                 color: #828282;
                 pointer-events: none;
@@ -364,6 +378,7 @@
 
     &__item {
         cursor: pointer;
+        user-select: none;
         height: 130px;
         width: 130px;
 
@@ -384,6 +399,7 @@
     width: 100%;
 
     & div {
+        user-select: none;
         margin-right: 15px;
 
         &:last-child {
@@ -466,6 +482,10 @@
             text-transform: uppercase;
             height: 40px;
             width: 200px;
+
+            &:active {
+                transform: scale(0.95);
+            }
         }
 
         &-cart {
@@ -477,6 +497,10 @@
             text-transform: uppercase;
             height: 40px;
             width: 130px;
+
+            &:active {
+                transform: scale(0.95);
+            }
         }
     }
 }

@@ -64,10 +64,26 @@
     cursor: pointer;
     position: relative;
 
+    &:active {
+
+        .filters__title {
+            transform: scale(0.95);
+        }
+
+        .filters__icon {
+            transform: scale(0.95);
+        }
+    }
+
+    &__icon {
+        transition: all 0.1s linear;
+    }
+
     &__title {
         font-size: 20px;
         font-weight: 500;
         margin-right: 15px;
+        transition: all 0.1s linear;
     }
 
     &-items {
@@ -96,6 +112,11 @@
 
             &-icon {
                 cursor: pointer;
+                transition: all 0.1s linear;
+
+                &:active {
+                    transform: scale(0.95);
+                }
             }
 
             &-title {
@@ -132,9 +153,14 @@
             flex: 0 0 auto;
             font-weight: 700;
             margin-bottom: 15px;
+            transition: all 0.1s linear;
             text-transform: uppercase;
             height: 40px;
             width: calc(100% - 30px);
+
+            &:active {
+                transform: scale(0.95);
+            }
         }
     }
 

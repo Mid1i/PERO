@@ -4,13 +4,27 @@
     cursor: pointer;
     position: relative;
 
+    &:active {
+
+        .sorting__title {
+            transform: scale(0.95);
+        }
+
+        .sorting__icon {
+            transform: scale(0.95);
+        }
+    }
+
     &__title {
         font-size: 20px;
         font-weight: 500;
         margin-right: 15px;
+        user-select: none;
+        transition: all 0.1s linear;
     }
 
     &__icon {
+        user-select: none;
         transition: all 0.1s linear;
 
         &.active {

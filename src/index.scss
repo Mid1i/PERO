@@ -42,6 +42,7 @@ body {
 
     &.no-scroll {
         overflow-y: hidden !important;
+        padding-right: 10px;
         pointer-events: none;
     }
 
@@ -166,9 +167,9 @@ body {
 }
 
 
-@media(max-width: 767px) {
-    .content--account {
-        margin-top: 15px;
+@media(max-width: 1024px) {
+    body.no-scroll {
+        padding-right: 0px;
     }
 }
 

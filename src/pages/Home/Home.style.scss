@@ -22,7 +22,12 @@
         cursor: pointer;
         font-size: 24px;
         font-weight: 500;
+        transition: all 0.1s linear;
         text-decoration: underline;
+
+        &:active {
+            transform: scale(0.95);
+        }
     }
 }
 
@@ -36,8 +41,17 @@
         position: absolute;
         top: 35px;
         left: 0px;
+        transition: all 0.1s linear;
         height: calc(100% - 125px);
         width: 100%;
+
+        &:active {
+            transform: scale(0.95);
+        }
+    }
+
+    & .slick-slide div {
+        display: flex;
     }
 
     &-slider {
@@ -48,10 +62,20 @@
 
         & .slick-prev {
             left: 10px !important;
+            transition: all 0.1s linear;
+
+            &:active {
+                transform: scale(0.95);
+            }
         }
 
         & .slick-next {
             right: 10px !important;
+            transition: all 0.1s linear;
+
+            &:active {
+                transform: scale(0.95);
+            }
         }
     }
 

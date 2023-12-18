@@ -3,7 +3,7 @@ import {useState, useContext} from "react";
 import classNames from "classnames";
 import axios from "axios";
 
-import {fetchAuthSignOut, globalAuthSignOut, updateUserData} from "@api";
+import {fetchAuthSignOut, fetchEmail, globalAuthSignOut, updateUserData} from "@api";
 import {onHandleError} from "@utils/helpers";
 import {account} from "@utils/constants";
 import {appContext} from "@services";
@@ -12,7 +12,7 @@ import "./UserData.style.scss";
 
 
 export default function UserData({fullName = '', male, email = '', setDataPopup}) {
-    const {setErrorPopup} = useContext(appContext);
+    const {setAuthStep, setAuthPopup, setErrorPopup} = useContext(appContext);
     const [data, setData] = useState({
         surname: fullName.split(' ')?.[0],
         name: fullName.split(' ')?.[1],
@@ -61,6 +61,15 @@ export default function UserData({fullName = '', male, email = '', setDataPopup}
                     }
                  })
         }
+    }
+
+    const onClickChangeBtn = () => {
+        axios.post(fetchEmail(email), {'typeLink': 'RESET_PASSWORD'})
+             .then(() => {
+                setAuthStep(`changePassword ${email}`);
+                setAuthPopup();
+             })
+             .catch(error => onHandleError(error))
     }
 
     const onCheckingInputs = () => {
@@ -148,13 +157,21 @@ export default function UserData({fullName = '', male, email = '', setDataPopup}
                 </div>
             </div>
             <div className="user-data__btns">
-                <button 
-                    className="user-data__btns-save" 
-                    disabled={!onCheckingInputs() ? true : false}
-                    onClick={onClickSaveBtn}
-                >
-                    Сохранить
-                </button>
+                <div className="user-data__left">
+                    <button 
+                        className="user-data__btns-save" 
+                        disabled={!onCheckingInputs() ? true : false}
+                        onClick={onClickSaveBtn}
+                    >
+                        Сохранить
+                    </button>
+                    <button
+                        className="user-data__btns-change" 
+                        onClick={onClickChangeBtn}
+                    >
+                        Изменить пароль
+                    </button>
+                </div>
                 <div className="user-data__right">
                     <button className="user-data__right-exit" onClick={onClickExitBtn}>Выйти</button>
                     <button className="user-data__right-all" onClick={onClickExitAllBtn}>Выйти со всех устройств</button>

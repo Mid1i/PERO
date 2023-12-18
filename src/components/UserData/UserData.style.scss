@@ -46,16 +46,36 @@
             color: #FFFFFF;
             font-size: 16px;
             font-weight: 500;
-            text-transform: uppercase;
             transition: all 0.1s linear;
-            height: 40px;
-            width: 200px;
+            height: 35px;
+            width: 150px;
+
+            &:active {
+                transform: scale(0.95);
+            }
     
             &:disabled {
                 background: #E5E3E0;
                 cursor: auto;
             }
         }
+
+        &-change {
+            background: transparent;
+            color: #E47F46;
+            font-size: 16px;
+            margin-left: 20px;
+            transition: all 0.1s linear;
+
+            &:active {
+                transform: scale(0.95);
+            }
+        }
+    }
+
+    &__left {
+        align-items: center;
+        display: flex;
     }
 
     &__right {
@@ -69,13 +89,13 @@
             font-size: 16px;
             font-weight: 500;
             padding: 0px 20px;
-            text-transform: uppercase;
+            margin-left: 20px;
             transition: all 0.1s linear;
-            height: 40px;
-        }
+            height: 35px;
 
-        &-all {
-            margin-left: 15px;
+            &:active {
+                transform: scale(0.95);
+            }
         }
     }
 }
@@ -289,6 +309,10 @@
         background: #FF1300;
         transform: scale(1.02);
     }
+
+    .user-data__btns-change:hover {
+        text-decoration: underline;
+    }
 }
 
 @media(max-width: 1024px) {
@@ -332,6 +356,20 @@
         &__btns {
             align-items: flex-start;
             margin-bottom: 30px;
+
+            &-save {
+                margin-bottom: 15px;
+            }
+
+            &-change {
+                margin-left: 0px;
+                text-decoration: underline;
+            }
+        }
+
+        &__left {
+            align-items: flex-start;
+            flex-direction: column;
         }
 
         &__right {
@@ -340,6 +378,14 @@
 
             &-exit {
                 margin-bottom: 15px;
+            }
+
+            &-all {
+                background: transparent;
+                color: #1F1F21;
+                text-decoration: underline;
+                padding: 0px;
+                height: auto;
             }
         }
     }
@@ -409,20 +455,22 @@
     
             &-save {
                 font-size: 14px;
-                height: 40px;
-                width: 150px;
+                width: 130px;
             }
+
+            &-change {
+                font-size: 14px;
+            }
+        }
+
+        &__right {
+            flex: 0 0 50%;
         }
 
         &__right-exit,
         &__right-all {
             font-size: 14px;
-            height: 40px;
-        }
-
-        &__right-all {
-            margin-left: 0px;
-            max-width: 170px;
+            text-align: right;
         }
     }
 

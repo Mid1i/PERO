@@ -24,16 +24,17 @@ export default function App() {
     const [authPopup, setAuthPopup] = useReducer(prev => !prev, false);
     const [favouriteItems, setFavouriteItems] = useState([]);
     const [searchValue, setSearchValue] = useState('');
+    const [authStep, setAuthStep] = useState('login');
     const [errorPopup, setErrorPopup] = useState(''); 
     const [cartItems, setCartItems] = useState([]);
     const [isMale, setIsMale] = useState(true);
     
     const {search} = useLocation();
-
+    
     const {requestData: {data: favouriteData, status: favouriteStatus}} = useUserRequest(fetchFavouriteProducts, localStorage.getItem('accessToken'), isRegisteredUser, setErrorPopup);
     const {requestData: {data: cartData, status: cartStatus}} = useUserRequest(fetchCartProducts, localStorage.getItem('accessToken'), isRegisteredUser, setErrorPopup);  
     
-    console.log(isRegisteredUser)
+    
     useEffect(() => {
         if (localStorage.getItem('accessToken')) {
             localStorage.removeItem('favourite');
@@ -144,6 +145,7 @@ export default function App() {
     
     
     const contextData = {
+        authStep,
         authPopup,
         cartItems,
         errorPopup,
@@ -157,6 +159,7 @@ export default function App() {
         onRemoveFromCart,
         isRegisteredUser,
         successPopup,
+        setAuthStep,
         setSuccessPopup,
         setAuthPopup,
         setErrorPopup,

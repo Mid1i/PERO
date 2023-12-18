@@ -24,10 +24,20 @@
 
         & .slick-prev {
             left: 10px !important;
+            transition: all 0.1s linear;
+
+            &:active {
+                transform: scale(0.95);
+            }
         }
 
         & .slick-next {
             right: 10px !important;
+            transition: all 0.1s linear;
+
+            &:active {
+                transform: scale(0.95);
+            }
         }
     }
 

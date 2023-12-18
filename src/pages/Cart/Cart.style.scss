@@ -63,6 +63,10 @@
         transition: all 0.1s linear;
         height: 40px;
         width: 100%;
+
+        &:active {
+            transform: scale(0.95);
+        }
     }
 }
 

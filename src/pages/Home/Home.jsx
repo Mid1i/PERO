@@ -70,9 +70,9 @@ export default function Home() {
                         </div>
                         <div className="content__goods">
                             {status === 'loading' ? (
-                                <Slider {...settings}>
+                                <div className="content__goods-scroll">
                                     <LoadingCard/>
-                                </Slider>
+                                </div>
                             ) : ((data.length / 2 > 6) ? (
                                 <>
                                     {sliderRender(0, data.length / 2)}

@@ -17,8 +17,18 @@
         font-weight: 500;
         padding-left: 20px;
         padding-right: 100px;
+        transition: all 0.1s linear;
         height: 40px;
         width: 100%;
+
+        &:focus {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+            transform: scale(1.005);
+        }
+
+        &:focus + .search-bar__icons {
+            transform: translateX(3px);
+        }
 
         &::placeholder {
             color: #898989;
@@ -36,6 +46,7 @@
         position: absolute;
         right: 63px;
         top: 3px;
+        transition: all 0.1s linear;
         height: 34px;
         width: 90px;
 
@@ -84,6 +95,10 @@
             height: 35px;
             padding-left: 15px;
             padding-right: 75px;
+
+            &:focus + .search-bar__icons {
+                transform: translateX(2px);
+            }
         }
 
         &__icons {
@@ -108,6 +123,10 @@
 
         &__input {
             font-size: 14px;
+
+            &:focus + .search-bar__icons {
+                transform: translateX(1px);
+            }
 
             &::placeholder {
                 font-size: 12px;

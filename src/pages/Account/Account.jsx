@@ -7,6 +7,7 @@ import {useNoScroll, useUserRequest} from "@hooks";
 import {appContext} from "@services";
 import {fetchUserData} from "@api";
 import {
+    AuthPopup,
     Error,
     ErrorPopup,
     Footer,
@@ -95,6 +96,7 @@ export default function Account() {
             </div>
             <Footer activePage='profile'/>
 
+            <AuthPopup/>
             <ErrorPopup/>
         </>
     );

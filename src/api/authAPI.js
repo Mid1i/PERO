@@ -5,10 +5,8 @@ export const fetchLogin = `${authURL}/sign/in`;
 
 export const fetchRegistration = `${authURL}/sign/up`;
 
-export const fetchPasswordReset = (email) => `${authURL}/password/reset/${email}`;
 
-
-export const fetchEmail = (email) => `${authURL}/resend/${email}`;
+export const fetchEmail = (email) => `${authURL}/send/${email}`;
 
 export const fetchAuthVerify = (uuid) => `${authURL}/email/confirm/${uuid}`;
 

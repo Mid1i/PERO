@@ -13,14 +13,8 @@ export default function ResetPassword() {
 
     return (
         <>
-            <p className="auth-popup__title">Забыли пароль?</p>
-            <p className="auth-popup__subtitle">
-                {authStep === 'resetPassword' ? (
-                    <span className="auth-popup__subtitle-text">Введите данные для восстановления доступа в личный кабинет</span>
-                ) : (
-                    <span className="auth-popup__subtitle-text">Введите данные для подтверждения почты</span>
-                )}
-            </p>
+            <p className="auth-popup__title">{authStep === 'resetPassword' ? `Забыли пароль?` : 'Подтверждение почты'}</p>
+            <p className="auth-popup__subtitle auth-popup__subtitle--text">{`Введите данные для ${authStep === 'resetPassword' ? 'восстановления доступа в личный кабинет' : 'подтверждения почты'}`}</p>
             <p className="auth-popup__error">{inputsError?.exist || ''}</p>
             <form autoComplete="off" className="auth-popup__form" onSubmit={onSubmitForm}>
                 <div className="auth-popup__form-wrapper auth-form">

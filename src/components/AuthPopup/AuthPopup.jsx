@@ -1,8 +1,9 @@
+import {osName, osVersion, browserName, browserVersion} from "react-device-detect";
 import {useContext, useEffect, useState} from "react";
 import classNames from "classnames";
 import axios from "axios";
 
-import {fetchEmail, fetchLogin, fetchPasswordReset, fetchRegistration} from "@api";
+import {fetchEmail, fetchLogin, fetchRegistration} from "@api";
 import {appContext, authContext} from "@services";
 import {isPWA} from "@utils/helpers";
 import {useNoScroll} from "@hooks";
@@ -14,20 +15,22 @@ import "./AuthPopup.style.scss";
 
 export default function AuthPopup() {
     const [requestData, setRequestData] = useState({error: null, status: 'loading'});
-    const {authPopup, isRegisteredUser, setAuthPopup} = useContext(appContext);
-    const [authStep, setAuthStep] = useState('login');
-    const [inputsValue, setInputsValue] = useState({
-        'email': 'example@mail.ru',
-        'fullName': 'Иванов Иван Иванович',
-        'password': '2003Example',
-        'passwordCheck': '2003Example'
-    });
+    const {authStep, authPopup, isRegisteredUser, setAuthStep, setAuthPopup} = useContext(appContext);
+    const [inputsValue, setInputsValue] = useState({});
     const [inputsError, setInputsError] = useState({});
     const [authBanner, setAuthBanner] = useState(true);
     const [timer, setTimer] = useState(59);
     
     useNoScroll(authPopup);
 
+    useEffect(() => {
+        if (authStep.includes('changePassword')) {
+            const email = authStep.split(' ')[1];
+            setInputsValue({...inputsValue, 'email': email});
+            setAuthStep('emailReset');
+            startTimer();
+        }
+    }, [authStep]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         if (inputsValue.password !== inputsValue.passwordCheck && inputsValue.passwordCheck) {
@@ -37,6 +40,17 @@ export default function AuthPopup() {
         }
     }, [inputsValue]) // eslint-disable-line react-hooks/exhaustive-deps
 
+    const startTimer = () => {
+        setTimer(59);
+
+        const countdown = window.setInterval(() => {
+            if (timer > 0) {
+                setTimer(prev => prev - 1);
+            } else {
+                clearInterval(countdown);
+            }
+        }, 1000);
+    }
 
     const onClickCloseBtn = () => {
         setAuthPopup();
@@ -64,9 +78,8 @@ export default function AuthPopup() {
     const onSubmitForm = (event) => {
         event.preventDefault();
         const {passwordCheck, ...data} = inputsValue;
-
         if (authStep === 'login') {
-            axios.post(fetchLogin, data) 
+            axios.post(fetchLogin, data, {headers: {'X-OS': `${osName} ${osVersion}`, 'X-Browser': `${browserName} ${browserVersion}`}}) 
                  .then((response) => {
                     setRequestData({...requestData, status: 'success'});
                     localStorage.setItem('accessToken', response.data.accessToken);
@@ -75,33 +88,17 @@ export default function AuthPopup() {
                  })
                  .catch(error => onErrorHandling(error.response));
         } else if (authStep === 'resetPassword') {
-            axios.post(fetchPasswordReset(inputsValue.email), data) 
+            axios.post(fetchEmail(inputsValue.email), {"typeLink": 'RESET_PASSWORD'}) 
                  .then(() => {
                     setAuthStep('emailReset');
-                    setTimer(59);
-
-                    const countdown = window.setInterval(() => {
-                        if (timer > 0) {
-                            setTimer(prev => prev - 1);
-                        } else {
-                            clearInterval(countdown);
-                        }
-                    }, 1000);
+                    startTimer();
                  })
                  .catch(error => onErrorHandling(error.response));
         } else if (authStep === 'resendEmail') {
             axios.post(fetchEmail(inputsValue.email), {typeLink: 'CONFIRM'})
                  .then(() => {
                     setAuthStep('emailConfirming');
-                    setTimer(59);
-
-                    const countdown = window.setInterval(() => {
-                        if (timer > 0) {
-                            setTimer(prev => prev - 1);
-                        } else {
-                            clearInterval(countdown);
-                        }
-                    }, 1000);
+                    startTimer();
                  })
                  .catch(error => {
                     if (error.response.status === 429) {
@@ -121,15 +118,7 @@ export default function AuthPopup() {
             axios.post(fetchRegistration, data) 
                  .then(() => {
                     setAuthStep('emailConfirming');
-                    setTimer(59);
-
-                    const countdown = window.setInterval(() => {
-                        if (timer > 0) {
-                            setTimer(prev => prev - 1);
-                        } else {
-                            clearInterval(countdown);
-                        }
-                    }, 1000);
+                    startTimer();
                  })
                  .catch(error => onErrorHandling(error.response));
         }

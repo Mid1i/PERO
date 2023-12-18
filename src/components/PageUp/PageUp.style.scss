@@ -16,4 +16,8 @@
     &.active {
         bottom: 30px;
     }
+
+    &:active {
+        transform: scale(0.95);
+    }
 }

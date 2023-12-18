@@ -46,9 +46,18 @@
         position: absolute;
         top: -27px;
         left: calc(50% - 1px);
+        transition: all 0.1s linear;
         transform: translateX(-50%);
         height: 57px;
         width: 57px;
+
+        &:active {
+            transform: translateX(-50%) scale(0.95);       
+        }
+
+        &.active {
+            animation: scaleHome 0.2s linear;
+        }
 
         &-icon {
             height: 30px;
@@ -76,10 +85,27 @@
     }
 
     &.active &__icon path {
+        animation: scale 0.2s linear;
         fill: #F3F3F3;
     }
 
+    &.active &__text {
+        animation: scale 0.2s linear;
+    }
+
+    &:active {
+
+        .footer-el__icon {
+            transform: scale(0.95);
+        }
+
+        .footer-el__text {
+            transform: scale(0.95);
+        }
+    }
+
     &__icon {
+        transition: all 0.1s linear;
         height: 22px;
         width: 22px;
 
@@ -90,8 +116,33 @@
 
     &__text {
         color: #F3F3F3;
-        margin-top: 5px;
         font-size: 10px;
+        margin-top: 5px;
+        transition: all 0.1s linear;
+    }
+}
+
+@keyframes scale {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes scaleHome {
+    0% {
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        transform: translateX(-50%) scale(0.95);
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
     }
 }
 

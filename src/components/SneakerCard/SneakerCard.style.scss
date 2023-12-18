@@ -28,6 +28,10 @@
         width: 40px;
         z-index: 1;
 
+        &:active {
+            transform: scale(0.95);
+        }
+
         & svg {
             height: 50%;
             width: 50%;
@@ -47,6 +51,7 @@
         border-radius: 50px;
         pointer-events: none;
         overflow: hidden;
+        user-select: none;
         height: 205px;
         width: 205px;
         
@@ -62,6 +67,7 @@
         margin-top: 5px;
         margin-bottom: 60px;
         overflow: hidden;
+        user-select: none;
         text-align: center;
         text-overflow: ellipsis;
         text-transform: capitalize;
@@ -71,6 +77,7 @@
     &__price {
         font-size: 24px;
         font-weight: 700;
+        user-select: none;
         text-align: center;
     }
 }

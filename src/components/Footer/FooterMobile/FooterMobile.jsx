@@ -33,7 +33,7 @@ export default function FooterMobile({activePage}) {
                         <p className="footer-el__text">Избранное</p>
                     </div>
                 </li>
-                <li className="footer-mobile__home" onClick={() => navigate('/')}>
+                <li className={classNames("footer-mobile__home", activePage === 'home' && "active")} onClick={() => navigate('/')}>
                     <svg
                         className={classNames("footer-mobile__home-icon", activePage === 'home' && "active")} 
                         height="38" 
