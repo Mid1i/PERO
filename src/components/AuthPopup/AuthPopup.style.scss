@@ -1,6 +1,8 @@
 .auth-popup {
     background: #F7F7F7;
     border-radius: 60px;
+    display: flex;
+    flex-direction: column;
     padding: 30px;
     position: fixed;
     left: 50%;
@@ -23,7 +25,33 @@
         justify-content: space-between;
         margin-bottom: 20px;
 
-        &-icon, &-logo {
+        &-back {
+            align-items: center;
+            cursor: pointer;
+            display: flex;
+            transition: all 0.1s linear;
+
+            & p {
+                font-size: 20px;
+                font-weight: 500;
+                margin-left: 5px;
+            }
+
+            &:active {
+                transform: scale(0.95);
+            }
+        }
+
+        &-icon {
+            cursor: pointer;
+            transition: all 0.1s linear;
+
+            &:active {
+                transform: scale(0.95);
+            }
+        }
+
+        &-logo {
             cursor: pointer;
         }
     }

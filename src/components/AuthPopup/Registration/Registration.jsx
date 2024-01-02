@@ -9,7 +9,7 @@ import "./Registration.style.scss";
 
 
 export default function Registration() {
-    const {inputsError, inputsValue, onSubmitForm, setAuthStep, setInputsValue, setInputsError} = useContext(authContext);
+    const {inputsError, inputsValue, onSubmitForm, requestStatus, setAuthStep, setInputsValue, setInputsError} = useContext(authContext);
     const [visiblePasswordCheck, setVisiblePasswordCheck] = useReducer(prev => !prev, false);
     const [visiblePassword, setVisiblePassword] = useReducer(prev => !prev, false);
 
@@ -99,7 +99,7 @@ export default function Registration() {
                     {genderInputsRender('female', 'Я женщина', () => setInputsValue({...inputsValue, 'male': false}))}
                 </div>
                 <p className="auth-popup__forget" onClick={() => setAuthStep('resendEmail')}>Не удалось подтвердить аккаунт?</p>
-                <button className="auth-popup__form-btn" type="submit">Зарегистрироваться</button>
+                <button className="auth-popup__form-btn" disabled={requestStatus === 'loading' ? true : false} type="submit">Зарегистрироваться</button>
             </form>
         </>
     );

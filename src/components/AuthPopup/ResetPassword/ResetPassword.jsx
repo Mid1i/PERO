@@ -8,7 +8,7 @@ import "./ResetPassword.style.scss";
 
 
 export default function ResetPassword() {
-    const {authStep, inputsError, inputsValue, onSubmitForm, setInputsValue} = useContext(authContext);
+    const {authStep, inputsError, inputsValue, onSubmitForm, requestStatus, setInputsValue} = useContext(authContext);
 
 
     return (
@@ -37,7 +37,7 @@ export default function ResetPassword() {
                         {inputsError?.['email'] || 'Email'}
                     </label>
                 </div>
-                <button className="auth-popup__form-btn" type="submit">Отправить письмо</button>
+                <button className="auth-popup__form-btn" disabled={requestStatus === 'loading' ? true : false} type="submit">Отправить письмо</button>
             </form>
         </>
     );

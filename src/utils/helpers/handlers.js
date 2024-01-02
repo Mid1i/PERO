@@ -17,6 +17,8 @@ export const onHandleError = (error, func, errorFunc, extraCondition = '') => {
                  }
              })
              .catch(() => errorFunc({'title': 'Возникла ошибка', 'text': 'Пожалуйста, перезайдите в аккаунт'}))
+    } else if (error.response.status === 429) {
+        errorFunc({'title': 'Слишком много запросов', 'text': 'Пожалуйста, повторите попытку через минуту.'});
     } else if (extraCondition !== 'updateUserData') {
         errorFunc({'text': error.response.data});
     }

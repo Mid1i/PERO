@@ -111,8 +111,13 @@
     
             &-icon {
                 flex: 0 0 auto;
+                transition: all 0.1s linear;
                 height: 30px;
                 width: 30px;
+
+                &:active {
+                    transform: scale(0.95);
+                }
             }
         }
     

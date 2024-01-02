@@ -47,6 +47,10 @@
         color: darken(#E47F46, 10%);
         transform: scale(0.95);
     }
+
+    &:disabled {
+        pointer-events: none;
+    }
 }
 
 .auth-popup__error {
@@ -56,6 +60,7 @@
 }
 
 .auth-form {
+    flex: 1 0 auto;
     position: relative;
     margin-bottom: 20px;
     height: 40px;

@@ -3,6 +3,11 @@
     cursor: pointer;
     margin: 20px 0px 50px;
     text-align: center;
+    transition: all 0.1s linear;
+
+    &:active {
+        transform: scale(0.95);
+    }
 }
 
 

@@ -33,7 +33,8 @@ export default function GoodsSlider() {
         fade: true,
         slidesToShow: 1,
         speed: 600,
-        swipe: false,
+        swipe: true,
+        swipeToSlide: true,
         waitForAnimation: true
     };
 
